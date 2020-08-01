@@ -22,6 +22,7 @@ License <https://www.gnu.org/licenses/lgpl-3.0.en.html>`_.
 """
 import emg3d
 import pyvista
+import requests
 import numpy as np
 import gempy as gempy
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ url_path = 'https://raw.githubusercontent.com/cgre-aachen/gempy_data/'
 url_path += 'master/data/input_data/Perth_basin/'
 
 # Define the grid
-nx, ny, nz = 50, 50, 100
+nx, ny, nz = 100, 100, 100
 extent = [337000, 400000, 6640000, 6710000, -12000, 1000]
 
 # Importing the data from CSV-files and setting extent and resolution
@@ -174,14 +175,16 @@ res[ids == 14] = 10.0  # Basement
 # .. code::
 #
 #     out = geo_model.set_topography(source='random')
-#     np.savetxt('../data/GemPy/GemPy-II-topo.txt', out.ravel('F'))
+#     np.save('../data/GemPy/'+topo_name, topo)
 
 # Load the stored topography.
-topo_path = 'https://raw.githubusercontent.com/empymod/emg3d-gallery/'
-topo_path += 'master/examples/data/GemPy/GemPy-II-topo.txt'
-topo = np.loadtxt(topo_path).reshape((nx, ny, -1), order='F')
-np.save('GemPy-II-topo', topo)
-out = geo_model.set_topography(source='saved', filepath='GemPy-II-topo.npy')
+topo_name = 'GemPy-II-topo.npy'
+topo_path = 'https://github.com/empymod/emg3d-gallery/'
+topo_path += 'blob/master/examples/data/GemPy/'
+with open(topo_name, 'wb') as f:
+    t = requests.get(topo_path)
+    f.write(t.content)
+out = geo_model.set_topography(source='saved', filepath=topo_name)
 topo = out.topography.values_2d
 
 # Apply the topography to our resistivity cube.
@@ -225,7 +228,7 @@ fullgrid
 # With discretize
 fullgrid.plot_3d_slicer(
     fullmodel.property_x, zslice=-3000, clim=[0.3, 100],
-    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()}
+    yslice=12000, pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()}
 )
 
 
@@ -253,6 +256,9 @@ p.show()
 
 ###############################################################################
 # Store the grid and the model for use in other examples.
+
 # emg3d.save('../data/models/GemPy-II.h5', model=fullmodel, mesh=fullgrid)
+
+###############################################################################
 
 emg3d.Report([gempy, pyvista, 'pandas'])

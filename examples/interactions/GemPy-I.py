@@ -232,6 +232,9 @@ comp_grid.plot_3d_slicer(
 
 ###############################################################################
 # Store the grid and the model for use in other examples.
+
 # emg3d.save('../data/models/GemPy-I.h5', model=model, mesh=grid)
+
+###############################################################################
 
 emg3d.Report([gempy, pyvista, 'pandas'])
