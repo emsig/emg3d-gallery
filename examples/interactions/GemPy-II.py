@@ -179,8 +179,8 @@ res[ids == 14] = 10.0  # Basement
 
 # Load the stored topography.
 topo_name = 'GemPy-II-topo.npy'
-topo_path = 'https://github.com/empymod/emg3d-gallery/'
-topo_path += 'blob/master/examples/data/GemPy/'
+topo_path = 'https://github.com/empymod/emg3d-gallery/blob/master/'
+topo_path += 'examples/data/GemPy/'+topo_name+'?raw=true'
 with open(topo_name, 'wb') as f:
     t = requests.get(topo_path)
     f.write(t.content)
@@ -228,7 +228,7 @@ fullgrid
 # With discretize
 fullgrid.plot_3d_slicer(
     fullmodel.property_x, zslice=-3000, clim=[0.3, 100],
-    yslice=12000, pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()}
+    xslice=12000, pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()}
 )
 
 

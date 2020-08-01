@@ -1,5 +1,6 @@
 *.npz
 *.npy
+*.h5
 _build/
 gallery/
 examples/data/SEG/

@@ -192,8 +192,8 @@ as_grad[:, :, comp_grid.vectorCCz > -2000] = np.nan
 #         \left(\nabla_p J \left(\textbf{p}\right)\right)_{FD} =
 #         \frac{J(\textbf{p}+\epsilon) - J(\textbf{p})}{\epsilon} \ .
 #
-# Define a fct to compute FD gradient for one voxel
-# '''''''''''''''''''''''''''''''''''''''''''''''''
+# Define a fct to compute FD gradient for one cell
+# ''''''''''''''''''''''''''''''''''''''''''''''''
 
 # Define epsilon (some small conductivity value, S/m).
 epsilon = 0.0001
@@ -203,12 +203,12 @@ iy = comp_grid.nCy//2
 
 
 def comp_fd_grad(ixiz):
-    """Compute forward-FD gradient for one voxel."""
+    """Compute forward-FD gradient for one cell."""
 
     # Copy the computational model.
     fd_model = comp_model.copy()
 
-    # Add conductivity-epsilon to this (ix, iy, iz) voxel.
+    # Add conductivity-epsilon to this (ix, iy, iz) cell.
     fd_model.property_x[ixiz[0], iy, ixiz[1]] += epsilon
 
     # Create a new simulation with this model
@@ -229,8 +229,8 @@ def comp_fd_grad(ixiz):
 
 
 ###############################################################################
-# Loop over all required voxels
-# '''''''''''''''''''''''''''''
+# Loop over all required cells
+# ''''''''''''''''''''''''''''
 
 # Initiate FD gradient.
 fd_grad = np.zeros_like(as_grad)
@@ -266,7 +266,7 @@ diff_sign = np.sign(as_grad/fd_grad)
 
 
 def plot_diff(ax, diff):
-    """Helper routine to show voxels of big NRMSD or different sign."""
+    """Helper routine to show cells of big NRMSD or different sign."""
 
     for ix in range(comp_grid.hx.size):
         for iz in range(comp_grid.hz.size):
@@ -337,13 +337,12 @@ plt.show()
 # Visually the two gradients are almost identical. This is amazing, given that
 # the adjoint-state gradient requires one (1) extra forward computation for the
 # entire cube, whereas the finite-difference gradient requires one extra
-# forward computation for each voxel, for this cross-section 352 (!).
+# forward computation for each cell, for this cross-section 352 (!).
 #
 # There are differences, and they are highlighted:
 #
-#   - Voxels surrounded by a dashed, magenta line: NRMSD is bigger than 10 %.
-#   - Voxels surrounded by a black line: The two gradients have different
-#     signs.
+#   - Cells surrounded by a dashed, magenta line: NRMSD is bigger than 10 %.
+#   - Cells surrounded by a black line: The two gradients have different signs.
 #
 # These differences only happen in three distinct regions:
 #
