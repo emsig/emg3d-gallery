@@ -1,0 +1,7 @@
+*.npz
+*.npy
+_build/
+gallery/
+examples/data/SEG/
+examples/time_domain/data/
+*raw.githubusercontent.com*
