@@ -39,6 +39,11 @@ To create the gallery:
     cd docs
     make html
 
+To remove the environment:
+
+.. code-block:: console
+
+    conda remove --name emg3d-gallery --all
 
 License information
 ===================
