@@ -128,4 +128,4 @@ htmlhelp_basename = 'emg3d-gallery-doc'
 
 # -- CSS fixes --
 def setup(app):
-    app.add_stylesheet("style.css")
+    app.add_css_file("style.css")
