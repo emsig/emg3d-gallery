@@ -159,7 +159,7 @@ plt.plot(off/1e3, epm.real, 'k')
 plt.plot(off/1e3, emg_1.real, 'C0--')
 plt.plot(off/1e3, emg_2.real, 'C1:')
 plt.ylabel('$E_x$ (V/m)')
-plt.yscale('symlog', linthreshy=1e-15)
+plt.yscale('symlog', linthresh=1e-15)
 
 # Real, error
 ax5 = plt.subplot(325, sharex=ax3)
@@ -192,7 +192,7 @@ plt.plot(off/1e3, epm.imag, 'k')
 plt.plot(off/1e3, emg_1.imag, 'C0--')
 plt.plot(off/1e3, emg_2.imag, 'C1:')
 
-plt.yscale('symlog', linthreshy=1e-15)
+plt.yscale('symlog', linthresh=1e-15)
 
 # Imaginary, error
 ax6 = plt.subplot(326, sharex=ax2)

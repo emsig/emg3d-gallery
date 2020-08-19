@@ -80,7 +80,7 @@ axs[2].set_ylabel('Elevation (km)')
 
 # Adjust x-labels on the third subplot (ZY)
 axs[3].set_xticks([400, 0, -1000, -2000, -2500, -3000])
-axs[3].set_xticklabels(['', '$0.0$', '-1.0', '-2.0', '-2.5'])
+axs[3].set_xticklabels(['', '$0.0$', '-1.0', '-2.0', '-2.5', '-3.0'])
 
 # Adjust colorbar
 axs[4].set_ylabel(r'$\rm{log}_{10}-$resistivity ($\Omega\,$m)')
@@ -268,7 +268,7 @@ plt.plot(Fourier.freq_req, 1e9*data_int.real, 'k.')
 plt.plot(Fourier.freq_calc, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Real, error
 ax5 = plt.subplot(325, sharex=ax3)
@@ -306,7 +306,7 @@ plt.plot(Fourier.freq_req, 1e9*data_int.imag, 'k.')
 plt.plot(Fourier.freq_calc, 1e9*data.imag, 'C0*')
 
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Imaginary, error
 ax6 = plt.subplot(326, sharex=ax2)

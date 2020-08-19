@@ -153,7 +153,7 @@ plt.plot(off/1e3, rec_lg_con.imag, 'C4-.',
 
 plt.xlabel('Offset (km)')
 plt.ylabel('$E_x$ (V/m)')
-plt.yscale('symlog', linthreshy=1e-17)
+plt.yscale('symlog', linthresh=1e-17)
 plt.legend()
 
 plt.tight_layout()

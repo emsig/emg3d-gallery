@@ -255,7 +255,7 @@ for i in range(2):
     axs[i].set_ylim(min(x)/1000, max(x)/1000)
     axs[i].axis('equal')
     cs = axs[i].pcolormesh(x/1000, x/1000, dat[i], vmin=vmin, vmax=vmax,
-                           linewidth=0, rasterized=True,)
+                           linewidth=0, rasterized=True, shading='nearest')
     plt.xlabel('Inline Offset (km)')
     plt.ylabel('Crossline Offset (km)')
 

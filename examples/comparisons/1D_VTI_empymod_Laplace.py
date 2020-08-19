@@ -44,11 +44,12 @@ def plot_data_rel(ax, name, data, x, vmin=-15., vmax=-7., error=False):
         cf = ax.pcolormesh(
                 x/1000, x/1000, np.log10(data), vmin=vmin, vmax=vmax,
                 linewidth=0, rasterized=True,
-                cmap=plt.cm.get_cmap("RdBu_r", 8))
+                cmap=plt.cm.get_cmap("RdBu_r", 8), shading='nearest')
     else:
         cf = ax.pcolormesh(
                 x/1000, x/1000, np.log10(np.abs(data)), linewidth=0,
-                rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax)
+                rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax,
+                shading='nearest')
 
     return cf
 
@@ -72,7 +73,7 @@ def plot_result_rel(depm, de3d, x, title, vmin=-15., vmax=-7.):
     cbar = fig.colorbar(cf2, ax=axs[2], label=r"Relative Error",
                         orientation='horizontal')
     cbar.set_ticks([-2, -1, 0, 1, 2])
-    cbar.ax.set_yticklabels([r"$0.01\,\%$", r"$0.1\,\%$", r"$1\,\%$",
+    cbar.ax.set_xticklabels([r"$0.01\,\%$", r"$0.1\,\%$", r"$1\,\%$",
                              r"$10\,\%$", r"$100\,\%$"])
 
     # Axis label

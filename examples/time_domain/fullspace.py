@@ -227,7 +227,7 @@ plt.plot(Fourier.freq_req, 1e9*data_int.real, 'k.')
 plt.plot(Fourier.freq_calc, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Real, error
 ax5 = plt.subplot(325, sharex=ax3)
@@ -265,7 +265,7 @@ plt.plot(Fourier.freq_req, 1e9*data_int.imag, 'k.')
 plt.plot(Fourier.freq_calc, 1e9*data.imag, 'C0*')
 
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Imaginary, error
 ax6 = plt.subplot(326, sharex=ax2)
@@ -443,7 +443,7 @@ plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.real, 'k--')
 plt.plot(Fourier_dlf.freq_calc, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Real, error
 ax5 = plt.subplot(325, sharex=ax3)
@@ -482,7 +482,7 @@ plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.imag, 'k--')
 plt.plot(Fourier_dlf.freq_calc, 1e9*data.imag, 'C0*')
 
 plt.xscale('log')
-plt.yscale('symlog', linthreshy=1e-5)
+plt.yscale('symlog', linthresh=1e-5)
 
 # Imaginary, error
 ax6 = plt.subplot(326, sharex=ax2)

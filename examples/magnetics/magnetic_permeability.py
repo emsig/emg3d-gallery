@@ -42,18 +42,20 @@ def plot_data_rel(ax, name, data, x, vmin=-15., vmax=-7., mode="log"):
         if mode == "abs":
             cf = ax.pcolormesh(
                     x/1000, x/1000, np.log10(np.abs(data)), linewidth=0,
-                    rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax)
+                    rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax,
+                    shading='nearest')
         else:
             cf = ax.pcolormesh(
                     x/1000, x/1000, data, linewidth=0, rasterized=True,
                     cmap="PuOr_r",
                     norm=SymLogNorm(linthresh=10**vmin,
-                                    vmin=-10**vmax, vmax=10**vmax))
+                                    vmin=-10**vmax, vmax=10**vmax),
+                    shading='nearest')
     else:
         cf = ax.pcolormesh(
                 x/1000, x/1000, np.log10(data), vmin=vmin, vmax=vmax,
                 linewidth=0, rasterized=True,
-                cmap=plt.cm.get_cmap("RdBu_r", 8))
+                cmap=plt.cm.get_cmap("RdBu_r", 8), shading='nearest')
 
     return cf
 
