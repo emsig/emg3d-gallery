@@ -135,9 +135,9 @@ model = emg3d.Model(grid, property_x=res_x, mapping='Resistivity')
 
 # Plot a slice
 grid.plot_3d_slicer(
-        model.property_x, zslice=-2250, clim=[0.3, 200],
+        model.property_x, zslice=-2250,
         xlim=(-1000, 8000), ylim=(-4000, 4000), zlim=(-3000, 500),
-        pcolor_opts={'norm': LogNorm()}
+        pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)}
 )
 
 ###############################################################################
@@ -145,7 +145,7 @@ grid.plot_3d_slicer(
 # ----------------------------------
 
 modparams = {
-        'verb': -1, 'sslsolver': True,
+        'verb': 2, 'sslsolver': True,
         'semicoarsening': True, 'linerelaxation': True
 }
 
@@ -204,10 +204,9 @@ sfield_sf.ensure_pec
 # to show the other source fields.)
 
 grid.plot_3d_slicer(
-        sfield_sf.fx.ravel('F'), view='abs', v_type='Ex',
-        zslice=-2250, clim=[1e-17, 1e-9],
+        sfield_sf.fx.ravel('F'), view='abs', v_type='Ex', zslice=-2250,
         xlim=(-1000, 8000), ylim=(-4000, 4000), zlim=(-3000, 500),
-        pcolor_opts={'norm': LogNorm()}
+        pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)}
 )
 
 ###############################################################################

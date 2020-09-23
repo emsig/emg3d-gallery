@@ -206,7 +206,7 @@ pmodel = emg3d.Model(pgrid, property_x=resh, property_z=resv,
 sfield = emg3d.get_source_field(pgrid, src, freq, strength)
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 ###############################################################################
 # Compute magnetic field :math:`H` from the electric field

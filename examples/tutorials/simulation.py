@@ -163,9 +163,8 @@ survey.sources['Tx1']
 # QC model and survey
 # -------------------
 
-mesh.plot_3d_slicer(model.property_x, clim=[0.3, 200],
-                    xslice=12000, yslice=7000,
-                    pcolor_opts={'norm': LogNorm()})
+mesh.plot_3d_slicer(model.property_x, xslice=12000, yslice=7000,
+                    pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
 
 # Plot survey in figure above
 fig = plt.gcf()
@@ -213,8 +212,8 @@ comp_grid
 
 # # To QC the computational mesh:
 # res = model.interpolate2grid(mesh, comp_grid).property_x
-# comp_grid.plot_3d_slicer(res, clim=[0.3, 200],
-#                          pcolor_opts={'norm': LogNorm()})
+# comp_grid.plot_3d_slicer(
+#         res, pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
 
 
 ###############################################################################

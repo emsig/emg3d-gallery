@@ -234,7 +234,7 @@ pmodel = emg3d.Model(
         pgrid, property_x=resh, property_z=resv, mapping='Resistivity')
 
 # Compute the electric field
-efield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+efield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 ###############################################################################
 # Compare the electric field generated from the magnetic source

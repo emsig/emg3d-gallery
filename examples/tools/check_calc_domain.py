@@ -53,7 +53,7 @@ inp = {'freq': freq, 'alpha': [1, 1.25, 0.01], 'min_width': 100}
 
 # Solver parameters
 solver_inp = {
-        'verb': 3,
+        'verb': 4,
         'sslsolver': True,
         'semicoarsening': True,
         'linerelaxation': True
@@ -227,14 +227,14 @@ plt.show()
 # the boundaries :math:`\pm x` and :math:`\pm y`.
 
 grid_1.plot_3d_slicer(
-    efield_1.fx.ravel('F'), view='abs', v_type='Ex', clim=[1e-17, 1e-9],
+    efield_1.fx.ravel('F'), view='abs', v_type='Ex',
     xslice=src[0], yslice=src[1], zslice=rec[2],
-    pcolor_opts={'norm': LogNorm()})
+    pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 grid_1.plot_3d_slicer(
-    efield_1.fx.ravel('F'), view='abs', v_type='Ex', clim=[1e-17, 1e-9],
+    efield_1.fx.ravel('F'), view='abs', v_type='Ex',
     zlim=[-5000, 1000],
     xslice=src[0], yslice=src[1], zslice=rec[2],
-    pcolor_opts={'norm': LogNorm()})
+    pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 
 
 ###############################################################################
@@ -246,16 +246,16 @@ grid_1.plot_3d_slicer(
 # as the lower plot for the first grid, our zone of interest.
 
 grid_2.plot_3d_slicer(
-    efield_2.fx.ravel('F'), view='abs', v_type='Ex', clim=[1e-17, 1e-9],
+    efield_2.fx.ravel('F'), view='abs', v_type='Ex',
     xslice=src[0], yslice=src[1], zslice=rec[2],
-    pcolor_opts={'norm': LogNorm()})
+    pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 grid_2.plot_3d_slicer(
-    efield_2.fx.ravel('F'), view='abs', v_type='Ex', clim=[1e-17, 1e-9],
+    efield_2.fx.ravel('F'), view='abs', v_type='Ex',
     xlim=[grid_1.vectorNx[0], grid_1.vectorNx[-1]],  # Same square as grid_1
     ylim=[grid_1.vectorNy[0], grid_1.vectorNy[-1]],  # Same square as grid_1
     zlim=[-5000, 1000],
     xslice=src[0], yslice=src[1], zslice=rec[2],
-    pcolor_opts={'norm': LogNorm()})
+    pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 
 
 ###############################################################################

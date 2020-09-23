@@ -88,8 +88,7 @@ grid.plot_3d_slicer(model_iso.property_x.ravel('F'),
 # Test 1: F, W, and V MG cycles
 # -----------------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'verb': 1, 'return_info': True}
+inp = {'grid': grid, 'model': model_iso, 'sfield': sfield, 'return_info': True}
 
 _, info1 = emg3d.solve(cycle='F', **inp)
 _, info2 = emg3d.solve(cycle='W', **inp)
@@ -101,8 +100,7 @@ plotit([info1, info2, info3], ['F-cycle', 'W-cycle', 'V-cycle'])
 # Test 2: semicoarsening, line-relaxation
 # ---------------------------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'verb': 1, 'return_info': True}
+inp = {'grid': grid, 'model': model_iso, 'sfield': sfield, 'return_info': True}
 
 _, info1 = emg3d.solve(**inp)
 _, info2 = emg3d.solve(semicoarsening=True, **inp)
@@ -116,7 +114,7 @@ plotit([info1, info2, info3, info4], ['MG', 'MG+SC', 'MG+LR', 'MG+SC+LR'])
 # -----------------------
 
 inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'semicoarsening': True, 'verb': 1, 'return_info': True, 'maxit': 500}
+       'semicoarsening': True, 'return_info': True, 'maxit': 500}
 
 _, info1 = emg3d.solve(cycle='F', sslsolver=False, **inp)
 _, info2 = emg3d.solve(cycle='F', sslsolver=True, **inp)
@@ -129,7 +127,7 @@ plotit([info1, info2, info3], ['MG', 'MG+BiCGStab', 'BiCGStab'])
 # ---------------------------------------------------
 
 inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'semicoarsening': True, 'verb': 1, 'return_info': True}
+       'semicoarsening': True, 'return_info': True}
 
 _, info1 = emg3d.solve(**inp)
 _, info2 = emg3d.solve(nu_pre=0, **inp)

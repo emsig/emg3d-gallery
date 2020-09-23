@@ -82,9 +82,8 @@ res[subsurface] = 1.0
 model.property_x = res
 
 # QC the initial model and the survey.
-mesh.plot_3d_slicer(model.property_x, clim=[0.3, 200],
-                    xslice=12000, yslice=7000,
-                    pcolor_opts={'norm': LogNorm()})
+mesh.plot_3d_slicer(model.property_x, xslice=12000, yslice=7000,
+                    pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
 
 # Plot survey in figure above
 fig = plt.gcf()
@@ -187,10 +186,10 @@ grad[~subsurface] = np.nan
 
 # Plot the gradient
 mesh.plot_3d_slicer(
-        grad.ravel('F'), clim=[-1e-11, 1e-11],
-        xslice=12000, yslice=7000, zslice=-4000,
+        grad.ravel('F'), xslice=12000, yslice=7000, zslice=-4000,
         pcolorOpts={'cmap': 'RdBu_r',
-                    'norm': SymLogNorm(linthresh=1e-18, base=10)}
+                    'norm': SymLogNorm(
+                        linthresh=1e-18, base=10, vmin=-1e-11, vmax=1e-11)}
         )
 
 # Add survey

@@ -124,13 +124,13 @@ mesh.plot_3d_slicer(pmodel.property_x, zslice=-1100, clim=[0, 2],
 # Compute ``emg3d``
 # -------------------
 
-em3_tg = emg3d.solve(mesh, pmodel, sfield, verb=3, nu_pre=0,
+em3_tg = emg3d.solve(mesh, pmodel, sfield, verb=4, nu_pre=0,
                      semicoarsening=True)
 
 
 ###############################################################################
 
-em3_bg = emg3d.solve(mesh, pmodel_bg, sfield, verb=3, nu_pre=0,
+em3_bg = emg3d.solve(mesh, pmodel_bg, sfield, verb=4, nu_pre=0,
                      semicoarsening=True)
 
 

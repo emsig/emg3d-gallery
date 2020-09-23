@@ -118,14 +118,14 @@ plt.show()
 # Compute electric fields
 # -----------------------
 
-modparams = {
-        'verb': -1, 'sslsolver': True,
+solver_opts = {
+        'verb': 2, 'sslsolver': True,
         'semicoarsening': True, 'linerelaxation': True
 }
 
 sfield = emg3d.get_source_field(grid, src, freq, strength=0)
-efield_lg_res = emg3d.solve(grid, model_lg_res, sfield, **modparams)
-efield_lg_con = emg3d.solve(grid, model_lg_con, sfield, **modparams)
+efield_lg_res = emg3d.solve(grid, model_lg_res, sfield, **solver_opts)
+efield_lg_con = emg3d.solve(grid, model_lg_con, sfield, **solver_opts)
 
 # Extract responses at receiver locations.
 rectuple = (rec[0], rec[1], rec[2])

@@ -218,14 +218,13 @@ pfield = emg3d.solve(
     sslsolver=True,
     semicoarsening=False,
     linerelaxation=False,
-    verb=3)
+    verb=4)
 
 ###############################################################################
 
 grid.plot_3d_slicer(
-    pfield.fx.ravel('F'), zslice=-2000, zlim=(-4180, 500),
-    view='abs', v_type='Ex',
-    clim=[1e-16, 1e-9], pcolor_opts={'norm': LogNorm()})
+    pfield.fx.ravel('F'), zslice=-2000, zlim=(-4180, 500), view='abs',
+    v_type='Ex', pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)})
 
 ###############################################################################
 

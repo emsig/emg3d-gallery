@@ -183,7 +183,7 @@ for fi, frq in enumerate(Fourier.freq_calc[::-1]):
 
     # Solve the system.
     efield, info = emg3d.solve(
-        grid, model, sfield, verb=-1, return_info=True,
+        grid, model, sfield, verb=2, return_info=True,
         sslsolver=True,  semicoarsening=True, linerelaxation=True,
     )
 

@@ -35,7 +35,7 @@ dependencies here it is:
     sfield = emg3d.get_source_field(grid=grid, src=[4, 4, 4, 0, 0], freq=10.0)
 
     # Compute the electric signal.
-    efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=3)
+    efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
 
     # Get the corresponding magnetic signal.
     hfield = emg3d.get_h_field(grid=grid, model=model, field=efield)
@@ -88,7 +88,8 @@ model = emg3d.Model(grid, property_x=1.5, property_y=1.8,
 # Plotting this model results in an obviously rather boring plot, as it simply
 # shows a homogeneous space. Here we plot the x-directed resistivity:
 
-grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x)  # x-resistivity
+# x-resistivity
+grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x, clim=[1.4, 1.6])
 
 ###############################################################################
 # 3. Source field
@@ -106,7 +107,7 @@ sfield = emg3d.get_source_field(grid=grid, src=[0, 0, 0, 0, 0], freq=10)
 #
 # Finally we can compute the electric field with ``emg3d``:
 
-efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=3)
+efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
 
 ###############################################################################
 # The computation requires in this case seven multigrid F-cycles and takes just

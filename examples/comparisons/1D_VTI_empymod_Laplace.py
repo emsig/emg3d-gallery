@@ -186,7 +186,7 @@ pmodel = emg3d.Model(pgrid, property_x=resh, property_z=resv,
 sfield = emg3d.get_source_field(pgrid, src, sval, strength)
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 
 ###############################################################################
@@ -297,8 +297,8 @@ pmodel = emg3d.Model(pgrid, property_x=res_x_full,
                      property_z=res_z_full, mapping='Resistivity')
 
 # Plot it
-pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, clim=[0.3, 50],
-                     zlim=(-5000, 50), pcolor_opts={'norm': LogNorm()})
+pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, zlim=(-5000, 50),
+                     pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=50)})
 
 
 ###############################################################################
@@ -307,7 +307,7 @@ pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, clim=[0.3, 50],
 sfield = emg3d.get_source_field(pgrid, src, sval, 0)
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 
 ###############################################################################

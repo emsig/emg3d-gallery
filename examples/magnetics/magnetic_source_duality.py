@@ -295,7 +295,7 @@ pmodel = emg3d.Model(pgrid, property_x=1., mu_r=1./resh, mapping='Resistivity')
 sfield = emg3d.get_source_field(pgrid, src, freq, strength)
 
 # Compute the electric field
-hfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+hfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 
 ###############################################################################

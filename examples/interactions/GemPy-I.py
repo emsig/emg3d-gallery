@@ -182,8 +182,8 @@ p.show()
 # Plot the model with discretize
 # ------------------------------
 grid.plot_3d_slicer(
-    model.property_x, zslice=-1000, clim=(0.3, 500),
-    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()})
+    model.property_x, zslice=-1000,
+    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=0.3, vmax=500)})
 
 
 ###############################################################################
@@ -221,14 +221,14 @@ comp_model = model.interpolate2grid(grid, comp_grid)
 sfield = emg3d.get_source_field(comp_grid, src, freq, 0)
 
 # Compute the efield
-efield = emg3d.solve(comp_grid, comp_model, sfield, sslsolver=True, verb=3)
+efield = emg3d.solve(comp_grid, comp_model, sfield, sslsolver=True, verb=4)
 
 ###############################################################################
 
 comp_grid.plot_3d_slicer(
     efield.fx.ravel('F'), zslice=-1000, zlim=(-2000, 50),
-    view='abs', v_type='Ex', clim=[1e-13, 1e-8],
-    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()})
+    view='abs', v_type='Ex',
+    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=1e-13, vmax=1e-8)})
 
 ###############################################################################
 # Store the grid and the model for use in other examples.

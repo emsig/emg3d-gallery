@@ -71,8 +71,8 @@ model.property_x[2, 1:4, 4] = 0.005
 # QC
 # ''
 
-model_grid.plot_3d_slicer(model.property_x.ravel('F'), clim=[0.002, 3.5],
-                          pcolor_opts={'norm': LogNorm()}, zslice=-2900)
+model_grid.plot_3d_slicer(model.property_x.ravel('F'), zslice=-2900,
+                          pcolor_opts={'norm': LogNorm(vmin=0.002, vmax=3.5)})
 
 plt.suptitle('Conductivity (S/m)')
 axs = plt.gcf().get_children()
@@ -310,7 +310,9 @@ def set_axis(axs, i):
 
 # Plotting options.
 vmin, vmax = 1e-31, 1e-26
-pcolor_opts = {'cmap': 'RdBu_r', 'norm': SymLogNorm(linthresh=vmin, base=10)}
+pcolor_opts = {'cmap': 'RdBu_r',
+               'norm': SymLogNorm(linthresh=vmin, base=10,
+                       vmin=-vmax, vmax=vmax)}
 
 fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
 

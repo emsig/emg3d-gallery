@@ -227,8 +227,8 @@ fullgrid
 
 # With discretize
 fullgrid.plot_3d_slicer(
-    fullmodel.property_x, zslice=-3000, clim=[0.3, 100],
-    xslice=12000, pcolor_opts={'cmap': 'viridis', 'norm': LogNorm()}
+    fullmodel.property_x, zslice=-3000, xslice=12000,
+    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=0.3, vmax=100)}
 )
 
 

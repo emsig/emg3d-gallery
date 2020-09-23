@@ -208,7 +208,7 @@ pmodel = emg3d.Model(
 sfield = emg3d.get_source_field(pgrid, src, freq, strength)
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 
 ###############################################################################
@@ -260,7 +260,7 @@ pmodel = emg3d.Model(
 src_new = [src[0], src[1], src[4], src[5], src[2], src[3]]
 
 sfield = emg3d.get_source_field(pgrid, src_new, freq, strength)
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 # ===> Swap ry and zrec <===
 e3d_fs_x = emg3d.get_receiver(pgrid, pfield.fx, (rx, zrec, ry))
@@ -299,7 +299,7 @@ pmodel = emg3d.Model(
 src_new = [src[4], src[5], src[2], src[3], src[0], src[1]]
 
 sfield = emg3d.get_source_field(pgrid, src_new, freq, strength)
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 # ===> Swap rx and zrec; 'x'->'z' <===
 e3d_fs_x = emg3d.get_receiver(pgrid, pfield.fz, (zrec, ry, rx))
@@ -399,8 +399,8 @@ pmodel = emg3d.Model(
         mapping='Resistivity')
 
 # Plot it
-pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, clim=[0.3, 50],
-                     zlim=(-5000, 50), pcolor_opts={'norm': LogNorm()})
+pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, zlim=(-5000, 50),
+                     pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=50)})
 
 
 ###############################################################################
@@ -409,7 +409,7 @@ pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, clim=[0.3, 50],
 sfield = emg3d.get_source_field(pgrid, src, freq, 0)
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=3)
+pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
 
 
 ###############################################################################

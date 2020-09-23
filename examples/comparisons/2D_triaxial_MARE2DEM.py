@@ -105,7 +105,7 @@ sfield = emg3d.get_source_field(grid, src, freq, 0)
 
 # Solver parameters
 sparams = {
-    'verb': 3,
+    'verb': 4,
     'sslsolver': True,
     'semicoarsening': True,
     'linerelaxation': True
@@ -113,8 +113,8 @@ sparams = {
 
 # QC model
 grid.plot_3d_slicer(
-        model_tg.property_x, clim=[0.3, 300], zlim=[-6000, 500],
-        pcolor_opts={'norm': LogNorm()})
+        model_tg.property_x, zlim=[-6000, 500],
+        pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=300)})
 
 
 ###############################################################################
