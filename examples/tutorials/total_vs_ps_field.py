@@ -99,16 +99,14 @@ freq = 1.0                  # Frequency (Hz)
 # layer. If you use a semi-analytical solution for the 1D background you could
 # restrict that domain a lot.
 
-meshinp = {'freq': freq, 'min_width': 100, 'verb': 0}
-xx, x0 = emg3d.meshes.get_hx_h0(
-    res=[res[1], 100.], fixed=src[0], domain=[-100, 8100], **meshinp)
-yy, y0 = emg3d.meshes.get_hx_h0(
-    res=[res[1], 100.], fixed=src[1], domain=[-500, 500], **meshinp)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    res=[res[1], res[2], 100.], domain=[-2500, 0], fixed=[-1000, 0, -2000],
-    **meshinp)
+grid = emg3d.construct_mesh(
+        frequency=freq,
+        properties=[res[1], 100, res[2], 100],
+        center=(src[0], src[1], -1000),
+        min_width_limits=(100, 100, 100),
+        domain=([-100, 8100], [-500, 500], [-2500, 0]),
+)
 
-grid = emg3d.TensorMesh([xx, yy, zz], x0=np.array([x0, y0, z0]))
 grid
 
 ###############################################################################

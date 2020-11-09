@@ -2,15 +2,9 @@
 4. Gradient of the misfit function
 ==================================
 
-A basic example how to use the new :func:`emg3d.optimize.gradient` routine to
-compute the adjoint-state gradient of the misfit function.
-
-Here we just show the usage. The implementation currently follows [PlMu08]_;
-you can find the maths in the description of the functions, namely
-
-- :func:`emg3d.optimize.misfit`;
-- :func:`emg3d.optimize.gradient`; and
-- :func:`emg3d.optimize.data_weighting`.
+A basic example how to use the :func:`emg3d.optimize.gradient` routine to
+compute the adjoint-state gradient of the misfit function. Here we just show
+its usage.
 
 For this example we use the survey and data as obtained in the example
 :ref:`sphx_glr_gallery_tutorials_simulation.py`.
@@ -99,73 +93,40 @@ plt.show()
 
 
 ###############################################################################
-# Create computational mesh
-# -------------------------
+# Options for automatic gridding
+# ------------------------------
 #
-# In the not-so-distant future the simulation class will have some automatic,
-# source- and frequency-dependent gridding included. But currently we still
-# have to define the computational grid manually and provide it. You can define
-# it yourself or make use of some of the helper routines.
 
-gridinput = {'freq': 1.0, 'verb': 0}
-
-# Get cell widths and origin in each direction
-xx, x0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 10], fixed=survey.src_coords[0][1], min_width=100,
-    domain=[survey.rec_coords[0].min()-100, survey.rec_coords[0].max()+100],
-    **gridinput)
-yy, y0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 10], fixed=survey.src_coords[1][1], min_width=100,
-    domain=[survey.rec_coords[1].min()-100, survey.rec_coords[1].max()+100],
-    **gridinput)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 1., 0.3], domain=[-5500, -2000], min_width=50,
-    alpha=[1.05, 1.5, 0.01], fixed=[-2200, -2400, -2000], **gridinput)
-
-# Initiate mesh.
-comp_grid = emg3d.TensorMesh([xx, yy, zz], x0=np.array([x0, y0, z0]))
-comp_grid
+gridding_opts = {
+    'center': (survey.src_coords[0][1], survey.src_coords[1][1], -2200),
+    'properties': [0.3, 10, 1, 0.3],
+    'domain': (
+        [survey.rec_coords[0].min()-100, survey.rec_coords[0].max()+100],
+        [survey.rec_coords[1].min()-100, survey.rec_coords[1].max()+100],
+        [-5500, -2000]
+    ),
+    'min_width_limits': (100, 100, 50),
+    'stretching': (None, None, [1.05, 1.5]),
+}
 
 
 ###############################################################################
 # Create the Simulation
 # ---------------------
 
-data_weight_opts = {
-    'gamma_d': 0.5,    # Offset weighting
-    'beta_d': 1.0,     # Data weighting
-    'beta_f': 0.25,    # Frequency weighting
-    'min_off': 1000,   # Minimum offset
-    'noise_floor': 0,  # We use all data in this example
-}
-
 simulation = emg3d.simulations.Simulation(
     name="Initial Model",    # A name for this simulation
     survey=survey,           # Our survey instance
     grid=mesh,               # The model mesh
     model=model,             # The model
-    gridding=comp_grid,      # The computational mesh
+    gridding='both',         # Src- and freq-dependent grids
     max_workers=4,           # How many parallel jobs
     # solver_opts=...,       # Any parameter to pass to emg3d.solve
-    data_weight_opts=data_weight_opts,  # Data weighting options
+    gridding_opts=gridding_opts,
 )
 
 # Let's QC our Simulation instance
 simulation
-
-
-###############################################################################
-# Reference Model
-# ---------------
-#
-# We can define a reference model. This is what is used for the data weighting.
-# Usually, this would be the initial model. If no reference model is found, it
-# will fall back to the observed data.
-#
-# The chosen reference model can be set in the parameters of the data weighting
-# via ``reference``.
-
-simulation.compute(reference=True)
 
 
 ###############################################################################
@@ -189,7 +150,7 @@ mesh.plot_3d_slicer(
         grad.ravel('F'), xslice=12000, yslice=7000, zslice=-4000,
         pcolorOpts={'cmap': 'RdBu_r',
                     'norm': SymLogNorm(
-                        linthresh=1e-18, base=10, vmin=-1e-11, vmax=1e-11)}
+                        linthresh=1e-2, base=10, vmin=-1e1, vmax=1e1)}
         )
 
 # Add survey

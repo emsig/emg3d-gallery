@@ -50,15 +50,13 @@ src = [0, 0, 50-zwater, 0, 0]  # Source at origin, 50 m above seafloor.
 freq = 1.0                     # Frequency (Hz).
 
 # Mesh
-ginp = {'min_width': 100, 'verb': 0}
-xx, x0 = emg3d.meshes.get_hx_h0(
-    freq=freq, res=[0.3, 1.], fixed=src[0], domain=[-1000, 5000], **ginp)
-yy, y0 = emg3d.meshes.get_hx_h0(
-    freq=freq, res=[0.3, 1.], fixed=src[1], domain=[-500, 500], **ginp)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    freq=freq, res=[0.3, 1., 0.3], domain=[-2500, 0],
-    fixed=[-1000, 0, -2100], **ginp)
-grid = emg3d.TensorMesh([xx, yy, zz], x0=np.array([x0, y0, z0]))
+grid = emg3d.construct_mesh(
+    frequency=freq,
+    min_width_limits=100,
+    properties=[0.3, 1., 1., 0.3],
+    center=(src[0], src[1], -1000),
+    domain=([-1000, 5000], [-500, 500], [-2500, 0]),
+)
 print(grid)
 
 # Source-field

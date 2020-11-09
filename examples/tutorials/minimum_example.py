@@ -4,19 +4,17 @@
 
 This is a simple minimum working example to use the multigrid solver `emg3d`,
 along the lines of the one provided in the manual as `"Basic Example"
-<https://emg3d.readthedocs.io/en/stable/usage.html#basic-example>`_.
+<https://emg3d.readthedocs.io/en/stable/usage.html#basic-example>`_. To see
+some more realistic computations have a look at the other examples in this
+gallery. In particularly at :ref:`sphx_glr_gallery_tutorials_simulation.py` to
+see how to use `emg3d` for a complex survey with many sources and frequencies.
 
-To see some more realistic computations have a look at the other examples in
-this gallery. In particularly at
-:ref:`sphx_glr_gallery_tutorials_simulation.py` to see how to use `emg3d` for a
-complex survey with many sources and frequencies.
-
-This example uses advanced tools of meshing including plotting, for which you
-need to install additionally ``discretize`` and ``matplotlib``. If you are
-interested in a basic example that only requires ``emg3d`` and its mandatory
-dependencies here it is:
+An absolutely minimal example, which only requires ``emg3d``, ``numba``, and
+``scipy``, is given here:
 
 .. code-block:: python
+
+    # ======================================================================= #
 
     import emg3d
     import numpy as np
@@ -26,13 +24,14 @@ dependencies here it is:
     hx = np.ones(8)
     grid = emg3d.TensorMesh(h=[hx, hx, hx], x0=np.array([0, 0, 0]))
 
-    # The model is a fullspace with tri-axial anisotropy.
+    # The model is a fullspace with tri-axial anisotropy, defined as
+    # resistivities (Ohm.m).
     model = emg3d.Model(grid=grid, property_x=1.5, property_y=1.8,
                         property_z=3.3, mapping='Resistivity')
 
-    # The source is an x-directed, horizontal dipole at (4, 4, 4),
-    # frequency is 10 Hz.
-    sfield = emg3d.get_source_field(grid=grid, src=[4, 4, 4, 0, 0], freq=10.0)
+    # The source is an x-directed, horizontal dipole at
+    # (x=4, y=4, z=4, azimuth=0, dip=0), frequency is 10 Hz.
+    sfield = emg3d.get_source_field(grid=grid, src=(4, 4, 4, 0, 0), freq=10.0)
 
     # Compute the electric signal.
     efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
@@ -40,8 +39,13 @@ dependencies here it is:
     # Get the corresponding magnetic signal.
     hfield = emg3d.get_h_field(grid=grid, model=model, field=efield)
 
+    # ======================================================================= #
 
-Let's start by loading the required modules:
+However, above example is probably most useful on a server environment, where
+you only want to solve the system, without any interaction. The example that
+follows uses advanced tools of meshing including plotting, for which you need
+to install additionally the packages ``discretize`` and ``matplotlib``. Let's
+start by loading the required modules:
 """
 import emg3d
 import numpy as np
@@ -83,12 +87,10 @@ model = emg3d.Model(grid, property_x=1.5, property_y=1.8,
 ###############################################################################
 # Here we define the model in terms of resistivity. Have a look at the example
 # :ref:`sphx_glr_gallery_tutorials_mapping.py` to see how to define models
-# in terms of conductivity or their logarithms.
-#
-# Plotting this model results in an obviously rather boring plot, as it simply
-# shows a homogeneous space. Here we plot the x-directed resistivity:
+# in terms of conductivity or their logarithms. Plotting this model results in
+# an obviously rather boring plot, as it simply shows a homogeneous space. Here
+# we plot the x-directed resistivity:
 
-# x-resistivity
 grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x, clim=[1.4, 1.6])
 
 ###############################################################################
@@ -112,7 +114,10 @@ efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
 ###############################################################################
 # The computation requires in this case seven multigrid F-cycles and takes just
 # a few seconds. It was able to coarsen in each dimension four times, where the
-# input grid had 49,152 cells, and the coarsest grid had 12 cells.
+# input grid had 49,152 cells, and the coarsest grid had 12 cells. There are
+# many options for the solver, and the best combination often depends on the
+# problem to solve. More explanations can be found in the example
+# :ref:`sphx_glr_gallery_tutorials_parameter_tests.py`.
 #
 # 5. Plot the result
 # ------------------
@@ -138,6 +143,23 @@ grid.plot_3d_slicer(
         hfield.fx.ravel('F'), view='abs', v_type='Fx',
         pcolor_opts={'norm': LogNorm()}
 )
+
+
+###############################################################################
+# 7. Plotting the field
+# ---------------------
+#
+# Using ``discretize`` for meshing has the advantage that we can use all the
+# implemented tools, such as plotting the field lines:
+
+# Get cell-averaged values of the real component.
+ccr_efield = grid.aveE2CCV * efield.real
+
+grid.plotSlice(
+    ccr_efield, normal='Y', vType='CCv', view='vec',
+    pcolor_opts={'norm': LogNorm()},
+)
+
 
 ###############################################################################
 

@@ -2,9 +2,10 @@
 2. Simulation
 =============
 
-A basic example how to use the :class:`emg3d.surveys.Survey`- and
-:class:`emg3d.simulations.Simulation`-classes to model data for an entire
-survey, hence many sources and frequencies.
+The easiest way to model CSEM data for a survey is to make use of the Survey
+and Simulation classes, :class:`emg3d.surveys.Survey` and
+:class:`emg3d.simulations.Simulation`, respectively, together with the
+automatic gridding functionality.
 
 For this example we use the resistivity model created in the example
 :ref:`sphx_glr_gallery_interactions_gempy-ii.py`.
@@ -91,22 +92,19 @@ bathymetry = RectBivariateSpline(mesh.vectorCCx, mesh.vectorCCy, seafloor)
 # providing coordinates, where two coordinate formats are accepted:
 #
 # - ``(x0, x1, y0, y1, z0, z1)``: finite length dipole,
-# - ``(x, y, z, azimuth, dip)``: point dipole.
+# - ``(x, y, z, azimuth, dip)``: point dipole,
+#
+# where the angles (azimuth and dip) are in degrees. For the coordinate system
+# see `coordinate_system
+# <https://empymod.readthedocs.io/en/stable/examples/coordinate_system.html>`_.
 #
 # A survey can contain electric and magnetic receivers, arbitrarily rotated.
-# However, the ``Simulation`` is currently still limited to electric receivers,
-# and the ``optimization`` later on (gradient) is currently limited to
-# x-directed electric dipoles. As we will use this example also in
-# :ref:`sphx_glr_gallery_tutorials_gradient.py` we stick to x-directed electric
-# dipoles at the moment.
+# However, the ``Simulation`` is currently limited to electric receivers.
 #
 # Note that the survey just knows about the sources, receivers, frequencies,
 # and observed data - it does not know anything of an underlying model.
 
-# For now just horizontal Ex point dipoles.
-# Angles in degrees (see
-# `coordinate_system
-# <https://empymod.readthedocs.io/en/stable/examples/coordinate_system.html>`_).
+# Angles for horizontal, x-directed Ex point dipoles
 dip = 0.0
 azimuth = 0.0
 
@@ -131,6 +129,12 @@ rec = (RX.ravel(), RY.ravel(), RZ.ravel(), dip, azimuth)
 ###############################################################################
 # Create Survey
 # '''''''''''''
+#
+# If you have observed data you can provide them, here we will create synthetic
+# data later on. What you have to define is the expected noise floor and
+# relative error, which is used to compute the misfit later on. Alternatively
+# you can provide directly the standard deviation; see
+# :class:`emg3d.surveys.Survey`.
 
 survey = emg3d.surveys.Survey(
     name='GemPy-II Survey A',  # Name of the survey
@@ -138,6 +142,8 @@ survey = emg3d.surveys.Survey(
     receivers=rec,             # Receiver coordinates
     frequencies=frequencies,   # Two frequencies
     # data=data,               # If you have observed data
+    noise_floor=1e-15,
+    relative_error=0.05,
 )
 
 # Let's have a look at the survey:
@@ -146,7 +152,7 @@ survey
 
 ###############################################################################
 # Our survey has our sources and receivers and initiated a variable
-# ``observed``, with NaN's. Each source and receiver got a named assigned. If
+# ``observed``, with NaN's. Each source and receiver got a name assigned. If
 # you prefer other names you would have to define the sources and receivers
 # through ``emg3d.surveys.Dipole``, and provide a list of dipoles to the survey
 # instead of only a tuple of coordinates.
@@ -157,8 +163,8 @@ survey.sources['Tx1']
 
 
 ###############################################################################
-# Which shows you all you need to know about a particular dipole (name, type
-# [electric or magnetic], coordinates of its center, angles, and length).
+# Which shows you all you need to know about a particular dipole: name, type
+# (electric or magnetic), coordinates of its center, angles, and length.
 #
 # QC model and survey
 # -------------------
@@ -180,57 +186,47 @@ plt.show()
 
 
 ###############################################################################
-# Create computational mesh
-# -------------------------
-#
-# In the not-so-distant future the simulation class will have some automatic,
-# source- and frequency-dependent gridding included. But currently we still
-# have to define the computational grid manually and provide it. You can define
-# it yourself or make use of some of the helper routines.
-
-gridinput = {'freq': 1.0, 'verb': 0}
-
-# Get cell widths and origin in each direction
-xx, x0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 10], fixed=survey.src_coords[0][1], min_width=100,
-    domain=[survey.rec_coords[0].min()-100, survey.rec_coords[0].max()+100],
-    **gridinput)
-yy, y0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 10], fixed=survey.src_coords[1][1], min_width=100,
-    domain=[survey.rec_coords[1].min()-100, survey.rec_coords[1].max()+100],
-    **gridinput)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 1., 0.3], domain=[-5500, -2000], min_width=50,
-    alpha=[1.05, 1.5, 0.01], fixed=[-2200, -2400, -2000], **gridinput)
-
-# Initiate mesh.
-comp_grid = emg3d.TensorMesh([xx, yy, zz], x0=np.array([x0, y0, z0]))
-comp_grid
-
-
-###############################################################################
-
-# # To QC the computational mesh:
-# res = model.interpolate2grid(mesh, comp_grid).property_x
-# comp_grid.plot_3d_slicer(
-#         res, pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
-
-
-###############################################################################
 # Create a Simulation (to compute 'observed' data)
 # ------------------------------------------------
 #
 # The simulation class combines a model with a survey, and can compute
 # synthetic data for it.
+#
+# Automatic gridding
+# ''''''''''''''''''
+#
+# We use the automatic gridding feature implemented in the simulation class to
+# use source- and frequency- dependent grids for the computation.
+# Consult the following docs for more information:
+#
+# - `gridding_opts` in :class:`emg3d.simulations.Simulation`;
+# - :func:`emg3d.simulations.estimate_gridding_opts`; and
+# - :func:`emg3d.meshes.construct_mesh`.
+
+gopts = {
+    'properties': [0.3, 10, 1., 0.3],
+    'min_width_limits': (100, 100, 50),
+    'stretching': (None, None, [1.05, 1.5]),
+    'domain': (
+        [survey.rec_coords[0].min()-100, survey.rec_coords[0].max()+100],
+        [survey.rec_coords[1].min()-100, survey.rec_coords[1].max()+100],
+        [-5500, -2000]
+    ),
+}
+
+
+###############################################################################
+# Now we can initiate the simulation class and QC it:
 
 simulation = emg3d.simulations.Simulation(
-    name="True Model",   # A name for this simulation
-    survey=survey,       # Our survey instance
-    grid=mesh,           # The model mesh
-    model=model,         # The model
-    gridding=comp_grid,  # The computational mesh
-    max_workers=4,       # How many parallel jobs
-    # solver_opts,       # Any parameter to pass to emg3d.solve
+    name="True Model",    # A name for this simulation
+    survey=survey,        # Our survey instance
+    grid=mesh,            # The model mesh
+    model=model,          # The model
+    gridding='both',      # Frequency- and source-dependent meshes
+    max_workers=4,        # How many parallel jobs
+    # solver_opts,        # Any parameter to pass to emg3d.solve
+    gridding_opts=gopts,  # Gridding options
 )
 
 # Let's QC our Simulation instance
@@ -243,13 +239,16 @@ simulation
 #
 # We pass here the argument ``observed=True``; this way, the synthetic data is
 # stored in our Survey as ``observed`` data, otherwise it would be stored as
-# ``synthetic``. This is important later for optimization.
+# ``synthetic``. This is important later for optimization. It also adds
+# Gaussian noise according to the noise floor and relative error we defined in
+# the survey. By setting a minimum offset the receivers close to the source are
+# switched off.
 #
 # This computes all results in parallel; in this case six models, three sources
 # times two frequencies. You can change the number of workers at any time by
 # setting ``simulation.max_workers``.
 
-simulation.compute(observed=True)
+simulation.compute(observed=True, min_offset=500)
 
 
 ###############################################################################
@@ -261,12 +260,13 @@ simulation.compute(observed=True)
 #   retrieve the magnetic fields and the source fields.
 # - ``simulation.get_model``; ``simulation.get_grid``: Similar functions to
 #   retrieve the computational grid and the model for a given source and
-#   frequency. As we use the same grid in our example for all sources and all
-#   frequencies this is not particular useful, but for source- and
-#   frequency-dependent gridding it can prove useful.
+#   frequency.
 #
 # When we now look at our survey we see that the observed data variable is
-# filled with the responses at the receiver locations.
+# filled with the responses at the receiver locations. Note that the
+# ``synthetic`` data is the actual computed data, the ``observed`` data, on the
+# other hand, has Gaussian noise added and is set to NaN's for positions too
+# close to the source.
 
 survey
 
@@ -277,16 +277,23 @@ survey
 
 plt.figure()
 plt.title("Inline receivers for all sources")
-data = simulation.data.observed[:, 1::3, :]
+obs = simulation.data.observed[:, 1::3, :]
+syn = simulation.data.synthetic[:, 1::3, :]
 for i, src in enumerate(survey.sources.keys()):
     for ii, freq in enumerate(survey.frequencies):
         plt.plot(survey.rec_coords[0][1::3],
-                 abs(data.loc[src, :, freq].data.real),
+                 abs(syn.loc[src, :, freq].data.real),
+                 "k-", lw=0.5)
+        plt.plot(survey.rec_coords[0][1::3],
+                 abs(syn.loc[src, :, freq].data.imag),
+                 "k-", lw=0.5)
+        plt.plot(survey.rec_coords[0][1::3],
+                 abs(obs.loc[src, :, freq].data.real),
                  f"C{ii}.-",
                  label=f"|Real|; freq={freq} Hz" if i == 0 else None
                  )
         plt.plot(survey.rec_coords[0][1::3],
-                 abs(data.loc[src, :, freq].data.imag),
+                 abs(obs.loc[src, :, freq].data.imag),
                  f"C{ii}.--",
                  label=f"|Imag|; freq={freq} Hz" if i == 0 else None
                  )
@@ -314,7 +321,7 @@ plt.show()
 survey_fname = '../data/surveys/'+mname+'-survey-A.h5'
 
 # To store, run
-# survey.to_file(survey_fname)  # .h5, .json, or .npz
+survey.to_file(survey_fname)  # .h5, .json, or .npz
 
 # To load, run
 # survey = emg3d.surveys.Survey.from_file(survey_fname)

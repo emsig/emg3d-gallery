@@ -39,6 +39,8 @@ survey = emg3d.surveys.Survey(
     sources=(-1600, 0, -1950, 0, 0),
     receivers=(1600, 0, -2000, 0, 0),
     frequencies=1.0,
+    noise_floor=1e-15,
+    relative_error=0.05,
 )
 
 ###############################################################################
@@ -88,20 +90,18 @@ plt.show()
 ###############################################################################
 # Generate synthetic data
 # -----------------------
-#
-# Generate a computational grid to create synthetic data (note that in the
-# future we can use the automatic gridding functionality, which should land in
-# v0.13.0).
 
-# Get cell widths and origin in each direction.
-gridinput = {'min_width': 100, 'freq': survey.frequencies[0], 'verb': 0}
-xy, xy0 = emg3d.meshes.get_hx_h0(  # Same in x and y.
-    res=[0.3, 1], fixed=0, domain=[-2000, 2000], **gridinput)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 1, 0.3], domain=[-3200, -2000], **gridinput, fixed=[-2000, 0])
+# Gridding options.
+gridding_opts = {
+    'frequency': survey.frequencies[0],
+    'properties': [3.33, 1, 1, 3.33],
+    'center': (0, 0, -2000),
+    'min_width_limits': 100,
+    'domain': ([-2000, 2000], [-2000, 2000], [-3200, -2000]),
+    'mapping': model.map,
+}
 
-
-data_grid = emg3d.TensorMesh([xy, xy, zz], x0=np.array([xy0, xy0, z0]))
+data_grid = emg3d.construct_mesh(**gridding_opts)
 
 # Define a simulation for the data.
 simulation_data = emg3d.simulations.Simulation(
@@ -127,36 +127,19 @@ survey
 # have to compute an extra forward model for each cell for the forward
 # finite-difference approximation, so we try to keep that number low (even
 # though we only do a cross-section, not the entire cube).
-
-# Get cell widths and origin in each direction
-gridinput = {'min_width': 200, 'freq': survey.frequencies[0], 'verb': 0}
-xy, xy0 = emg3d.meshes.get_hx_h0(  # Same in x and y.
-    res=[0.3, 1], fixed=0, domain=[-2000, 2000], **gridinput)
-zz, z0 = emg3d.meshes.get_hx_h0(
-    res=[0.3, 1, 0.3], domain=[-3200, -2000], **gridinput, fixed=[-2000, 0])
-
-comp_grid = emg3d.TensorMesh([xy, xy, zz], x0=np.array([xy0, xy0, z0]))
-
-comp_grid
-
-###############################################################################
+#
 # Our computational grid has only 16,384 cells, which should be fast enough to
 # compute the FD gradient of a cross-section in a few minutes. A
 # cross-section along the survey-line has :math:`32 \times 11 = 352` cells, so
 # we need to compute an extra 352 forward models. (There are 16 cells in z, but
 # only 11 below the seafloor.)
 
+# Computational grid (min_width 200 instead of 100).
+comp_grid_opts = {**gridding_opts, 'min_width_limits': 200}
+comp_grid = emg3d.construct_mesh(**comp_grid_opts)
+
 # Interpolate the background model onto the computational grid.
 comp_model = model_bg.interpolate2grid(model_grid, comp_grid)
-
-# Switch-off all data weighting in order to compare the pure gradient.
-data_weight_opts = {
-    'gamma_d': 0,
-    'beta_d': 0,
-    'beta_f': 0,
-    'min_off': 0,
-    'noise_floor': 0,
-}
 
 # AS gradient simulation.
 simulation_as = emg3d.simulations.Simulation(
@@ -166,7 +149,6 @@ simulation_as = emg3d.simulations.Simulation(
     model=comp_model,
     gridding='same',  # Same grid as for input model.
     max_workers=4,    # For parallel workers, adjust if you have more.
-    data_weight_opts=data_weight_opts,
 )
 
 simulation_as
@@ -215,8 +197,7 @@ def comp_fd_grad(ixiz):
     simulation_fd = emg3d.simulations.Simulation(
         name='FD Gradient Test',
         survey=survey, grid=comp_grid, model=fd_model, gridding='same',
-        max_workers=1, data_weight_opts=data_weight_opts,
-        solver_opts={'verb': 1})
+        max_workers=1, solver_opts={'verb': 1})
 
     # Switch-of progress bar in this case
     simulation_fd._tqdm_opts['disable'] = True
@@ -309,10 +290,10 @@ def set_axis(axs, i):
 
 
 # Plotting options.
-vmin, vmax = 1e-31, 1e-26
+vmin, vmax = 1e-2, 1e1
 pcolor_opts = {'cmap': 'RdBu_r',
                'norm': SymLogNorm(linthresh=vmin, base=10,
-                       vmin=-vmax, vmax=vmax)}
+                                  vmin=-vmax, vmax=vmax)}
 
 fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
 
