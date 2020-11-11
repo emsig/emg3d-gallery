@@ -26,11 +26,10 @@ plt.style.use('ggplot')
 # First we load the survey and accompanying data as obtained in the example
 # :ref:`sphx_glr_gallery_tutorials_simulation.py`.
 
-mname = 'GemPy-II-survey-A'
-fname = mname+'.h5'
+fname = 'GemPy-II-survey-A.h5'
 if not os.path.isfile(fname):
-    url = ('https://github.com/empymod/emg3d-gallery/blob/master/examples/'
-           'data/surveys/GemPy-II-survey-A.h5?raw=true')
+    url = ("https://github.com/empymod/emg3d-gallery/blob/master/examples/"
+           f"data/surveys/{fname}?raw=true")
     with open(fname, 'wb') as f:
         t = requests.get(url)
         f.write(t.content)
@@ -54,11 +53,10 @@ survey
 # air-seawater-subsurface, which includes the topography of the seafloor.
 
 # Load true model
-mname = 'GemPy-II'
-fname = mname+'.h5'
+fname = 'GemPy-II.h5'
 if not os.path.isfile(fname):
-    url = ('https://github.com/empymod/emg3d-gallery/blob/master/examples/'
-           'data/models/GemPy-II.h5?raw=true')
+    url = ("https://github.com/empymod/emg3d-gallery/blob/master/examples/"
+           f"data/models/{fname}?raw=true")
     with open(fname, 'wb') as f:
         t = requests.get(url)
         f.write(t.content)

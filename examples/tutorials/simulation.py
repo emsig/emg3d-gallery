@@ -1,5 +1,5 @@
 """
-2. Simulation
+3. Simulation
 =============
 
 The easiest way to model CSEM data for a survey is to make use of the Survey
@@ -25,11 +25,10 @@ plt.style.use('ggplot')
 # Load Model
 # ----------
 
-mname = 'GemPy-II'
-fname = mname+'.h5'
+fname = 'GemPy-II.h5'
 if not os.path.isfile(fname):
-    url = ('https://github.com/empymod/emg3d-gallery/blob/master/examples/'
-           'data/models/GemPy-II.h5?raw=true')
+    url = ("https://github.com/empymod/emg3d-gallery/blob/master/examples/"
+           f"data/models/{fname}?raw=true")
     with open(fname, 'wb') as f:
         t = requests.get(url)
         f.write(t.content)
@@ -318,7 +317,7 @@ plt.show()
 #   parameter ``what``).
 
 # Survey file name
-survey_fname = '../data/surveys/'+mname+'-survey-A.h5'
+survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
 
 # To store, run
 survey.to_file(survey_fname)  # .h5, .json, or .npz
