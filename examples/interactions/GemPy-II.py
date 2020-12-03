@@ -196,7 +196,7 @@ fact = 5000/np.diff(extent[4:])
 # Loop over all x-y-values and convert cells above topography to water.
 for ix in range(nx):
     for iy in range(ny):
-        res[ix, iy, grid.vectorCCz > topo[ix, iy, 2]*fact] = 0.3
+        res[ix, iy, grid.cell_centers_z > topo[ix, iy, 2]*fact] = 0.3
 
 
 ###############################################################################

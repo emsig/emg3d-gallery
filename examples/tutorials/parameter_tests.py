@@ -66,13 +66,16 @@ sfield = emg3d.get_source_field(grid, src=src, freq=freq)
 
 # Layered_background
 res_x = 1e8*np.ones(grid.vnC)              # Air
-res_x[:, :, grid.vectorCCz <= 0] = 0.3     # Water
-res_x[:, :, grid.vectorCCz <= -1000] = 1.  # Background
+res_x[:, :, grid.cell_centers_z <= 0] = 0.3     # Water
+res_x[:, :, grid.cell_centers_z <= -1000] = 1.  # Background
 
 # Target
-xt = np.nonzero((grid.vectorCCx >= -500) & (grid.vectorCCx <= 5000))[0]
-yt = np.nonzero((grid.vectorCCy >= -1000) & (grid.vectorCCy <= 1000))[0]
-zt = np.nonzero((grid.vectorCCz >= -2100) & (grid.vectorCCz <= -1800))[0]
+xt = np.nonzero((grid.cell_centers_x >= -500) &
+                (grid.cell_centers_x <= 5000))[0]
+yt = np.nonzero((grid.cell_centers_y >= -1000) &
+                (grid.cell_centers_y <= 1000))[0]
+zt = np.nonzero((grid.cell_centers_z >= -2100) &
+                (grid.cell_centers_z <= -1800))[0]
 res_x[xt[0]:xt[-1]+1, yt[0]:yt[-1]+1, zt[0]:zt[-1]+1] = 100
 
 # Create a model instance

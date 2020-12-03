@@ -251,8 +251,8 @@ grid_2.plot_3d_slicer(
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 grid_2.plot_3d_slicer(
     efield_2.fx.ravel('F'), view='abs', v_type='Ex',
-    xlim=[grid_1.vectorNx[0], grid_1.vectorNx[-1]],  # Same square as grid_1
-    ylim=[grid_1.vectorNy[0], grid_1.vectorNy[-1]],  # Same square as grid_1
+    xlim=[grid_1.nodes_x[0], grid_1.nodes_x[-1]],  # Same square as grid_1
+    ylim=[grid_1.nodes_y[0], grid_1.nodes_y[-1]],  # Same square as grid_1
     zlim=[-5000, 1000],
     xslice=src[0], yslice=src[1], zslice=rec[2],
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})

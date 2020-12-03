@@ -155,8 +155,8 @@ grid.plot_3d_slicer(
 # Get cell-averaged values of the real component.
 ccr_efield = grid.aveE2CCV * efield.real
 
-grid.plotSlice(
-    ccr_efield, normal='Y', vType='CCv', view='vec',
+grid.plot_slice(
+    ccr_efield, normal='Y', v_type='CCv', view='vec',
     pcolor_opts={'norm': LogNorm()},
 )
 

@@ -134,7 +134,7 @@ mesh.plot_3d_slicer(models['res'], zslice=-2000, clim=clim)
 #
 # Create an interactive 3D render of the data.
 
-dataset = mesh.toVTK(models)
+dataset = mesh.to_vtk(models)
 
 # Create the rendering scene and add a grid axes
 p = pyvista.Plotter(notebook=True)
@@ -194,7 +194,7 @@ cres = emg3d.maps.grid2grid(mesh, res, grid, 'volume')
 model = emg3d.Model(grid, property_x=cres, mapping='Resistivity')
 
 # Set air resistivity
-iz = np.argmin(np.abs(grid.vectorNz))
+iz = np.argmin(np.abs(grid.nodes_z))
 model.property_x[:, :, iz:] = 1e8
 
 # Ensure at least top layer is water
@@ -229,8 +229,8 @@ grid.plot_3d_slicer(
 ###############################################################################
 
 # Interpolate for a "more detailed" image
-x = grid.vectorCCx
-y = grid.vectorCCy
+x = grid.cell_centers_x
+y = grid.cell_centers_y
 rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 rz = -2000

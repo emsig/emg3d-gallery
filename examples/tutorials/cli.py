@@ -50,7 +50,7 @@ dirs = ['surveys', 'models', 'cli']
 for fname, fdir in zip(fnames, dirs):
     if not os.path.isfile(fname):
         url = ("https://github.com/empymod/emg3d-gallery/blob/master/"
-               f"examples/data/fdir/{fname}?raw=true")
+               f"examples/data/{fdir}/{fname}?raw=true")
         with open(fname, 'wb') as f:
             t = requests.get(url)
             f.write(t.content)

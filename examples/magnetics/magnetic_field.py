@@ -114,21 +114,21 @@ def plot_lineplot_ex(x, y, data, epm_fs, grid):
     yi = y.size//2
 
     fn = sint.interp1d(x, data[:, xi], bounds_error=False)
-    x1 = fn(grid.vectorNx)
+    x1 = fn(grid.nodes_x)
 
     fn = sint.interp1d(y, data[yi, :], bounds_error=False)
-    y1 = fn(grid.vectorNx)
+    y1 = fn(grid.nodes_x)
 
     plt.figure(figsize=(15, 8))
 
     plt.plot(x/1e3, np.abs(epm_fs[:, xi]), 'C0', lw=3, label='Inline empymod')
     plt.plot(x/1e3, np.abs(data[:, xi]), 'k--', label='Inline emg3d')
-    plt.plot(grid.vectorNx/1e3, np.abs(x1), 'k*')
+    plt.plot(grid.nodes_x/1e3, np.abs(x1), 'k*')
 
     plt.plot(y/1e3, np.abs(epm_fs[yi, :]), 'C1', lw=3,
              label='Crossline empymod')
     plt.plot(y/1e3, np.abs(data[yi, :]), 'k:', label='Crossline emg3d')
-    plt.plot(grid.vectorNx/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
+    plt.plot(grid.nodes_x/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
 
     plt.yscale('log')
     plt.title(r'Inline and crossline $H_x$', fontsize=20)

@@ -109,21 +109,21 @@ def plot_lineplot_ex(x, y, data, epm_fs, grid):
     yi = y.size//2
 
     fn = sint.interp1d(x, data[:, xi], bounds_error=False)
-    x1 = fn(grid.vectorNx)
+    x1 = fn(grid.nodes_x)
 
     fn = sint.interp1d(y, data[yi, :], bounds_error=False)
-    y1 = fn(grid.vectorNx)
+    y1 = fn(grid.nodes_x)
 
     plt.figure(figsize=(15, 8))
 
     plt.plot(x/1e3, np.abs(epm_fs[:, xi]), 'C0', lw=3, label='Inline empymod')
     plt.plot(x/1e3, np.abs(data[:, xi]), 'k--', label='Inline emg3d')
-    plt.plot(grid.vectorNx/1e3, np.abs(x1), 'k*')
+    plt.plot(grid.nodes_x/1e3, np.abs(x1), 'k*')
 
     plt.plot(y/1e3, np.abs(epm_fs[yi, :]), 'C1', lw=3,
              label='Crossline empymod')
     plt.plot(y/1e3, np.abs(data[yi, :]), 'k:', label='Crossline emg3d')
-    plt.plot(grid.vectorNx/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
+    plt.plot(grid.nodes_x/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
 
     plt.yscale('log')
     plt.title(r'Inline and crossline $E_x$', fontsize=20)
@@ -185,17 +185,11 @@ epm_fs_z = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 90], verb=1,
 # emg3d
 # `````
 
-# Get computation domain as a function of frequency (resp., skin depth)
-hx_min, xdomain = emg3d.meshes.get_domain(x0=src_c[0], freq=0.1, min_width=20)
-hz_min, zdomain = emg3d.meshes.get_domain(x0=src_c[2], freq=0.1, min_width=20)
-
-# Create stretched grid
-nx = 2**7
-hx = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src_c[0])
-hy = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src_c[1])
-hz = emg3d.meshes.get_stretched_h(hz_min, zdomain, nx, src_c[2])
-pgrid = emg3d.TensorMesh([hx, hy, hz], x0=(xdomain[0], xdomain[0], zdomain[0]))
-pgrid
+hx = 20*1.034**np.arange(64)
+hx = np.r_[hx[::-1], hx]
+xshift = -hx.sum()/2
+origin = np.array([xshift, xshift, xshift])
+pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+src_c)
 
 
 ###############################################################################
@@ -250,7 +244,8 @@ plot_lineplot_ex(x, x, e3d_fs_x.real, epm_fs_x.real, pgrid)
 # ``xy``-``empymod`` result to the ``zy``-``emg3d`` result.
 
 # ===> Swap hy and hz; ydomain and zdomain <===
-pgrid = emg3d.TensorMesh([hx, hz, hy], x0=(xdomain[0], zdomain[0], xdomain[0]))
+shift = np.array([src_c[0], src_c[2], src_c[1]])
+pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+shift)
 
 # ===> Swap y- and z-resistivities <===
 pmodel = emg3d.Model(
@@ -288,7 +283,8 @@ plot_result_rel(epm_fs_z, e3d_fs_z, x, r'Diffusive Fullspace $E_z$',
 # ``xy``-``empymod`` result to the ``xz``-``emg3d`` result.
 
 # ===> Swap hx and hz; xdomain and zdomain <===
-pgrid = emg3d.TensorMesh([hz, hy, hx], x0=(zdomain[0], xdomain[0], xdomain[0]))
+shift = np.array([src_c[2], src_c[1], src_c[0]])
+pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+shift)
 
 # ===> Swap x- and z-resistivities <===
 pmodel = emg3d.Model(

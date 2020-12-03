@@ -96,15 +96,15 @@ model_lg_con = emg3d.Model(
 fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
 
 # log10-res
-f0 = grid.plotSlice(model_lg_res.property_x, v_type='CC',
-                    normal='Y', ind=20, ax=axs[0], clim=[-3, 3])
+f0 = grid.plot_slice(model_lg_res.property_x, v_type='CC',
+                     normal='Y', ind=20, ax=axs[0], clim=[-3, 3])
 axs[0].set_title(r'Resistivity (Ohm.m); $\log_{10}$-scale')
 axs[0].set_xlim([-1000, 8000])
 axs[0].set_ylim([-3000, 500])
 
 # log10-con
-f1 = grid.plotSlice(model_lg_con.property_x, v_type='CC',
-                    normal='Y', ind=20, ax=axs[1], clim=[-3, 3])
+f1 = grid.plot_slice(model_lg_con.property_x, v_type='CC',
+                     normal='Y', ind=20, ax=axs[1], clim=[-3, 3])
 axs[1].set_title(r'Conductivity (S/m); $\log_{10}$-scale')
 axs[1].set_xlim([-1000, 8000])
 axs[1].set_ylim([-3000, 500])

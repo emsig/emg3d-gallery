@@ -66,13 +66,14 @@ mesh = discretize.TensorMesh(
 )
 
 # Center mesh
-mesh.x0 = np.r_[-mesh.hx.sum()/2, -mesh.hy.sum()/2, -mesh.hz[:-npadz].sum()]
+mesh.x0 = np.r_[-mesh.h[0].sum()/2, -mesh.h[1].sum()/2,
+                -mesh.h[2][:-npadz].sum()]
 
 # Create the source field for this mesh and given frequency
 sfield = emg3d.get_source_field(mesh, src, freq, strength=0)
 
 # We take the receiver locations at the actual CCx-locations
-rec_x = mesh.vectorCCx[12:-12]
+rec_x = mesh.cell_centers_x[12:-12]
 print(f"Receiver locations:\n{rec_x}\n")
 
 mesh
@@ -141,14 +142,14 @@ em3_bg = emg3d.solve(mesh, pmodel_bg, sfield, verb=4, nu_pre=0,
 # Set up the receivers
 rx_locs = discretize.utils.ndgrid([rec_x, np.r_[0], np.r_[-water_depth]])
 rx_list = [
-    FDEM.receivers.Point_e(
+    FDEM.receivers.PointElectricField(
         orientation='x', component="real", locations=rx_locs),
-    FDEM.receivers.Point_e(
+    FDEM.receivers.PointElectricField(
         orientation='x', component="imag", locations=rx_locs)
 ]
 
 # We use the emg3d-source-vector, to ensure we use the same in both cases
-src_sp = FDEM.sources.RawVec_e(rx_list, s_e=sfield.vector, freq=freq)
+src_sp = FDEM.sources.RawVec_e(rx_list, s_e=sfield.vector, frequency=freq)
 src_list = [src_sp]
 survey = FDEM.Survey(src_list)
 
@@ -157,7 +158,7 @@ sim = FDEM.simulation.Simulation3DElectricField(
         mesh,
         survey=survey,
         sigmaMap=SimPEG.maps.IdentityMap(mesh),
-        Solver=pymatsolver.Pardiso,
+        solver=pymatsolver.Pardiso,
 )
 
 ###############################################################################

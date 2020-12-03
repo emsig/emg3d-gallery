@@ -56,7 +56,8 @@ survey = emg3d.surveys.Survey(
 hx = np.array([1000, 1500, 1000, 1500, 1000])
 hy = np.array([1000, 1500, 1000, 1500, 1000])
 hz = np.array([1800., 200., 200., 200., 300., 300., 2000.,  500.])
-model_grid = emg3d.TensorMesh([hx, hy, hz], x0=np.array([-3000, -3000, -5000]))
+model_grid = emg3d.TensorMesh(
+        [hx, hy, hz], origin=np.array([-3000, -3000, -5000]))
 
 # Initiate model with conductivities of 1 S/m.
 model = emg3d.Model(model_grid, np.ones(model_grid.nC), mapping='Conductivity')
@@ -160,7 +161,7 @@ data_misfit = simulation_as.misfit
 as_grad = simulation_as.gradient
 
 # Set water and air gradient to NaN for the plots.
-as_grad[:, :, comp_grid.vectorCCz > -2000] = np.nan
+as_grad[:, :, comp_grid.cell_centers_z > -2000] = np.nan
 
 
 ###############################################################################
@@ -181,7 +182,7 @@ as_grad[:, :, comp_grid.vectorCCz > -2000] = np.nan
 epsilon = 0.0001
 
 # Define the cross-section.
-iy = comp_grid.nCy//2
+iy = comp_grid.shape_cells[1]//2
 
 
 def comp_fd_grad(ixiz):
@@ -218,8 +219,8 @@ fd_grad = np.zeros_like(as_grad)
 
 # Get all ix-iz combinations (without air/water).
 ixiz = list(itertools.product(
-    range(comp_grid.nCx),
-    range(len(comp_grid.vectorCCz[comp_grid.vectorCCz < -2000])))
+    range(comp_grid.shape_cells[0]),
+    range(len(comp_grid.cell_centers_z[comp_grid.cell_centers_z < -2000])))
 )
 
 # Wrap it asynchronously
@@ -249,21 +250,21 @@ diff_sign = np.sign(as_grad/fd_grad)
 def plot_diff(ax, diff):
     """Helper routine to show cells of big NRMSD or different sign."""
 
-    for ix in range(comp_grid.hx.size):
-        for iz in range(comp_grid.hz.size):
+    for ix in range(comp_grid.h[0].size):
+        for iz in range(comp_grid.h[2].size):
 
             if diff_sign[ix, iy, iz] < 0:
                 ax.add_patch(
                         Rectangle(
-                            (comp_grid.vectorNx[ix], comp_grid.vectorNz[iz]),
-                            comp_grid.hx[ix], comp_grid.hz[iz], fill=False,
+                            (comp_grid.nodes_x[ix], comp_grid.nodes_z[iz]),
+                            comp_grid.h[0][ix], comp_grid.h[2][iz], fill=False,
                             color='k', lw=1))
 
             if nrmsd[ix, iy, iz] >= diff:
                 ax.add_patch(
                         Rectangle(
-                            (comp_grid.vectorNx[ix], comp_grid.vectorNz[iz]),
-                            comp_grid.hx[ix], comp_grid.hz[iz], fill=False,
+                            (comp_grid.nodes_x[ix], comp_grid.nodes_z[iz]),
+                            comp_grid.h[0][ix], comp_grid.h[2][iz], fill=False,
                             color='m', linestyle='--', lw=0.5))
 
 
@@ -298,15 +299,15 @@ pcolor_opts = {'cmap': 'RdBu_r',
 fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
 
 # Adjoint-State Gradient
-f0 = comp_grid.plotSlice(as_grad, normal='Y', ind=iy, ax=axs[0],
-                         clim=[-vmax, vmax], pcolor_opts=pcolor_opts)
+f0 = comp_grid.plot_slice(as_grad, normal='Y', ind=iy, ax=axs[0],
+                          pcolor_opts=pcolor_opts)
 axs[0].set_title("Adjoint-State Gradient")
 set_axis(axs, 0)
 plot_diff(axs[0], 10)
 
 # Finite-Difference Gradient
-f1 = comp_grid.plotSlice(fd_grad, normal='Y', ind=iy, ax=axs[1],
-                         clim=[-vmax, vmax], pcolor_opts=pcolor_opts)
+f1 = comp_grid.plot_slice(fd_grad, normal='Y', ind=iy, ax=axs[1],
+                          pcolor_opts=pcolor_opts)
 axs[1].set_title("Finite-Difference Gradient")
 set_axis(axs, 1)
 plot_diff(axs[1], 10)

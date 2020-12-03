@@ -178,16 +178,16 @@ def plot_lineplot_ex(x, y, data, epm_fs, grid):
     yi = y.size//2
 
     fn = sint.interp1d(x, data[:, xi], bounds_error=False)
-    # x1 = fn(grid.vectorNx)
+    # x1 = fn(grid.nodes_x)
 
     fn = sint.interp1d(y, data[yi, :], bounds_error=False)
-    y1 = fn(grid.vectorNx)
+    y1 = fn(grid.nodes_x)
 
     plt.figure(figsize=(15, 8))
 
     plt.plot(y/1e3, np.abs(epm_fs[yi, :]), 'C1', lw=3, label='Inline empymod')
     plt.plot(y/1e3, np.abs(data[yi, :]), 'k:', label='Inline emg3d')
-    plt.plot(grid.vectorNx/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
+    plt.plot(grid.nodes_x/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
 
     plt.yscale('log')
     plt.title(r'Inline $H_x$', fontsize=20)

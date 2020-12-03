@@ -71,16 +71,17 @@ mesh
 # it. We use the fact that the seawater has resistivity of 0.3 Ohm.m in the
 # model, and is the lowest value.
 
-seafloor = np.ones((mesh.nCx, mesh.nCy))
-for i in range(mesh.nCx):
-    for ii in range(mesh.nCy):
+seafloor = np.ones((mesh.shape_cells[0], mesh.shape_cells[1]))
+for i in range(mesh.shape_cells[0]):
+    for ii in range(mesh.shape_cells[1]):
         # We take the seafloor to be the first cell which resistivity
         # is below 0.33
-        seafloor[i, ii] = mesh.vectorNz[:-1][
+        seafloor[i, ii] = mesh.nodes_z[:-1][
                 model.property_x[i, ii, :] < 0.33][0]
 
 # Create a 2D interpolation function from it
-bathymetry = RectBivariateSpline(mesh.vectorCCx, mesh.vectorCCy, seafloor)
+bathymetry = RectBivariateSpline(
+        mesh.cell_centers_x, mesh.cell_centers_y, seafloor)
 
 
 ###############################################################################

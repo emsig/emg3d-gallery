@@ -146,7 +146,7 @@ grad[~subsurface] = np.nan
 # Plot the gradient
 mesh.plot_3d_slicer(
         grad.ravel('F'), xslice=12000, yslice=7000, zslice=-4000,
-        pcolorOpts={'cmap': 'RdBu_r',
+        pcolor_opts={'cmap': 'RdBu_r',
                     'norm': SymLogNorm(
                         linthresh=1e-2, base=10, vmin=-1e1, vmax=1e1)}
         )
