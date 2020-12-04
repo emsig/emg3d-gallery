@@ -147,8 +147,8 @@ grad[~subsurface] = np.nan
 mesh.plot_3d_slicer(
         grad.ravel('F'), xslice=12000, yslice=7000, zslice=-4000,
         pcolor_opts={'cmap': 'RdBu_r',
-                    'norm': SymLogNorm(
-                        linthresh=1e-2, base=10, vmin=-1e1, vmax=1e1)}
+                     'norm': SymLogNorm(
+                         linthresh=1e-2, base=10, vmin=-1e1, vmax=1e1)}
         )
 
 # Add survey
