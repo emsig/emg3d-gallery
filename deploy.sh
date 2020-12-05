@@ -3,11 +3,16 @@ cd docs
 make html
 cd ..
 
-# Copy relevant bits to temporary direction, move there.
-mkdir tmp
-cp -r docs/_build/html/* tmp/.
-cp -r .git tmp/.
-cd tmp
+# Create tmp-dir
+tmp_dir=$(mktemp -d -t emg3d-gallery-XXXXXXXXXX)
+echo $tmp_dir
+cpwd=$(pwd)
+gallery=$(basename "$PWD")
+cp -rf $cpwd/ $tmp_dir/.
+cd $tmp_dir/$gallery
+
+# Move html to root directory
+mv docs/_build/html .
 
 # Stash current status
 git stash
@@ -16,7 +21,15 @@ git stash
 git branch -D gh-pages
 git checkout --orphan gh-pages
 
-# Create nojekyll and htaccess
+# Remove all files but 'html' and 'git'
+rm -rf docs/ examples/ README.rst LICENSE .gitignore
+rm -rf environment.yml Makefile deploy.sh
+
+# Extract webpage, delete html dir.
+mv html/* .
+rm -r html
+
+# Create nojekyll
 touch .nojekyll
 
 # Upload site
@@ -24,6 +37,5 @@ git add --all
 git commit -m 'Update gallery'
 git push -f --set-upstream origin gh-pages
 
-# Move back and remove temporary direction.
-cd ..
-rm -rf tmp
+# Clean up
+rm -rf $tmp_dir
