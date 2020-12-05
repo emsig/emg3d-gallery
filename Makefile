@@ -14,32 +14,31 @@ flake8:
 	flake8 docs/conf.py examples/
 
 doc:
-	cd docs && make html && cd ..
+	cd docs && make html
 
 doc-clean:
-	cd docs && rm -rf gallery/ && rm -rf _build/ && make html && cd ..
+	cd docs && rm -rf gallery/ && rm -rf _build/ && make html
 
 preview:
-	xdg-open docs/_build/html/index.html &
+	xdg-open docs/_build/html/index.html
 
 linkcheck:
-	cd docs && make html -b linkcheck && cd ..
+	cd docs && make html -b linkcheck
 
+.ONESHELL:
 deploy:
-	git stash
 	mkdir tmp
 	cp -r docs/_build/html/* tmp/.
 	cp -r .git tmp/.
 	cd tmp/
 	touch .nojekyll
-	git checkout -f --orphan gh-pages
+	git branch -D gh-pages &>/dev/null
+	git checkout --orphan gh-pages
 	git add --all
 	git commit -m 'Update gallery'
 	git push -f --set-upstream origin gh-pages
-	git checkout master
 	cd ..
 	rm -rf tmp/
-	git stash pop
 
 clean:
 	rm -rf docs/gallery/ docs/_build/
