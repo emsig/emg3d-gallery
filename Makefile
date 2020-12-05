@@ -4,6 +4,7 @@ help:
 	@echo "  flake8       style check with flake8"
 	@echo "  doc          build docs (update existing)"
 	@echo "  doc-clean    build docs (new, removing any existing)"
+	@echo "  preview      renders docs in Browser"
 	@echo "  linkcheck    check all links in docs"
 	@echo "  deploy       deploy gallery to gh-pages"
 	@echo "  clean        clean up all generated files"
@@ -17,6 +18,9 @@ doc:
 
 doc-clean:
 	cd docs && rm -rf gallery/ && rm -rf _build/ && make html && cd ..
+
+preview:
+	xdg-open docs/_build/html/index.html &
 
 linkcheck:
 	cd docs && make html -b linkcheck && cd ..
