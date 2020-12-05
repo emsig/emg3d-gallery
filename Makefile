@@ -6,7 +6,7 @@ help:
 	@echo "  doc-clean    build docs (new, removing any existing)"
 	@echo "  preview      renders docs in Browser"
 	@echo "  linkcheck    check all links in docs"
-	@echo "  deploy       deploy gallery to gh-pages"
+	@echo "  deploy       deploy gallery to gh-pages (as is; run doc before)"
 	@echo "  clean        clean up all generated files"
 	@echo ""
 
@@ -26,7 +26,20 @@ linkcheck:
 	cd docs && make html -b linkcheck && cd ..
 
 deploy:
-	bash deploy.sh
+	git stash
+	mkdir tmp
+	cp -r docs/_build/html/* tmp/.
+	cp -r .git tmp/.
+	cd tmp/
+	touch .nojekyll
+	git checkout -f --orphan gh-pages
+	git add --all
+	git commit -m 'Update gallery'
+	git push -f --set-upstream origin gh-pages
+	git checkout master
+	cd ..
+	rm -rf tmp/
+	git stash pop
 
 clean:
 	rm -rf docs/gallery/ docs/_build/
