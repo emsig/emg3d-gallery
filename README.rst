@@ -34,16 +34,16 @@ To create the gallery:
 
 .. code-block:: console
 
-    conda env create -f environment.yml
+    make install
     conda activate emg3d-gallery
-    cd docs
-    make html
+    make doc
 
 To remove the environment:
 
 .. code-block:: console
 
-    conda remove --name emg3d-gallery --all
+    make remove
+
 
 License information
 ===================
