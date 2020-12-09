@@ -1,7 +1,7 @@
 help:
 	@echo "Commands:"
 	@echo ""
-	@echo "  install      install conda-env `emg3d-gallery`"
+	@echo "  install      install conda-env emg3d-gallery"
 	@echo "  flake8       style check with flake8"
 	@echo "  doc          build docs (update existing)"
 	@echo "  doc-clean    build docs (new, removing any existing)"
@@ -9,7 +9,7 @@ help:
 	@echo "  linkcheck    check all links in docs"
 	@echo "  deploy       deploy gallery to gh-pages (as is; run doc before)"
 	@echo "  clean        clean up all generated files"
-	@echo "  remove       remove conda-env `emg3d-gallery`"
+	@echo "  remove       remove conda-env emg3d-gallery"
 	@echo ""
 
 .ONESHELL:

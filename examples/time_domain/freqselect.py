@@ -7,7 +7,7 @@ The time domain examples :ref:`sphx_glr_gallery_time_domain_fullspace.py` and
 of frequencies to go from the frequency domain to the time domain. The chosen
 frequencies where designed in an interactive GUI, which you can find in the
 repo `empymod/frequency-selection
-<https://github.com/empymod/frequency-selection>`_.
+<https://github.com/emsig/frequency-selection>`_.
 
 The repo contains a Python file ``freqselect.py``, which contains the routines,
 and two notebooks:

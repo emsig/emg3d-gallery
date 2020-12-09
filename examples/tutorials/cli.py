@@ -49,7 +49,7 @@ fnames = ['GemPy-II-survey-A.h5', 'GemPy-II.h5', 'emg3d.cfg']
 dirs = ['surveys', 'models', 'cli']
 for fname, fdir in zip(fnames, dirs):
     if not os.path.isfile(fname):
-        url = ("https://github.com/empymod/emg3d-gallery/blob/master/"
+        url = ("https://github.com/emsig/emg3d-gallery/blob/master/"
                f"examples/data/{fdir}/{fname}?raw=true")
         with open(fname, 'wb') as f:
             t = requests.get(url)

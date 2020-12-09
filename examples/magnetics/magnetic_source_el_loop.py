@@ -19,7 +19,7 @@ We create a horizontal, electric loop source to generate a vertical magnetic
 field in a homogeneous VTI fullspace, and compare it to the semi-analytical
 solution of ``empymod``. (The code ``empymod`` is an open-source code which can
 model CSEM responses for a layered medium including VTI electrical anisotropy,
-see `empymod.github.io <https://empymod.github.io>`_.)
+see `emsig.github.io <https://emsig.github.io>`_.)
 
 The method used here can be applied to an arbitrarily rotated, arbitrarily
 shaped source loop.

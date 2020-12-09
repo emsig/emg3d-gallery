@@ -31,9 +31,9 @@ Check-out the old versions for more information with regards to the above
 figures:
 
 - `4a_RAM-requirements.ipynb
-  <https://github.com/empymod/emg3d-examples/blob/master/4a_RAM-requirements.ipynb>`_,
+  <https://github.com/emsig/emg3d-examples/blob/master/4a_RAM-requirements.ipynb>`_,
 - `4b_Runtime.ipynb
-  <https://github.com/empymod/emg3d-examples/blob/master/4b_Runtime.ipynb>`_.
+  <https://github.com/emsig/emg3d-examples/blob/master/4b_Runtime.ipynb>`_.
 
 """
 import emg3d

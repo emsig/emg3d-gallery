@@ -28,7 +28,7 @@ plt.style.use('ggplot')
 
 fname = 'GemPy-II-survey-A.h5'
 if not os.path.isfile(fname):
-    url = ("https://github.com/empymod/emg3d-gallery/blob/master/examples/"
+    url = ("https://github.com/emsig/emg3d-gallery/blob/master/examples/"
            f"data/surveys/{fname}?raw=true")
     with open(fname, 'wb') as f:
         t = requests.get(url)
@@ -55,7 +55,7 @@ survey
 # Load true model
 fname = 'GemPy-II.h5'
 if not os.path.isfile(fname):
-    url = ("https://github.com/empymod/emg3d-gallery/blob/master/examples/"
+    url = ("https://github.com/emsig/emg3d-gallery/blob/master/examples/"
            f"data/models/{fname}?raw=true")
     with open(fname, 'wb') as f:
         t = requests.get(url)

@@ -3,8 +3,8 @@
 ==============================
 
 The code ``empymod`` is an open-source code which can model CSEM responses for
-a layered medium including VTI electrical anisotropy, see `empymod.github.io
-<https://empymod.github.io>`_.
+a layered medium including VTI electrical anisotropy, see `emsig.github.io
+<https://emsig.github.io>`_.
 
 Content:
 

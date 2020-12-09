@@ -85,7 +85,7 @@ This is what we do in this example, for an arbitrarily rotated loop in a
 homogeneous, isotropic fullspace. We compare the result to the semi-analytical
 solution of ``empymod``. (The code ``empymod`` is an open-source code which can
 model CSEM responses for a layered medium including VTI electrical anisotropy,
-see `empymod.github.io <https://empymod.github.io>`_.)
+see `emsig.github.io <https://emsig.github.io>`_.)
 
 """
 import emg3d

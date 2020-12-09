@@ -1,5 +1,5 @@
-.. image:: https://raw.githubusercontent.com/empymod/emg3d-logo/master/logo-emg3d-cut.png
-   :target: https://empymod.github.io
+.. image:: https://raw.githubusercontent.com/emsig/emg3d-logo/master/logo-emg3d-cut.png
+   :target: https://emsig.github.io
    :alt: emg3d logo
    
 ----
@@ -22,9 +22,9 @@ through jitted numba-functions.
 More information
 ================
 
-- **Website**: https://empymod.github.io,
+- **Website**: https://emsig.github.io,
 - **Documentation**: https://emg3d.rtfd.io,
-- **Source Code**: https://github.com/empymod/emg3d,
+- **Source Code**: https://github.com/emsig/emg3d,
 
 
 Workflow

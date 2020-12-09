@@ -12,7 +12,7 @@ rotated finite length bipole in a homogeneous VTI fullspace, but here with
 isotropic magnetic permeability, and compare it to the semi-analytical solution
 of ``empymod``. (The code ``empymod`` is an open-source code which can model
 CSEM responses for a layered medium including VTI electrical anisotropy, see
-`empymod.github.io <https://empymod.github.io>`_.)
+`emsig.github.io <https://emsig.github.io>`_.)
 
 This is an adapted version of
 :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py`. Consult that example to
