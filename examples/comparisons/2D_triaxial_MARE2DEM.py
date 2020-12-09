@@ -3,8 +3,8 @@
 =========================================
 
 ``MARE2DEM`` is an open-source, finite element 2.5D code for controlled-source
-electromagnetic (CSEM) and magnetotelluric (MT) data, see `mare2dem.ucsd.edu
-<https://mare2dem.ucsd.edu>`_.
+electromagnetic (CSEM) and magnetotelluric (MT) data, see
+`mare2dem.bitbucket.io <https://mare2dem.bitbucket.io>`_.
 
 """
 import emg3d
