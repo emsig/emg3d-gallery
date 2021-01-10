@@ -48,6 +48,6 @@ To remove the environment:
 License information
 ===================
 
-Copyright 2018-2020 The emg3d Developers.
+Copyright 2018-2021 The emg3d Developers.
 
 Licensed under the Apache License, Version 2.0, see the ``LICENSE``-file.

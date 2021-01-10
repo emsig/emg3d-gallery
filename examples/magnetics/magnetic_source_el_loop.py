@@ -208,23 +208,10 @@ pgrid
 # Generate the loop source field
 # ------------------------------
 #
-# Here we generate the magnetic source field by making an electric square loop
-# of 1 meter side length, hence an area of one square meter.
-
-# Initiate a zero-valued source field.
-sfield = emg3d.fields.SourceField(pgrid, freq=freq)
-
-# Define the four dipole segments.
-srcloop = [
-    np.r_[src[0]-0.5, src[0]+0.5, src[1]-0.5, src[1]-0.5, src[2], src[2]],
-    np.r_[src[0]+0.5, src[0]+0.5, src[1]-0.5, src[1]+0.5, src[2], src[2]],
-    np.r_[src[0]+0.5, src[0]-0.5, src[1]+0.5, src[1]+0.5, src[2], src[2]],
-    np.r_[src[0]-0.5, src[0]-0.5, src[1]+0.5, src[1]-0.5, src[2], src[2]],
-]
-
-# Add the source fields up.
-for srcl in srcloop:
-    sfield += emg3d.get_source_field(pgrid, srcl, freq, strength)
+# Setting ``msrc=True`` creates an electric square loop (hence a magnetic
+# source) perpendicular to the provided point dipole of 1 meter side length,
+# hence an area of one square meter.
+sfield = emg3d.get_source_field(pgrid, src, freq, strength, msrc=True)
 
 
 ###############################################################################
