@@ -150,8 +150,8 @@ ry = rx.transpose()
 resh = 1.              # Horizontal resistivity
 aniso = np.sqrt(2.)    # Anisotropy
 resv = resh*aniso**2   # Vertical resistivity
-src = [0, 0, -300, 0, -90]  # Source: [x, y, z, azimuth, dip]
-zrec = -400.           # Receiver depth
+src = [0, 0, 300, 0, 90]  # Source: [x, y, z, azimuth, dip]
+zrec = 400.            # Receiver depth
 freq = 0.77            # Frequency
 strength = np.pi       # Source strength
 
@@ -167,25 +167,27 @@ model = {
 }
 
 ###############################################################################
+# `empymod` uses by default a `LHS` with positive z down, emg3d a `RHS` with
+# positive z up. We therefore switch the sign of the H-field.
 
 rxx = rx.ravel()
 ryy = ry.ravel()
 
 # e-field
-epm_fs_ex = -empymod.loop(rec=[rxx, ryy, zrec, 0, 0], mrec=False, verb=3,
-                          **model).reshape(np.shape(rx))
-epm_fs_ey = -empymod.loop(rec=[rxx, ryy, zrec, 90, 0], mrec=False, verb=1,
-                          **model).reshape(np.shape(rx))
-epm_fs_ez = -empymod.loop(rec=[rxx, ryy, zrec, 0, 90], mrec=False, verb=1,
-                          **model).reshape(np.shape(rx))
+epm_fs_ex = empymod.loop(rec=[rxx, ryy, zrec, 0, 0], mrec=False, verb=3,
+                         **model).reshape(np.shape(rx))
+epm_fs_ey = empymod.loop(rec=[rxx, ryy, zrec, 90, 0], mrec=False, verb=1,
+                         **model).reshape(np.shape(rx))
+epm_fs_ez = empymod.loop(rec=[rxx, ryy, zrec, 0, 90], mrec=False, verb=1,
+                         **model).reshape(np.shape(rx))
 
 # h-field
-epm_fs_hx = empymod.loop(rec=[rxx, ryy, zrec, 0, 0], verb=1,
-                         **model).reshape(np.shape(rx))
-epm_fs_hy = empymod.loop(rec=[rxx, ryy, zrec, 90, 0], verb=1,
-                         **model).reshape(np.shape(rx))
-epm_fs_hz = empymod.loop(rec=[rxx, ryy, zrec, 0, 90], verb=1,
-                         **model).reshape(np.shape(rx))
+epm_fs_hx = - empymod.loop(rec=[rxx, ryy, zrec, 0, 0], verb=1,
+                           **model).reshape(np.shape(rx))
+epm_fs_hy = - empymod.loop(rec=[rxx, ryy, zrec, 90, 0], verb=1,
+                           **model).reshape(np.shape(rx))
+epm_fs_hz = - empymod.loop(rec=[rxx, ryy, zrec, 0, 90], verb=1,
+                           **model).reshape(np.shape(rx))
 
 
 ###############################################################################
