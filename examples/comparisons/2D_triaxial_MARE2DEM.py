@@ -19,7 +19,7 @@ from matplotlib.colors import LogNorm
 # --------------------
 
 # Location of data files.
-data_url = 'https://raw.githubusercontent.com/empymod/emg3d-gallery/'
+data_url = 'https://raw.githubusercontent.com/emsig/emg3d-gallery/'
 data_url += 'master/examples/data/MARE2DEM/'
 
 mar_tg = np.loadtxt(data_url+'triaxial.0.resp', skiprows=93, usecols=6)
