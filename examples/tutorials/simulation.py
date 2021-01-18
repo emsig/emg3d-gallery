@@ -318,10 +318,10 @@ plt.show()
 #   parameter ``what``).
 
 # Survey file name
-survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
+# survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
 
 # To store, run
-survey.to_file(survey_fname)  # .h5, .json, or .npz
+# survey.to_file(survey_fname)  # .h5, .json, or .npz
 
 # To load, run
 # survey = emg3d.surveys.Survey.from_file(survey_fname)
