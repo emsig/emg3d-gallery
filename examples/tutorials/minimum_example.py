@@ -22,7 +22,7 @@ An absolutely minimal example, which only requires ``emg3d``, ``numba``, and
     # Create a simple grid, 8 cells of length 1 in each direction,
     # starting at the origin.
     hx = np.ones(8)
-    grid = emg3d.TensorMesh(h=[hx, hx, hx], x0=np.array([0, 0, 0]))
+    grid = emg3d.TensorMesh(h=[hx, hx, hx], x0=(0, 0, 0))
 
     # The model is a fullspace with tri-axial anisotropy, defined as
     # resistivities (Ohm.m).
@@ -30,14 +30,12 @@ An absolutely minimal example, which only requires ``emg3d``, ``numba``, and
                         property_z=3.3, mapping='Resistivity')
 
     # The source is an x-directed, horizontal dipole at
-    # (x=4, y=4, z=4, azimuth=0, dip=0), frequency is 10 Hz.
-    sfield = emg3d.get_source_field(grid=grid, src=(4, 4, 4, 0, 0), freq=10.0)
+    # (x=4, y=4, z=4, azimuth=0, elevation=0)
+    source = emg3d.TxElectricDipole(coordinates=(4, 4, 4, 0, 0))
 
-    # Compute the electric signal.
-    efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
-
-    # Get the corresponding magnetic signal.
-    hfield = emg3d.get_h_field(grid=grid, model=model, field=efield)
+    # Compute the electric signal for frequency=10Hz
+    efield = emg3d.solve_source(model=model, source=source,
+                                frequency=10, verb=4)
 
     # ======================================================================= #
 
@@ -94,22 +92,29 @@ model = emg3d.Model(grid, property_x=1.5, property_y=1.8,
 grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x, clim=[1.4, 1.6])
 
 ###############################################################################
-# 3. Source field
-# ---------------
+# 3. Source
+# ---------
 #
-# The source is an x-directed dipole at the origin, with a 10 Hz signal of 1 A
-# (``src`` is defined either as ``[x, y, z, dip, azimuth]`` or ``[x0, x1, y0,
-# y1, z0, z1]``; the strength can be set via the ``strength`` parameter).
+# The source is an x-directed dipole at the origin, of 1 A strength.
+# Source coordinates for an electric dipole can be either
+#
+# - ``[[x1, y1, z1], [x2, y2, z2]]``;
+# - ``[x1, x2, y1, y2, z1, z2]``, or
+# - ``[x, y, z, azimuth, elevation]``,
+#
+# the strength can be set via the ``strength`` parameter).
 
-sfield = emg3d.get_source_field(grid=grid, src=[0, 0, 0, 0, 0], freq=10)
+source = emg3d.TxElectricDipole(coordinates=(0, 0, 0, 0, 0))
 
 ###############################################################################
 # 4. Compute the electric field
 # -----------------------------
 #
-# Finally we can compute the electric field with ``emg3d``:
+# Finally we can compute the electric field with ``emg3d`` for a certain
+# frequency, here for 10 Hz:
 
-efield = emg3d.solve(grid=grid, model=model, sfield=sfield, verb=4)
+efield = emg3d.solve_source(
+        model=model, source=source, frequency=10, verb=4, plain=True)
 
 ###############################################################################
 # The computation requires in this case seven multigrid F-cycles and takes just
@@ -138,7 +143,7 @@ grid.plot_3d_slicer(
 # We can also get the magnetic field and plot it (note that `v_type='Fx'` now,
 # not `Ex`, as the magnetic fields lives on the faces of the Yee grid):
 
-hfield = emg3d.get_h_field(grid=grid, model=model, field=efield)
+hfield = emg3d.get_magnetic_field(model=model, efield=efield)
 grid.plot_3d_slicer(
         hfield.fx.ravel('F'), view='abs', v_type='Fx',
         pcolor_opts={'norm': LogNorm()}
@@ -153,9 +158,9 @@ grid.plot_3d_slicer(
 # implemented tools, such as plotting the field lines:
 
 # Get cell-averaged values of the real component.
-ccr_efield = grid.aveE2CCV * efield.real
+ccr_efield = grid.aveE2CCV * efield.field.real
 
-grid.plot_slice(
+_ = grid.plot_slice(
     ccr_efield, normal='Y', v_type='CCv', view='vec',
     pcolor_opts={'norm': LogNorm()},
 )
