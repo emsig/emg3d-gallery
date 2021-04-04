@@ -111,19 +111,17 @@ def plot_data_rel(ax, name, data, x, vmin=-15., vmax=-7., mode="log"):
         if mode == "abs":
             cf = ax.pcolormesh(
                     x/1000, x/1000, np.log10(np.abs(data)), linewidth=0,
-                    rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax,
-                    shading='nearest')
+                    cmap="viridis", vmin=vmin, vmax=vmax, shading='nearest')
         else:
             cf = ax.pcolormesh(
-                    x/1000, x/1000, data, linewidth=0, rasterized=True,
-                    cmap="PuOr_r",
+                    x/1000, x/1000, data, linewidth=0, cmap="PuOr_r",
                     norm=SymLogNorm(linthresh=10**vmin,
                                     vmin=-10**vmax, vmax=10**vmax),
                     shading='nearest')
     else:
         cf = ax.pcolormesh(
                 x/1000, x/1000, np.log10(data), vmin=vmin, vmax=vmax,
-                linewidth=0, rasterized=True,
+                linewidth=0,
                 cmap=plt.cm.get_cmap("RdBu_r", 8), shading='nearest')
 
     return cf
@@ -205,7 +203,8 @@ def plot_lineplot_ex(x, y, data, epm_fs, grid):
 # ```````
 
 # Survey parameters
-x = (np.arange(1025))*5-2560
+# x = (np.arange(1025))*5-2560  # <= Higher precision, but slower
+x = (np.arange(256))*20-2550
 rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 
@@ -217,7 +216,7 @@ freq = 0.77            # Frequency
 strength = np.pi       # Source strength
 
 # Input for empymod
-model = {
+inp = {
     'src': src,
     'depth': [],
     'res': resh,
@@ -233,36 +232,36 @@ ryy = ry.ravel()
 
 # e-field
 epm_fs_ex = empymod.loop(rec=[rxx, ryy, zrec, 0, 0], mrec=False, verb=3,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 epm_fs_ey = empymod.loop(rec=[rxx, ryy, zrec, 90, 0], mrec=False, verb=1,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 epm_fs_ez = empymod.loop(rec=[rxx, ryy, zrec, 0, 90], mrec=False, verb=1,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 
 # h-field
 epm_fs_hx = empymod.loop(rec=[rxx, ryy, zrec, 0, 0], verb=1,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 epm_fs_hy = empymod.loop(rec=[rxx, ryy, zrec, 90, 0], verb=1,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 epm_fs_hz = empymod.loop(rec=[rxx, ryy, zrec, 0, 90], verb=1,
-                         **model).reshape(np.shape(rx))
+                         **inp).reshape(np.shape(rx))
 
 
 ###############################################################################
 # emg3d
 # `````
-
-# Get computation domain as a function of frequency (resp., skin depth)
-hx_min, xdomain = emg3d.meshes.get_domain(x0=src[0], freq=0.1, min_width=20)
-hz_min, zdomain = emg3d.meshes.get_domain(x0=src[2], freq=0.1, min_width=20)
+#
+# We choose a coarse grid here, to speed up the computation. For a result
+# of higher precision choose the finer gridding.
 
 # Create stretched grid
-nx = 2**7
-hx = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[0])
-hy = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[1])
-hz = emg3d.meshes.get_stretched_h(hz_min, zdomain, nx, src[2])
-pgrid = emg3d.TensorMesh([hx, hy, hz], x0=(xdomain[0], xdomain[0], zdomain[0]))
-pgrid
+# hx = 20*1.034**np.arange(64)  # <= Higher precision, but slower
+hx = 40*1.045**np.arange(40)
+hx = np.r_[hx[::-1], hx]
+xshift = -hx.sum()/2
+origin = np.array([xshift, xshift, xshift])
+grid = emg3d.TensorMesh([hx, hx, hx], origin=origin+src[:3])
+grid
 
 ###############################################################################
 # Abuse the parameters to take advantage of the duality principle
@@ -286,51 +285,51 @@ pgrid
 #     \mu_\mathrm{r} = 1/\rho = \sigma \, .
 
 # Get the model        => Set property_x = 1 and mu_r = 1./resh
-pmodel = emg3d.Model(pgrid, property_x=1., mu_r=1./resh, mapping='Resistivity')
+model = emg3d.Model(grid, property_x=1., mu_r=1./resh, mapping='Resistivity')
 
 
 ###############################################################################
 
-# Get the source field
-sfield = emg3d.get_source_field(pgrid, src, freq, strength)
+# Create an electric dipole source
+source = emg3d.TxElectricDipole(src, strength=strength)
 
 # Compute the electric field
-hfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
+hfield = emg3d.solve_source(model, source, freq, verb=4, plain=True)
 
 
 ###############################################################################
 # Compare the magnetic field generated from the magnetic source
 # -------------------------------------------------------------
 
-e3d_fs_hx = emg3d.get_receiver(pgrid, hfield.fx, (rx, ry, zrec))
+e3d_fs_hx = hfield.get_receiver((rx, ry, zrec, 0, 0))
 plot_result_rel(epm_fs_hx, e3d_fs_hx, x, r'Diffusive Fullspace $H_x$',
                 vmin=-15, vmax=-8, mode='abs')
 
 
 ###############################################################################
 
-e3d_fs_hy = emg3d.get_receiver(pgrid, hfield.fy, (rx, ry, zrec))
+e3d_fs_hy = hfield.get_receiver((rx, ry, zrec, 90, 0))
 plot_result_rel(epm_fs_hy, e3d_fs_hy, x, r'Diffusive Fullspace $H_y$',
                 vmin=-15, vmax=-8, mode='abs')
 
 
 ###############################################################################
 
-e3d_fs_hz = emg3d.get_receiver(pgrid, hfield.fz, (rx, ry, zrec))
+e3d_fs_hz = hfield.get_receiver((rx, ry, zrec, 0, 90))
 plot_result_rel(epm_fs_hz, e3d_fs_hz, x, r'Diffusive Fullspace $H_z$',
                 vmin=-14, vmax=-7, mode='abs')
 
 
 ###############################################################################
 
-plot_lineplot_ex(x, x, e3d_fs_hx.real, epm_fs_hx.real, pgrid)
+plot_lineplot_ex(x, x, e3d_fs_hx.real, epm_fs_hx.real, grid)
 
 
 ###############################################################################
 # Compare the electric field generated from the magnetic source
 # -------------------------------------------------------------
 #
-# ``get_h_field`` gets the :math:`H`-field from the :math:`E`-field with
+# ``get_magnetic_field`` gets the :math:`H`-field from the :math:`E`-field with
 # Faraday's law,
 #
 # .. math::
@@ -346,34 +345,34 @@ plot_lineplot_ex(x, x, e3d_fs_hx.real, epm_fs_hx.real, pgrid)
 # .. math::
 #     :label: iwu
 #
-#     -\rm{i}\omega\mu\, .
+#     \rm{i}\omega\mu\, .
 #
 # Compute electric field :math:`E` from the magnetic field
 # ````````````````````````````````````````````````````````
 
-efield = emg3d.get_h_field(
-        pgrid, pmodel, hfield)*2j*np.pi*freq*4e-7*np.pi
+efield = emg3d.get_magnetic_field(model, hfield)
+efield.field *= 2j*np.pi*freq*4e-7*np.pi
 
 
 ###############################################################################
 # Plot
 # ````
 
-e3d_fs_ex = emg3d.get_receiver(pgrid, efield.fx, (rx, ry, zrec))
+e3d_fs_ex = efield.get_receiver((rx, ry, zrec, 0, 0))
 plot_result_rel(epm_fs_ex, e3d_fs_ex, x, r'Diffusive Fullspace $E_x$',
                 vmin=-17, vmax=-10, mode='abs')
 
 
 ###############################################################################
 
-e3d_fs_ey = emg3d.get_receiver(pgrid, efield.fy, (rx, ry, zrec))
+e3d_fs_ey = efield.get_receiver((rx, ry, zrec, 90, 0))
 plot_result_rel(epm_fs_ey, e3d_fs_ey, x, r'Diffusive Fullspace $E_y$',
                 vmin=-17, vmax=-10, mode='abs')
 
 
 ###############################################################################
 
-e3d_fs_ez = emg3d.get_receiver(pgrid, efield.fz, (rx, ry, zrec))
+e3d_fs_ez = efield.get_receiver((rx, ry, zrec, 0, 90))
 plot_result_rel(epm_fs_ez, e3d_fs_ez, x, r'Diffusive Fullspace $E_z$',
                 vmin=-17, vmax=-10, mode='abs')
 

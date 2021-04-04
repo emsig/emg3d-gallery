@@ -48,19 +48,17 @@ def plot_data_rel(ax, name, data, x, vmin=-15., vmax=-7., mode="log"):
         if mode == "abs":
             cf = ax.pcolormesh(
                     x/1000, x/1000, np.log10(np.abs(data)), linewidth=0,
-                    rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax,
-                    shading='nearest')
+                    cmap="viridis", vmin=vmin, vmax=vmax, shading='nearest')
         else:
             cf = ax.pcolormesh(
-                    x/1000, x/1000, data, linewidth=0, rasterized=True,
-                    cmap="PuOr_r",
+                    x/1000, x/1000, data, linewidth=0, cmap="PuOr_r",
                     norm=SymLogNorm(linthresh=10**vmin,
                                     vmin=-10**vmax, vmax=10**vmax),
                     shading='nearest')
     else:
         cf = ax.pcolormesh(
                 x/1000, x/1000, np.log10(data), vmin=vmin, vmax=vmax,
-                linewidth=0, rasterized=True,
+                linewidth=0,
                 cmap=plt.cm.get_cmap("RdBu_r", 8), shading='nearest')
 
     return cf
@@ -142,7 +140,8 @@ def plot_lineplot_ex(x, y, data, epm_fs, grid):
 # ```````
 
 # Survey parameters
-x = (np.arange(1025))*5-2560
+# x = (np.arange(1025))*5-2560  # <= Higher precision, but slower
+x = (np.arange(256))*20-2550
 rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 
@@ -150,14 +149,15 @@ ry = rx.transpose()
 resh = 1.              # Horizontal resistivity
 aniso = np.sqrt(2.)    # Anisotropy
 resv = resh*aniso**2   # Vertical resistivity
-src = [0, 0, -300, 0, 90]  # Source: [x, y, z, azimuth, dip]
+src = [-0.5, 0.5, -0.3, 0.3, -300.5, -299.5]  # Source:[x1, x2, y1, y2, z1, z2]
+src_c = np.mean(np.array(src).reshape(3, 2), 1).ravel()  # Center pts of source
 zrec = -400.           # Receiver depth
 freq = 0.77            # Frequency
 strength = np.pi       # Source strength
 
 # Input for empymod
-model = {
-    'src': (src[0], src[1], -src[2], src[3], -src[4]),
+inp = {
+    'src': src,
     'depth': [],
     'res': resh,
     'aniso': aniso,
@@ -174,66 +174,64 @@ rxx = rx.ravel()
 ryy = ry.ravel()
 
 # e-field
-epm_fs_ex = empymod.loop(rec=[rxx, ryy, -zrec, 0, 0], mrec=False, verb=3,
-                         **model).reshape(np.shape(rx))
-epm_fs_ey = empymod.loop(rec=[rxx, ryy, -zrec, 90, 0], mrec=False, verb=1,
-                         **model).reshape(np.shape(rx))
-epm_fs_ez = empymod.loop(rec=[rxx, ryy, -zrec, 0, -90], mrec=False, verb=1,
-                         **model).reshape(np.shape(rx))
+epm_fs_ex = empymod.loop(rec=[rxx, ryy, zrec, 0, 0], mrec=False, verb=3,
+                         **inp).reshape(np.shape(rx))
+epm_fs_ey = empymod.loop(rec=[rxx, ryy, zrec, 90, 0], mrec=False, verb=1,
+                         **inp).reshape(np.shape(rx))
 
 # h-field
-epm_fs_hx = empymod.loop(rec=[rxx, ryy, -zrec, 0, 0], verb=1,
-                         **model).reshape(np.shape(rx))
-epm_fs_hy = empymod.loop(rec=[rxx, ryy, -zrec, 90, 0], verb=1,
-                         **model).reshape(np.shape(rx))
-epm_fs_hz = empymod.loop(rec=[rxx, ryy, -zrec, 0, -90], verb=1,
-                         **model).reshape(np.shape(rx))
+epm_fs_hx = -empymod.loop(rec=[rxx, ryy, zrec, 0, 0], verb=1,
+                          **inp).reshape(np.shape(rx))
+epm_fs_hy = -empymod.loop(rec=[rxx, ryy, zrec, 90, 0], verb=1,
+                          **inp).reshape(np.shape(rx))
+epm_fs_hz = -empymod.loop(rec=[rxx, ryy, zrec, 0, 90], verb=1,
+                          **inp).reshape(np.shape(rx))
 
 
 ###############################################################################
 # emg3d
 # `````
-
-# Get computation domain as a function of frequency (resp., skin depth)
-hx_min, xdomain = emg3d.meshes.get_domain(x0=src[0], freq=0.1, min_width=20)
-hz_min, zdomain = emg3d.meshes.get_domain(x0=src[2], freq=0.1, min_width=20)
+#
+# We choose a coarse grid here, to speed up the computation. For a result
+# of higher precision choose the finer gridding.
 
 # Create stretched grid
-nx = 2**7
-hx = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[0])
-hy = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[1])
-hz = emg3d.meshes.get_stretched_h(hz_min, zdomain, nx, src[2])
-pgrid = emg3d.TensorMesh([hx, hy, hz], x0=(xdomain[0], xdomain[0], zdomain[0]))
-pgrid
+# hx = 20*1.034**np.arange(64)  # <= Higher precision, but slower
+hx = 40*1.045**np.arange(40)
+hx = np.r_[hx[::-1], hx]
+xshift = -hx.sum()/2
+origin = np.array([xshift, xshift, xshift])
+grid = emg3d.TensorMesh([hx, hx, hx], origin=origin+src_c)
+grid
 
 ###############################################################################
-# Generate the loop source field
-# ------------------------------
+# Create a magnetic source through an electric loop
+# -------------------------------------------------
 #
-# Setting ``electric=False`` creates an electric square loop (hence a magnetic
-# source) perpendicular to the provided point dipole of 1 meter side length,
-# hence an area of one square meter.
-sfield = emg3d.get_source_field(pgrid, src, freq, strength, electric=False)
+# ``emg3d.TxMagneticDipole`` creates an electric square loop perpendicular to
+# the defined dipole, where the area of the square loop corresponds to the
+# length of the dipole.
 
-
-###############################################################################
+# Create a magnetic dipole source
+source = emg3d.TxMagneticDipole(src, strength=strength)
 
 # Get the model
-pmodel = emg3d.Model(
-        pgrid, property_x=resh, property_z=resv, mapping='Resistivity')
+model = emg3d.Model(grid, property_x=resh, property_z=resv,
+                    mapping='Resistivity')
 
 # Compute the electric field
-efield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
+efield = emg3d.solve_source(model, source, freq, verb=4, plain=True)
+
 
 ###############################################################################
 # Compare the electric field generated from the magnetic source
 # -------------------------------------------------------------
-e3d_fs_ex = emg3d.get_receiver(pgrid, efield.fx, (rx, ry, zrec))
+e3d_fs_ex = efield.get_receiver((rx, ry, zrec, 0, 0))
 plot_result_rel(epm_fs_ex, e3d_fs_ex, x, r'Diffusive Fullspace $E_x$',
                 vmin=-17, vmax=-10, mode='abs')
 
 ###############################################################################
-e3d_fs_ey = emg3d.get_receiver(pgrid, efield.fy, (rx, ry, zrec))
+e3d_fs_ey = efield.get_receiver((rx, ry, zrec, 90, 0))
 plot_result_rel(epm_fs_ey, e3d_fs_ey, x, r'Diffusive Fullspace $E_y$',
                 vmin=-17, vmax=-10, mode='abs')
 
@@ -250,30 +248,33 @@ plot_result_rel(epm_fs_ey, e3d_fs_ey, x, r'Diffusive Fullspace $E_y$',
 # Compute magnetic field :math:`H` from the electric field
 # ````````````````````````````````````````````````````````
 
-hfield = emg3d.get_h_field(pgrid, pmodel, efield)
+hfield = emg3d.get_magnetic_field(model, efield)
 
 ###############################################################################
 # Plot
 # ````
-e3d_fs_hx = emg3d.get_receiver(pgrid, hfield.fx, (rx, ry, zrec))
+e3d_fs_hx = hfield.get_receiver((rx, ry, zrec, 0, 0))
 plot_result_rel(epm_fs_hx, e3d_fs_hx, x, r'Diffusive Fullspace $H_x$',
-                vmin=-15, vmax=-8, mode='abs')
+                vmin=-13, vmax=-8, mode='abs')
 
 ###############################################################################
 
-e3d_fs_hy = emg3d.get_receiver(pgrid, hfield.fy, (rx, ry, zrec))
+e3d_fs_hy = hfield.get_receiver((rx, ry, zrec, 90, 0))
 plot_result_rel(epm_fs_hy, e3d_fs_hy, x, r'Diffusive Fullspace $H_y$',
-                vmin=-15, vmax=-8, mode='abs')
+                vmin=-13, vmax=-8, mode='abs')
 
 ###############################################################################
 
-e3d_fs_hz = emg3d.get_receiver(pgrid, hfield.fz, (rx, ry, zrec))
+e3d_fs_hz = hfield.get_receiver((rx, ry, zrec, 0, 90))
 plot_result_rel(epm_fs_hz, e3d_fs_hz, x, r'Diffusive Fullspace $H_z$',
-                vmin=-14, vmax=-7, mode='abs')
+                vmin=-13, vmax=-8, mode='abs')
 
 ###############################################################################
+# The line-plot shows clearly the high error around the source, due to our
+# coarse meshing. By choosing a finer mesh at the center we can reduce this
+# error significantly, at the cost of computational time.
 
-plot_lineplot_ex(x, x, e3d_fs_hx.real, epm_fs_hx.real, pgrid)
+plot_lineplot_ex(x, x, e3d_fs_hx.real, epm_fs_hx.real, grid)
 
 ###############################################################################
 emg3d.Report()
