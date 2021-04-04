@@ -1,15 +1,16 @@
 help:
 	@echo "Commands:"
 	@echo ""
-	@echo "  install      install conda-env emg3d-gallery"
-	@echo "  flake8       style check with flake8"
-	@echo "  doc          build docs (update existing)"
-	@echo "  doc-clean    build docs (new, removing any existing)"
-	@echo "  preview      renders docs in Browser"
-	@echo "  linkcheck    check all links in docs"
-	@echo "  deploy       deploy gallery to gh-pages (as is; run doc before)"
-	@echo "  clean        clean up all generated files"
-	@echo "  remove       remove conda-env emg3d-gallery"
+	@echo "  install       install conda-env emg3d-gallery"
+	@echo "  flake8        style check with flake8"
+	@echo "  doc           build docs (update existing)"
+	@echo "  example FILE= build particular example"
+	@echo "  doc-clean     build docs (new, removing any existing)"
+	@echo "  preview       renders docs in Browser"
+	@echo "  linkcheck     check all links in docs"
+	@echo "  deploy        deploy gallery to gh-pages (as is; run doc before)"
+	@echo "  clean         clean up all generated files"
+	@echo "  remove        remove conda-env emg3d-gallery"
 	@echo ""
 
 .ONESHELL:
@@ -26,7 +27,10 @@ doc:
 	cd docs && make html
 
 doc-clean:
-	cd docs && rm -rf gallery/ && rm -rf _build/ && make html
+	cd docs && rm -rf gallery/*/ && rm -rf _build/ && make html
+
+example:
+	cd docs && sphinx-build -D sphinx_gallery_conf.filename_pattern=$(FILE) -b html -d _build/doctrees . _build/html
 
 preview:
 	xdg-open docs/_build/html/index.html
@@ -50,7 +54,7 @@ deploy:
 	rm -rf tmp/
 
 clean:
-	rm -rf docs/gallery/ docs/_build/
+	rm -rf docs/gallery/*/ docs/_build/
 	rm -rf examples/comparisons/raw.githubusercontent.com/
 	rm -rf examples/interactions/GemPy-II-topo.npy
 	rm -rf examples/time_domain/*.npz

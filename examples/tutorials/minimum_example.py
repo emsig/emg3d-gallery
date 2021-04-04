@@ -53,8 +53,8 @@ plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 4
 
 ###############################################################################
-# 1. Mesh
-# -------
+# 1.1 Mesh
+# --------
 #
 # First we define the mesh (see :class:`emg3d.meshes.TensorMesh` for more
 # info). In reality, this task requires some careful considerations. E.g., to
@@ -72,8 +72,8 @@ grid = emg3d.TensorMesh(
 grid
 
 ###############################################################################
-# 2. Model
-# --------
+# 1.2 Model
+# ---------
 #
 # Next we define a very simple fullspace resistivity model with
 # :math:`\rho_x=1.5\,\Omega\,\rm{m}`, :math:`\rho_y=1.8\,\Omega\,\rm{m}`, and
@@ -92,8 +92,8 @@ model = emg3d.Model(grid, property_x=1.5, property_y=1.8,
 grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x, clim=[1.4, 1.6])
 
 ###############################################################################
-# 3. Source
-# ---------
+# 1.3 Source
+# ----------
 #
 # The source is an x-directed dipole at the origin, of 1 A strength.
 # Source coordinates for an electric dipole can be either
@@ -107,8 +107,8 @@ grid.plot_3d_slicer(np.ones(grid.vnC)*model.property_x, clim=[1.4, 1.6])
 source = emg3d.TxElectricDipole(coordinates=(0, 0, 0, 0, 0))
 
 ###############################################################################
-# 4. Compute the electric field
-# -----------------------------
+# 1.4 Compute the electric field
+# ------------------------------
 #
 # Finally we can compute the electric field with ``emg3d`` for a certain
 # frequency, here for 10 Hz:
@@ -124,8 +124,8 @@ efield = emg3d.solve_source(
 # problem to solve. More explanations can be found in the example
 # :ref:`sphx_glr_gallery_tutorials_parameter_tests.py`.
 #
-# 5. Plot the result
-# ------------------
+# 1.5 Plot the result
+# -------------------
 #
 # We can again utilize the in-built functions of a ``discretize``-grid to plot,
 # e.g., the x-directed electric field.
@@ -137,8 +137,8 @@ grid.plot_3d_slicer(
 
 
 ###############################################################################
-# 6. Compute and plot the magnetic field
-# --------------------------------------
+# 1.6 Compute and plot the magnetic field
+# ---------------------------------------
 #
 # We can also get the magnetic field and plot it (note that `v_type='Fx'` now,
 # not `Ex`, as the magnetic fields lives on the faces of the Yee grid):
@@ -151,8 +151,8 @@ grid.plot_3d_slicer(
 
 
 ###############################################################################
-# 7. Plotting the field
-# ---------------------
+# 1.7 Plotting the field
+# ----------------------
 #
 # Using ``discretize`` for meshing has the advantage that we can use all the
 # implemented tools, such as plotting the field lines:

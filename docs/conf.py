@@ -1,7 +1,7 @@
 import time
 import warnings
 from emg3d import __version__
-from sphinx_gallery.sorting import ExplicitOrder, ExampleTitleSortKey
+from sphinx_gallery.sorting import ExampleTitleSortKey
 
 # ==== 1. Extensions  ====
 
@@ -23,17 +23,14 @@ todo_include_todos = True
 
 # Sphinx gallery configuration
 sphinx_gallery_conf = {
-    'examples_dirs': '../examples',
-    'gallery_dirs': 'gallery',
-    'subsection_order': ExplicitOrder([
-        '../examples/tutorials',
-        '../examples/comparisons',
-        '../examples/magnetics',
-        '../examples/time_domain',
-        '../examples/tools',
-        '../examples/reproducing',
-        '../examples/interactions',
-        ]),
+    'examples_dirs': ['../examples/tutorials', '../examples/comparisons',
+                      '../examples/magnetics', '../examples/time_domain',
+                      '../examples/tools', '../examples/reproducing',
+                      '../examples/interactions'],
+    'gallery_dirs': ['gallery/tutorials', 'gallery/comparisons',
+                     'gallery/magnetics', 'gallery/time_domain',
+                     'gallery/tools', 'gallery/reproducing',
+                     'gallery/interactions'],
     'capture_repr': ('_repr_html_', '__repr__'),
     # Patter to search for example files
     "filename_pattern": r"\.py",
@@ -103,6 +100,7 @@ html_favicon = '_static/favicon.ico'
 html_theme_options = {
     "github_url": "https://github.com/emsig/emg3d",
     "external_links": [
+        {"name": "Documentation", "url": "https://emg3d.rtfd.io"},
         {"name": "EMSiG", "url": "https://emsig.github.io"},
     ],
     # "use_edit_page_button": True,
