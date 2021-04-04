@@ -117,19 +117,19 @@ plt.show()
 # Compute electric fields
 # -----------------------
 
+source = emg3d.TxElectricDipole(coordinates=src)
 solver_opts = {
-        'verb': 2, 'sslsolver': True,
-        'semicoarsening': True, 'linerelaxation': True
+        'source': source,
+        'frequency': freq,
+        'verb': 1,
 }
 
-sfield = emg3d.get_source_field(grid, src, freq, strength=0)
-efield_lg_res = emg3d.solve(grid, model_lg_res, sfield, **solver_opts)
-efield_lg_con = emg3d.solve(grid, model_lg_con, sfield, **solver_opts)
+efield_lg_res = emg3d.solve_source(model_lg_res, **solver_opts)
+efield_lg_con = emg3d.solve_source(model_lg_con, **solver_opts)
 
 # Extract responses at receiver locations.
-rectuple = (rec[0], rec[1], rec[2])
-rec_lg_res = emg3d.get_receiver(grid, efield_lg_res.fx, rectuple)
-rec_lg_con = emg3d.get_receiver(grid, efield_lg_con.fx, rectuple)
+rec_lg_res = efield_lg_res.get_receiver((*rec, 0, 0))
+rec_lg_con = efield_lg_con.get_receiver((*rec, 0, 0))
 
 ###############################################################################
 # Compare the two results

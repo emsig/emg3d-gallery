@@ -1,8 +1,13 @@
 #############
-emg3d-gallery
+emg3d Gallery
 #############
 
-Version: |version| ~ Date: |today|
+:Release: |version|
+:Date: |today|
+:Source: `github.com/emsig/emg3d <https://github.com/emsig/emg3d>`_
+:EMSiG: `emsig.github.io <https://emsig.github.io>`_
+
+----
 
 .. include:: ../README.rst
   :start-after: sphinx-inclusion-marker
