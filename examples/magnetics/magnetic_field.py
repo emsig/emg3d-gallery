@@ -187,12 +187,16 @@ epm_fs_hz = -empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 90],
 # of higher precision choose the finer gridding.
 
 # Create stretched grid
-# hx = 20*1.034**np.arange(64)  # <= Higher precision, but slower
-hx = 40*1.045**np.arange(40)
-hx = np.r_[hx[::-1], hx]
-xshift = -hx.sum()/2
-origin = np.array([xshift, xshift, xshift])
-grid = emg3d.TensorMesh([hx, hx, hx], origin=origin+src_c)
+grid = emg3d.construct_mesh(
+    frequency=freq,
+    properties=resh,
+    center=src_c,
+    domain=([-2500, 2500], [-2500, 2500], [-2900, 2100]),
+    min_width_limits=40,  # Decrease for higher precision
+    stretching=[1.045, 1.045],  # Decrease for higher precision
+    lambda_from_center=True,
+    lambda_factor=0.8,
+)
 grid
 
 ###############################################################################

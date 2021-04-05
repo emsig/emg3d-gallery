@@ -22,7 +22,7 @@ dependencies:
   - sphinx
   - sphinx-gallery
   - numpydoc
-  - pydata_sphinx_theme
+  - pydata-sphinx-theme
   - mkl-service
   - pip:
     - pyvista
