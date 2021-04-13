@@ -3,234 +3,160 @@
 ==============================
 
 The code ``empymod`` is an open-source code which can model CSEM responses for
-a layered medium including VTI electrical anisotropy, see `emsig.github.io
-<https://emsig.github.io>`_.
+a layered medium including VTI electrical anisotropy, see `emsig.xyz
+<https://emsig.xyz>`_.
 
 Content:
 
-1. Full-space VTI model for a finite length, finite strength, rotated bipole.
+1. Full-space VTI model for a finite length, finite strength, rotated bipole:
 
-  a. Regular VTI case
-  b. Tri-axial anisotropy check: Swap ``x`` and ``z`` in ``emg3d``; compare
-     ``yz``-slice
-  c. Tri-axial anisotropy check: Swap ``y`` and ``z`` in ``emg3d``; compare
-     ``xz``-slice
+   a. Regular VTI case
+   b. Tri-axial anisotropy check: Swap ``x`` and ``z`` in ``emg3d``; compare
+      ``yz``-slice
+   c. Tri-axial anisotropy check: Swap ``y`` and ``z`` in ``emg3d``; compare
+      ``xz``-slice
 
 2. Layered model for a deep water model with a point dipole source.
+
+.. note::
+
+    You also have to download the file
+    :ref:`sphx_glr_gallery_comparisons_plot_comparisons.py` and place it in the
+    same directory as this example.
 
 """
 import emg3d
 import empymod
 import numpy as np
-import matplotlib.pyplot as plt
-from scipy import interpolate as sint
-from matplotlib.colors import LogNorm, SymLogNorm
-plt.style.use('ggplot')
+import plot_comparisons as plot  # <= See *Note* above.
 # sphinx_gallery_thumbnail_path = '_static/thumbs/empymod-iw.png'
-
-
-###############################################################################
-def plot_data_rel(ax, name, data, x, vmin=-15., vmax=-7., mode="log"):
-    """Plot function."""
-
-    ax.set_title(name)
-    ax.set_xlim(min(x)/1000, max(x)/1000)
-    ax.set_ylim(min(x)/1000, max(x)/1000)
-    ax.axis("equal")
-
-    if isinstance(mode, str):
-        if mode == "abs":
-            cf = ax.pcolormesh(
-                    x/1000, x/1000, np.log10(np.abs(data)), linewidth=0,
-                    rasterized=True, cmap="viridis", vmin=vmin, vmax=vmax,
-                    shading='nearest')
-        else:
-            cf = ax.pcolormesh(
-                    x/1000, x/1000, data, linewidth=0, rasterized=True,
-                    cmap="PuOr_r",
-                    norm=SymLogNorm(linthresh=10**vmin,
-                                    vmin=-10**vmax, vmax=10**vmax),
-                    shading='nearest')
-    else:
-        cf = ax.pcolormesh(
-                x/1000, x/1000, np.log10(data), vmin=vmin, vmax=vmax,
-                linewidth=0, rasterized=True,
-                cmap=plt.cm.get_cmap("RdBu_r", 8), shading='nearest')
-
-    return cf
-
-
-###############################################################################
-def plot_result_rel(depm, de3d, x, title, vmin=-15., vmax=-7., mode="log"):
-    fig, axs = plt.subplots(figsize=(18, 10), nrows=2, ncols=3)
-
-    if mode == "log":
-        case = ""
-    else:
-        case = "|"
-
-    # Plot Re(data)
-    cf0 = plot_data_rel(axs[0, 0], r"(a) "+case+"Re(empymod)"+case,
-                        depm.real, x, vmin, vmax, mode)
-    plot_data_rel(axs[0, 1], r"(b) "+case+"Re(emg3d)"+case,
-                  de3d.real, x, vmin, vmax, mode)
-    cf2 = plot_data_rel(axs[0, 2], r"(c) Error real part",
-                        np.abs((depm.real-de3d.real)/depm.real)*100, x,
-                        vmin=-2, vmax=2, mode=True)
-
-    # Plot Im(data)
-    plot_data_rel(axs[1, 0], r"(d) "+case+"Im(empymod)"+case,
-                  depm.imag, x, vmin, vmax, mode)
-    plot_data_rel(axs[1, 1], r"(e) "+case+"Im(emg3d)"+case,
-                  de3d.imag, x, vmin, vmax, mode)
-    plot_data_rel(axs[1, 2], r"(f) Error imaginary part",
-                  np.abs((depm.imag-de3d.imag)/depm.imag)*100,
-                  x, vmin=-2, vmax=2, mode=True)
-
-    # Colorbars
-    fig.colorbar(cf0, ax=axs[0, :], label=r"$\log_{10}$ Amplitude (V/m)")
-    cbar = fig.colorbar(cf2, ax=axs[1, :], label=r"Relative Error")
-    cbar.set_ticks([-2, -1, 0, 1, 2])
-    cbar.ax.set_yticklabels([r"$0.01\,\%$", r"$0.1\,\%$", r"$1\,\%$",
-                             r"$10\,\%$", r"$100\,\%$"])
-
-    # Axis label
-    fig.text(0.4, 0.05, "Inline Offset (km)", fontsize=14)
-    fig.text(0.08, 0.6, "Crossline Offset (km)", rotation=90, fontsize=14)
-
-    # Title
-    fig.suptitle(title, y=1, fontsize=20)
-    plt.show()
-
-
-###############################################################################
-def plot_lineplot_ex(x, y, data, epm_fs, grid):
-    xi = x.size//2
-    yi = y.size//2
-
-    fn = sint.interp1d(x, data[:, xi], bounds_error=False)
-    x1 = fn(grid.nodes_x)
-
-    fn = sint.interp1d(y, data[yi, :], bounds_error=False)
-    y1 = fn(grid.nodes_x)
-
-    plt.figure(figsize=(15, 8))
-
-    plt.plot(x/1e3, np.abs(epm_fs[:, xi]), 'C0', lw=3, label='Inline empymod')
-    plt.plot(x/1e3, np.abs(data[:, xi]), 'k--', label='Inline emg3d')
-    plt.plot(grid.nodes_x/1e3, np.abs(x1), 'k*')
-
-    plt.plot(y/1e3, np.abs(epm_fs[yi, :]), 'C1', lw=3,
-             label='Crossline empymod')
-    plt.plot(y/1e3, np.abs(data[yi, :]), 'k:', label='Crossline emg3d')
-    plt.plot(grid.nodes_x/1e3, np.abs(y1), 'k*', label='Grid points emg3d')
-
-    plt.yscale('log')
-    plt.title(r'Inline and crossline $E_x$', fontsize=20)
-    plt.xlabel('Offset (km)', fontsize=14)
-    plt.ylabel(r'|Amplitude (V/m)|', fontsize=14)
-    plt.legend()
-    plt.show()
 
 
 ###############################################################################
 # 1. Full-space VTI model for a finite length, finite strength, rotated bipole
 # ----------------------------------------------------------------------------
 #
+# In order to shorten the build-time of the gallery we use here a coarse model,
+# which will result in bigger errors. If you want better results run the finer
+# model.
+coarse_model = True
+
+
+###############################################################################
+# Survey and model parameters
+# ```````````````````````````
+
+# Receiver coordinates
+if coarse_model:
+    x = (np.arange(256))*20-2550
+else:
+    x = (np.arange(1025))*5-2560
+rx = np.repeat([x, ], np.size(x), axis=0)
+ry = rx.transpose()
+frx, fry = rx.ravel(), ry.ravel()
+rz = -400.0
+
+# Source coordinates, frequency, and strength
+source = emg3d.TxElectricDipole(
+    coordinates=[-50, 50, -30, 30, -320., -280.],  # [x1, x2, y1, y2, z1, z2]
+    strength=np.pi,  # A
+)
+frequency = 0.77  # Hz
+
+# Model parameters
+h_res = 1.              # Horizontal resistivity
+aniso = np.sqrt(2.)     # Anisotropy
+v_res = h_res*aniso**2  # Vertical resistivity
+
+
+###############################################################################
 # 1.a Regular VTI case
 # ````````````````````
 #
 # empymod
 # ```````
+# Note: The coordinate system of empymod is positive z down, for emg3d it is
+# positive z up. We have to switch therefore src_z, rec_z, and dip.
 
-# Survey parameters
-x = (np.arange(1025))*5-2560
-rx = np.repeat([x, ], np.size(x), axis=0)
-ry = rx.transpose()
-
-# Model parameters
-resh = 1.              # Horizontal resistivity
-aniso = np.sqrt(2.)    # Anisotropy
-resv = resh*aniso**2   # Vertical resistivity
-src = [-50, 50, -30, 30, -320., -280.]  # Source: [x1, x2, y1, y2, z1, z2]
-src_c = np.mean(np.array(src).reshape(3, 2), 1).ravel()  # Center pts of source
-zrec = -400.           # Receiver depth
-freq = 0.77            # Frequency
-strength = np.pi       # Source strength
-
-# Input for empymod
-model = {
-    'src': src,
+# Collect common input for empymod.
+inp = {
+    'src': np.r_[source.coordinates[:4], -source.coordinates[4:]],
     'depth': [],
-    'res': resh,
+    'res': h_res,
     'aniso': aniso,
-    'strength': strength,
+    'strength': source.strength,
     'srcpts': 5,
-    'freqtime': freq,
-    'xdirect': True,  # Use analytical fullspace solution
+    'freqtime': frequency,
     'htarg': {'pts_per_dec': -1},
 }
 
-
-###############################################################################
-
-epm_fs_x = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 0], verb=3,
-                          **model).reshape(np.shape(rx))
-epm_fs_y = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 90, 0], verb=1,
-                          **model).reshape(np.shape(rx))
-epm_fs_z = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 90], verb=1,
-                          **model).reshape(np.shape(rx))
+# Compute
+epm_ex = empymod.bipole(
+    rec=[frx, fry, -rz, 0, 0], verb=3, **inp).reshape(np.shape(rx))
+epm_ey = empymod.bipole(
+    rec=[frx, fry, -rz, 90, 0], **inp).reshape(np.shape(rx))
+epm_ez = empymod.bipole(
+    rec=[frx, fry, -rz, 0, -90], **inp).reshape(np.shape(rx))
 
 ###############################################################################
 # emg3d
 # `````
 
-hx = 20*1.034**np.arange(64)
-hx = np.r_[hx[::-1], hx]
-xshift = -hx.sum()/2
-origin = np.array([xshift, xshift, xshift])
-pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+src_c)
+if coarse_model:
+    min_width_limits = 40
+    stretching = [1.045, 1.045]
+else:
+    min_width_limits = 20
+    stretching = [1.03, 1.045]
 
+# Create stretched grid
+grid = emg3d.construct_mesh(
+    frequency=frequency,
+    properties=h_res,
+    center=source.center,
+    domain=([-2500, 2500], [-2500, 2500], [-2900, 2100]),
+    min_width_limits=min_width_limits,
+    stretching=stretching,
+    lambda_from_center=True,
+    lambda_factor=0.8,
+)
+grid
 
 ###############################################################################
 
-# Get the model
-pmodel = emg3d.Model(
-        pgrid, property_x=resh, property_z=resv, mapping='Resistivity')
-
-# Get the source field
-sfield = emg3d.get_source_field(pgrid, src, freq, strength)
+# Define the model
+model = emg3d.Model(
+    grid, property_x=h_res, property_z=v_res, mapping='Resistivity')
 
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
-
+efield = emg3d.solve_source(model, source, frequency, verb=4, plain=True)
 
 ###############################################################################
 # Plot
 # ````
 
-e3d_fs_x = emg3d.get_receiver(pgrid, pfield.fx, (rx, ry, zrec))
-plot_result_rel(epm_fs_x, e3d_fs_x, x, r'Diffusive Fullspace $E_x$',
-                vmin=-12, vmax=-6, mode='abs')
-
-
-###############################################################################
-
-e3d_fs_y = emg3d.get_receiver(pgrid, pfield.fy, (rx, ry, zrec))
-plot_result_rel(epm_fs_y, e3d_fs_y, x, r'Diffusive Fullspace $E_y$',
-                vmin=-12, vmax=-6, mode='abs')
-
+e3d_ex = efield.get_receiver((rx, ry, rz, 0, 0))
+plot.plot_sections(
+        epm_ex, e3d_ex, x, r'Diffusive Fullspace $E_x$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
 ###############################################################################
-
-e3d_fs_z = emg3d.get_receiver(pgrid, pfield.fz, (rx, ry, zrec))
-plot_result_rel(epm_fs_z, e3d_fs_z, x, r'Diffusive Fullspace $E_z$',
-                vmin=-12, vmax=-6, mode='abs')
-
+e3d_ey = efield.get_receiver((rx, ry, rz, 90, 0))
+plot.plot_sections(
+        epm_ey, e3d_ey, x, r'Diffusive Fullspace $E_y$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
 ###############################################################################
+e3d_ez = efield.get_receiver((rx, ry, rz, 0, 90))
+plot.plot_sections(
+        epm_ez, e3d_ez, x, r'Diffusive Fullspace $E_z$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
-plot_lineplot_ex(x, x, e3d_fs_x.real, epm_fs_x.real, pgrid)
+###############################################################################
+plot.plot_line(x, x, e3d_ex.real, epm_ex.real, grid, 'E_x')
 
 
 ###############################################################################
@@ -244,33 +170,47 @@ plot_lineplot_ex(x, x, e3d_fs_x.real, epm_fs_x.real, pgrid)
 # ``xy``-``empymod`` result to the ``zy``-``emg3d`` result.
 
 # ===> Swap hy and hz; ydomain and zdomain <===
-shift = np.array([src_c[0], src_c[2], src_c[1]])
-pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+shift)
+grid2 = emg3d.TensorMesh(
+        [grid.h[0], grid.h[2], grid.h[1]],
+        origin=(grid.origin[0], grid.origin[2], grid.origin[1])
+)
 
 # ===> Swap y- and z-resistivities <===
-pmodel = emg3d.Model(
-        pgrid, property_x=resh, property_y=resv, mapping='Resistivity')
+model2 = emg3d.Model(
+    grid2, property_x=h_res, property_y=v_res, mapping='Resistivity')
 
 # ===> Swap src_y and src_z <===
-src_new = [src[0], src[1], src[4], src[5], src[2], src[3]]
+coo = source.coordinates
+source2 = emg3d.TxElectricDipole(
+    coordinates=[coo[0], coo[1], coo[4], coo[5], coo[2], coo[3]],
+    strength=source.strength,
+)
 
-sfield = emg3d.get_source_field(pgrid, src_new, freq, strength)
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
+efield2 = emg3d.solve_source(model2, source2, frequency, verb=4, plain=True)
 
+###############################################################################
 # ===> Swap ry and zrec <===
-e3d_fs_x = emg3d.get_receiver(pgrid, pfield.fx, (rx, zrec, ry))
-plot_result_rel(epm_fs_x, e3d_fs_x, x, r'Diffusive Fullspace $E_x$',
-                vmin=-12, vmax=-6, mode='abs')
+e3d_ex2 = efield2.get_receiver((rx, rz, ry, 0, 0))
+plot.plot_sections(
+        epm_ex, e3d_ex2, x, r'Diffusive Fullspace $E_x$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
+###############################################################################
 # ===> Swap ry and zrec; 'y'->'z' <===
-e3d_fs_y = emg3d.get_receiver(pgrid, pfield.fz, (rx, zrec, ry))
-plot_result_rel(epm_fs_y, e3d_fs_y, x, r'Diffusive Fullspace $E_y$',
-                vmin=-12, vmax=-6, mode='abs')
+e3d_ey2 = efield2.get_receiver((rx, rz, ry, 0, 90))
+plot.plot_sections(
+        epm_ey, e3d_ey2, x, r'Diffusive Fullspace $E_y$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
+###############################################################################
 # ===> Swap ry and zrec; 'z'->'y' <===
-e3d_fs_z = emg3d.get_receiver(pgrid, pfield.fy, (rx, zrec, ry))
-plot_result_rel(epm_fs_z, e3d_fs_z, x, r'Diffusive Fullspace $E_z$',
-                vmin=-12, vmax=-6, mode='abs')
+e3d_ez2 = efield2.get_receiver((rx, rz, ry, 90, 0))
+plot.plot_sections(
+        epm_ez, e3d_ez2, x, r'Diffusive Fullspace $E_z$',
+        vmin=-12, vmax=-6, mode='abs'
+)
 
 ###############################################################################
 # 1.c Tri-axial anisotropy check
@@ -283,157 +223,175 @@ plot_result_rel(epm_fs_z, e3d_fs_z, x, r'Diffusive Fullspace $E_z$',
 # ``xy``-``empymod`` result to the ``xz``-``emg3d`` result.
 
 # ===> Swap hx and hz; xdomain and zdomain <===
-shift = np.array([src_c[2], src_c[1], src_c[0]])
-pgrid = emg3d.TensorMesh([hx, hx, hx], origin=origin+shift)
+grid3 = emg3d.TensorMesh(
+        [grid.h[2], grid.h[1], grid.h[0]],
+        origin=(grid.origin[2], grid.origin[1], grid.origin[0])
+)
 
 # ===> Swap x- and z-resistivities <===
-pmodel = emg3d.Model(
-        pgrid, property_x=resv, property_y=resh, property_z=resh,
-        mapping='Resistivity')
+model3 = emg3d.Model(
+    grid3, property_x=v_res, property_y=h_res, property_z=h_res,
+    mapping='Resistivity'
+)
 
 # ===> Swap src_x and src_z <===
-src_new = [src[4], src[5], src[2], src[3], src[0], src[1]]
+source3 = emg3d.TxElectricDipole(
+    coordinates=[coo[4], coo[5], coo[2], coo[3], coo[0], coo[1]],
+    strength=source.strength,
+)
 
-sfield = emg3d.get_source_field(pgrid, src_new, freq, strength)
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
-
-# ===> Swap rx and zrec; 'x'->'z' <===
-e3d_fs_x = emg3d.get_receiver(pgrid, pfield.fz, (zrec, ry, rx))
-plot_result_rel(epm_fs_x, e3d_fs_x, x, r'Diffusive Fullspace $E_x$',
-                vmin=-12, vmax=-6, mode='abs')
-
-# ===> Swap rx and zrec <===
-e3d_fs_y = emg3d.get_receiver(pgrid, pfield.fy, (zrec, ry, rx))
-plot_result_rel(epm_fs_y, e3d_fs_y, x, r'Diffusive Fullspace $E_y$',
-                vmin=-12, vmax=-6, mode='abs')
-
-# ===> Swap rx and zrec; 'z'->'x' <===
-e3d_fs_z = emg3d.get_receiver(pgrid, pfield.fx, (zrec, ry, rx))
-plot_result_rel(epm_fs_z, e3d_fs_z, x, r'Diffusive Fullspace $E_z$',
-                vmin=-12, vmax=-6, mode='abs')
-
+efield3 = emg3d.solve_source(model3, source3, frequency, verb=4, plain=True)
 
 ###############################################################################
+# ===> Swap rx and zrec; 'x'->'z' <===
+e3d_ex3 = efield3.get_receiver((rz, ry, rx, 0, 90))
+plot.plot_sections(
+        epm_ex, e3d_ex3, x, r'Diffusive Fullspace $E_x$',
+        vmin=-12, vmax=-6, mode='abs'
+)
+
+###############################################################################
+# ===> Swap rx and zrec <===
+e3d_ey3 = efield3.get_receiver((rz, ry, rx, 90, 0))
+plot.plot_sections(
+        epm_ey, e3d_ey3, x, r'Diffusive Fullspace $E_y$',
+        vmin=-12, vmax=-6, mode='abs'
+)
+
+###############################################################################
+# ===> Swap rx and zrec; 'z'->'x' <===
+e3d_ez3 = efield3.get_receiver((rz, ry, rx, 0, 0))
+plot.plot_sections(
+        epm_ez, e3d_ez3, x, r'Diffusive Fullspace $E_z$',
+        vmin=-12, vmax=-6, mode='abs'
+)
+
+
+#############################################################################
 # 2. Layered model for a deep water model with a point dipole source
 # ------------------------------------------------------------------
 #
-# empymod
-# ```````
+# Survey and model parameters
+# ```````````````````````````
 
-# Survey parameters
-x = (np.arange(1025))*5-2560
+# Receiver coordinates
+if coarse_model:
+    x = (np.arange(256))*20-2550
+else:
+    x = (np.arange(1025))*5-2560
 rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
+frx, fry = rx.ravel(), ry.ravel()
+rz = -950.0
+
+# Source coordinates and frequency
+source = emg3d.TxElectricDipole(coordinates=[0, 0, -900, 0, 0])
+frequency = 1.0  # Hz
 
 # Model parameters
-resh = [1, 50, 1, 0.3, 1e12]      # Horizontal resistivity
+h_res = [1, 50, 1, 0.3, 1e12]     # Horizontal resistivity
 aniso = np.sqrt([2, 2, 2, 1, 1])  # Anisotropy
-resv = resh*aniso**2              # Vertical resistivity
-src = [0, 0, -900, 0, 0]          # Source: [x, y, z, azimuth, dip]
-zrec = -950.                      # Receiver depth
-freq = 1                          # Frequency
+v_res = h_res*aniso**2            # Vertical resistivity
 depth = np.array([-2200, -2000, -1000, 0])  # Layer boundaries
-
-model = {
-    'src': src,
-    'depth': depth,
-    'res': resh,
-    'aniso': aniso,
-    'freqtime': freq,
-    'htarg': {'pts_per_dec': -1},
-}
 
 
 ###############################################################################
+# empymod
+# ```````
 
-epm_deep_x = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 0],
-                            verb=3, **model).reshape(np.shape(rx))
-epm_deep_y = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 90, 0],
-                            verb=1, **model).reshape(np.shape(rx))
-epm_deep_z = empymod.bipole(rec=[rx.ravel(), ry.ravel(), zrec, 0, 90],
-                            verb=1, **model).reshape(np.shape(rx))
+inp = {
+    'src': source.coordinates,
+    'depth': depth,
+    'res': h_res,
+    'aniso': aniso,
+    'freqtime': frequency,
+    'htarg': {'pts_per_dec': -1},
+}
+
+# Compute
+epm_dx = empymod.bipole(
+    rec=[frx, fry, rz, 0, 0], verb=3, **inp).reshape(np.shape(rx))
+epm_dy = empymod.bipole(
+    rec=[frx, fry, rz, 90, 0], **inp).reshape(np.shape(rx))
+epm_dz = empymod.bipole(
+    rec=[frx, fry, rz, 0, 90], **inp).reshape(np.shape(rx))
+
 
 ###############################################################################
 # emg3d
 # `````
 
-
-# Get computation domain as a function of frequency (resp., skin depth)
-hx_min, xdomain = emg3d.meshes.get_domain(
-        x0=src[0], freq=0.1, min_width=20, fact_neg=10)
-hz_min, zdomain = emg3d.meshes.get_domain(
-        x0=src[2], freq=0.1, min_width=20, fact_pos=10)
+if coarse_model:
+    min_width_limits = 40
+else:
+    min_width_limits = 20
 
 # Create stretched grid
-nx = 2**7
-hx = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[0])
-hy = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, src[1])
-hz = emg3d.meshes.get_stretched_h(hz_min, zdomain, nx*2, x0=depth[0], x1=0)
-pgrid = emg3d.TensorMesh([hx, hy, hz], x0=(xdomain[0], xdomain[0], zdomain[0]))
-pgrid
-
+grid = emg3d.construct_mesh(
+    frequency=frequency,
+    properties=[h_res[3], h_res[0]],
+    center=source.center,
+    domain=([-2500, 2500], [-2500, 2500], None),
+    vector=(None, None, -2200 + np.arange(111)*20),
+    min_width_limits=min_width_limits,
+    stretching=[1.1, 1.5],
+)
+grid
 
 ###############################################################################
 
 # Create the model: horizontal resistivity
-res_x_full = resh[0]*np.ones(pgrid.nC)  # Background
-res_x_full[pgrid.gridCC[:, 2] >= depth[0]] = resh[1]  # Target
-res_x_full[pgrid.gridCC[:, 2] >= depth[1]] = resh[2]  # Overburden
-res_x_full[pgrid.gridCC[:, 2] >= depth[2]] = resh[3]  # Water
-res_x_full[pgrid.gridCC[:, 2] >= depth[3]] = resh[4]  # Air
+res_x_full = h_res[0]*np.ones(grid.n_cells)  # Background
+res_x_full[grid.cell_centers[:, 2] >= depth[0]] = h_res[1]  # Target
+res_x_full[grid.cell_centers[:, 2] >= depth[1]] = h_res[2]  # Overburden
+res_x_full[grid.cell_centers[:, 2] >= depth[2]] = h_res[3]  # Water
+res_x_full[grid.cell_centers[:, 2] >= depth[3]] = h_res[4]  # Air
 
 # Create the model: vertical resistivity
-res_z_full = resv[0]*np.ones(pgrid.nC)  # Background
-res_z_full[pgrid.gridCC[:, 2] >= depth[0]] = resv[1]
-res_z_full[pgrid.gridCC[:, 2] >= depth[1]] = resv[2]
-res_z_full[pgrid.gridCC[:, 2] >= depth[2]] = resv[3]
-res_z_full[pgrid.gridCC[:, 2] >= depth[3]] = resv[4]
+res_z_full = v_res[0]*np.ones(grid.n_cells)  # Background
+res_z_full[grid.cell_centers[:, 2] >= depth[0]] = v_res[1]
+res_z_full[grid.cell_centers[:, 2] >= depth[1]] = v_res[2]
+res_z_full[grid.cell_centers[:, 2] >= depth[2]] = v_res[3]
+res_z_full[grid.cell_centers[:, 2] >= depth[3]] = v_res[4]
 
 # Get the model
-pmodel = emg3d.Model(
-        pgrid, property_x=res_x_full, property_z=res_z_full,
+model = emg3d.Model(
+        grid, property_x=res_x_full, property_z=res_z_full,
         mapping='Resistivity')
-
-# Plot it
-pgrid.plot_3d_slicer(pmodel.property_x, zslice=-2000, zlim=(-5000, 50),
-                     pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=50)})
-
 
 ###############################################################################
 
-# Get the source field
-sfield = emg3d.get_source_field(pgrid, src, freq, 0)
-
 # Compute the electric field
-pfield = emg3d.solve(pgrid, pmodel, sfield, verb=4)
+efield = emg3d.solve_source(model, source, frequency, verb=4)
 
 
 ###############################################################################
 # Plot
 # ````
-
-e3d_deep_x = emg3d.get_receiver(pgrid, pfield.fx, (rx, ry, zrec))
-plot_result_rel(epm_deep_x, e3d_deep_x, x, r'Deep water point dipole $E_x$',
-                vmin=-14, vmax=-8, mode='abs')
-
-
-###############################################################################
-
-e3d_deep_y = emg3d.get_receiver(pgrid, pfield.fy, (rx, ry, zrec))
-plot_result_rel(epm_deep_y, e3d_deep_y, x, r'Deep water point dipole $E_y$',
-                vmin=-14, vmax=-8, mode='abs')
+e3d_dx = efield.get_receiver((rx, ry, rz, 0, 0))
+plot.plot_sections(
+        epm_dx, e3d_dx, x, r'Deep water point dipole $E_x$',
+        vmin=-14, vmax=-8, mode='abs'
+)
 
 
 ###############################################################################
-
-e3d_deep_z = emg3d.get_receiver(pgrid, pfield.fz, (rx, ry, zrec))
-plot_result_rel(epm_deep_z, e3d_deep_z, x, r'Deep water point dipole $E_z$',
-                vmin=-14, vmax=-8, mode='abs')
+e3d_dy = efield.get_receiver((rx, ry, rz, 90, 0))
+plot.plot_sections(
+        epm_dy, e3d_dy, x, r'Deep water point dipole $E_y$',
+        vmin=-14, vmax=-8, mode='abs'
+)
 
 
 ###############################################################################
+e3d_dz = efield.get_receiver((rx, ry, rz, 0, 90))
+plot.plot_sections(
+        epm_dz, e3d_dz, x, r'Deep water point dipole $E_z$',
+        vmin=-14, vmax=-8, mode='abs'
+)
 
-plot_lineplot_ex(x, x, e3d_deep_x.real, epm_deep_x.real, pgrid)
+###############################################################################
+plot.plot_line(x, x, e3d_dx.real, epm_dx.real, grid, 'E_x')
 
 
 ###############################################################################

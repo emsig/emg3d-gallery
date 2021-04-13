@@ -57,10 +57,10 @@ intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
     "discretize": ("https://discretize.simpeg.xyz/en/master", None),
-    "empymod": ("https://empymod.readthedocs.io/en/stable", None),
+    "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
-    "emg3d": ("https://emg3d.readthedocs.io/en/stable", None),
+    "emg3d": ("https://emg3d.emsig.xyz/en/stable", None),
 }
 
 # ==== 2. General Settings ====
@@ -100,8 +100,8 @@ html_favicon = '_static/favicon.ico'
 html_theme_options = {
     "github_url": "https://github.com/emsig/emg3d",
     "external_links": [
-        {"name": "Documentation", "url": "https://emg3d.rtfd.io"},
-        {"name": "EMSiG", "url": "https://emsig.github.io"},
+        {"name": "Documentation", "url": "https://emg3d.emsig.xyz"},
+        {"name": "EMSiG", "url": "https://emsig.xyz"},
     ],
     # "use_edit_page_button": True,
 }

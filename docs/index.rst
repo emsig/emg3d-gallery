@@ -5,11 +5,11 @@ emg3d Gallery
 :Release: |version|
 :Date: |today|
 :Source: `github.com/emsig/emg3d-gallery <https://github.com/emsig/emg3d-gallery>`_
-:EMSiG: `emsig.github.io <https://emsig.github.io>`_
+:EMSiG: `emsig.xyz <https://emsig.xyz>`_
 
 ----
 
-Gallery for `emg3d <https://emg3d.rtfd.io>`_, a multigrid solver for 3D
+Gallery for `emg3d <https://emg3d.emsig.xyz>`_, a multigrid solver for 3D
 electromagnetic diffusion [WeMS19]_.
 
 
