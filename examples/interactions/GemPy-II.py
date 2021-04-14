@@ -181,8 +181,8 @@ res[ids == 14] = 10.0  # Basement
 
 # Load the stored topography.
 topo_name = 'GemPy-II-topo.npy'
-topo_path = 'https://github.com/emsig/emg3d-gallery/blob/master/'
-topo_path += 'examples/data/GemPy/'+topo_name+'?raw=true'
+topo_path = 'https://raw.github.com/emsig/emg3d-gallery/master/'
+topo_path += 'examples/data/GemPy/'+topo_name
 with open(topo_name, 'wb') as f:
     t = requests.get(topo_path)
     f.write(t.content)

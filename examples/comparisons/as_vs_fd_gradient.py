@@ -19,10 +19,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.colors import LogNorm, SymLogNorm
-plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 2
-
-return  # will break but create the title # TODO Not Updated Yet
 
 
 ###############################################################################
@@ -39,8 +36,8 @@ return  # will break but create the title # TODO Not Updated Yet
 
 survey = emg3d.surveys.Survey(
     name='Gradient Test-Survey',
-    sources=(-1600, 0, -1950, 0, 0),
-    receivers=(1600, 0, -2000, 0, 0),
+    sources=emg3d.TxElectricDipole((-1600, 0, -1950, 0, 0)),
+    receivers=emg3d.RxElectricPoint((1600, 0, -2000, 0, 0)),
     frequencies=1.0,
     noise_floor=1e-15,
     relative_error=0.05,
@@ -83,12 +80,14 @@ model_grid.plot_3d_slicer(model.property_x.ravel('F'), zslice=-2900,
 
 plt.suptitle('Conductivity (S/m)')
 axs = plt.gcf().get_children()
-axs[1].plot(survey.rec_coords[0], survey.rec_coords[1], 'bv')
-axs[2].plot(survey.rec_coords[0], survey.rec_coords[2], 'bv')
-axs[3].plot(survey.rec_coords[2], survey.rec_coords[1], 'bv')
-axs[1].plot(survey.src_coords[0], survey.src_coords[1], 'r*')
-axs[2].plot(survey.src_coords[0], survey.src_coords[2], 'r*')
-axs[3].plot(survey.src_coords[2], survey.src_coords[1], 'r*')
+rec_coords = np.array([r.coordinates for r in survey.receivers.values()]).T
+src_coords = np.array([s.coordinates for s in survey.sources.values()]).T
+axs[1].plot(rec_coords[0], rec_coords[1], 'bv')
+axs[2].plot(rec_coords[0], rec_coords[2], 'bv')
+axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
+axs[1].plot(src_coords[0], src_coords[1], 'r*')
+axs[2].plot(src_coords[0], src_coords[2], 'r*')
+axs[3].plot(src_coords[2], src_coords[1], 'r*')
 plt.show()
 
 
@@ -98,7 +97,7 @@ plt.show()
 
 # Gridding options.
 gridding_opts = {
-    'frequency': survey.frequencies[0],
+    'frequency': survey.frequencies['f-1'],
     'properties': [3.33, 1, 1, 3.33],
     'center': (0, 0, -2000),
     'min_width_limits': 100,
@@ -112,8 +111,7 @@ data_grid = emg3d.construct_mesh(**gridding_opts)
 simulation_data = emg3d.simulations.Simulation(
     name='Data for Gradient Test',
     survey=survey,
-    grid=data_grid,
-    model=model.interpolate2grid(model_grid, data_grid),
+    model=model.interpolate_to_grid(data_grid),
     gridding='same',  # Same grid as for input model.
     max_workers=4,
 )
@@ -144,13 +142,12 @@ comp_grid_opts = {**gridding_opts, 'min_width_limits': 200}
 comp_grid = emg3d.construct_mesh(**comp_grid_opts)
 
 # Interpolate the background model onto the computational grid.
-comp_model = model_bg.interpolate2grid(model_grid, comp_grid)
+comp_model = model_bg.interpolate_to_grid(comp_grid)
 
 # AS gradient simulation.
 simulation_as = emg3d.simulations.Simulation(
     name='AS Gradient Test',
     survey=survey,
-    grid=comp_grid,
     model=comp_model,
     gridding='same',  # Same grid as for input model.
     max_workers=4,    # For parallel workers, adjust if you have more.
@@ -201,7 +198,7 @@ def comp_fd_grad(ixiz):
     # Create a new simulation with this model
     simulation_fd = emg3d.simulations.Simulation(
         name='FD Gradient Test',
-        survey=survey, grid=comp_grid, model=fd_model, gridding='same',
+        survey=survey, model=fd_model, gridding='same',
         max_workers=1, solver_opts={'verb': 1})
 
     # Switch-of progress bar in this case
@@ -228,7 +225,7 @@ ixiz = list(itertools.product(
 )
 
 # Wrap it asynchronously
-out = emg3d.simulations.process_map(
+out = emg3d.utils._process_map(
         comp_fd_grad,
         ixiz,
         max_workers=4,  # Adjust max worker here!
@@ -276,8 +273,8 @@ def set_axis(axs, i):
     """Helper routine to adjust subplots."""
 
     # Show source and receiver.
-    axs[i].plot(survey.rec_coords[0], survey.rec_coords[2], 'bv')
-    axs[i].plot(survey.src_coords[0], survey.src_coords[2], 'r*')
+    axs[i].plot(rec_coords[0], rec_coords[2], 'bv')
+    axs[i].plot(src_coords[0], src_coords[2], 'r*')
 
     # x-label.
     axs[i].set_xlabel('Easting')

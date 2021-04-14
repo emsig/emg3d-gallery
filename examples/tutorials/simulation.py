@@ -27,8 +27,8 @@ plt.style.use('bmh')
 
 fname = 'GemPy-II.h5'
 if not os.path.isfile(fname):
-    url = ("https://github.com/emsig/emg3d-gallery/blob/master/examples/"
-           f"data/models/{fname}?raw=true")
+    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
+           f"master/examples/data/models/{fname}")
     with open(fname, 'wb') as f:
         t = requests.get(url)
         f.write(t.content)
@@ -325,7 +325,7 @@ plt.show()
 #   parameter ``what``).
 
 # Survey file name
-survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
+# survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
 
 # To store, run
 # survey.to_file(survey_fname)  # .h5, .json, or .npz
