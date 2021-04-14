@@ -27,7 +27,9 @@ import numpy as np
 import gempy as gempy
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
+plt.style.use('bmh')
+
+return  # will break but create the title # TODO Not Updated Yet
 
 
 ###############################################################################
@@ -149,11 +151,11 @@ sol = gempy.compute_model(geo_model)
 hx = np.ones(nx)*20000/nx
 hy = np.ones(ny)*20000/ny
 hz = np.ones(nz)*5000/nz
-grid = emg3d.TensorMesh([hx, hy, hz], x0=[0, 0, -5000])
+grid = emg3d.TensorMesh([hx, hy, hz], x0=(0, 0, -5000))
 
 # Make up some resistivities that might be interesting to model.
 ids = np.round(sol.lith_block)
-res = np.ones(grid.nC)
+res = np.ones(grid.n_cells)
 res[ids == 9] = 2.0    # Cretaceous
 res[ids == 10] = 1.0   # Yarragadee
 res[ids == 11] = 4.0   # Eneabba
@@ -184,11 +186,12 @@ topo_path += 'examples/data/GemPy/'+topo_name+'?raw=true'
 with open(topo_name, 'wb') as f:
     t = requests.get(topo_path)
     f.write(t.content)
-out = geo_model.set_topography(source='saved', filepath=topo_name)
+out = geo_model.set_topography(
+        source='saved', filepath=topo_name, allow_pickle=True)
 topo = out.topography.values_2d
 
 # Apply the topography to our resistivity cube.
-res = res.reshape(grid.vnC, order='C')
+res = res.reshape(grid.shape_cells, order='C')
 
 # Get the scaling factor between the original extent and our made-up extent.
 fact = 5000/np.diff(extent[4:])
@@ -211,10 +214,11 @@ fhz = np.r_[np.ones(nz)*5000/nz, 2000, 500]
 z0 = -7000
 
 # Make the full mesh
-fullgrid = emg3d.TensorMesh([hx, hy, fhz], x0=[0, 0, z0])
+fullgrid = emg3d.TensorMesh([hx, hy, fhz], x0=(0, 0, z0))
 
 # Extend the model.
-fullmodel = emg3d.Model(fullgrid, np.ones(fullgrid.vnC), mapping='Resistivity')
+fullmodel = emg3d.Model(fullgrid, np.ones(fullgrid.shape_cells),
+                        mapping='Resistivity')
 fullmodel.property_x[:, :, :-2] = model.property_x
 fullmodel.property_x[:, :, -2] = 0.3
 fullmodel.property_x[:, :, -1] = 1e8
@@ -257,7 +261,7 @@ p.show()
 ###############################################################################
 # Store the grid and the model for use in other examples.
 
-# emg3d.save('../data/models/GemPy-II.h5', model=fullmodel, mesh=fullgrid)
+emg3d.save('../data/models/GemPy-II.h5', model=fullmodel, mesh=fullgrid)
 
 ###############################################################################
 

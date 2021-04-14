@@ -14,21 +14,11 @@ of ``empymod``. (The code ``empymod`` is an open-source code which can model
 CSEM responses for a layered medium including VTI electrical anisotropy, see
 `emsig.xyz <https://emsig.xyz>`_.)
 
-This is an adapted version of
-:ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py`. Consult that example to
-see the result for the electric field.
-
-.. note::
-
-    You also have to download the file
-    :ref:`sphx_glr_gallery_magnetics_plot_magnetics.py` and place it in the
-    same directory as this example.
-
 """
 import emg3d
 import empymod
 import numpy as np
-import plot_magnetics as plot  # <= See *Note* above.
+import matplotlib.pyplot as plt
 # sphinx_gallery_thumbnail_path = '_static/thumbs/magn-perm.png'
 
 
@@ -36,9 +26,8 @@ import plot_magnetics as plot  # <= See *Note* above.
 # Full-space model for a finite length, finite strength, rotated bipole
 # ---------------------------------------------------------------------
 #
-# In order to shorten the build-time of the gallery we use here a coarse model,
-# which will result in bigger errors. If you want better results run the finer
-# model.
+# In order to shorten the build-time of the gallery we use a coarse model.
+# Set ``coarse_model = False`` to obtain a result of higher accuracy.
 coarse_model = True
 
 
@@ -55,13 +44,15 @@ rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 frx, fry = rx.ravel(), ry.ravel()
 rz = -400.0
+azimuth = 22
+elevation = 13
 
 # Source coordinates, frequency, and strength
 source = emg3d.TxElectricDipole(
     coordinates=[-50, 50, -30, 30, -320., -280.],  # [x1, x2, y1, y2, z1, z2]
-    strength=np.pi,  # A
+    strength=2.8,  # A
 )
-frequency = 0.77  # Hz
+frequency = 0.7  # Hz
 
 # Model parameters
 h_res = 1.              # Horizontal resistivity
@@ -76,26 +67,20 @@ mperm = 2.5             # Magnetic permeability
 # Note: The coordinate system of empymod is positive z down, for emg3d it is
 # positive z up. We have to switch therefore src_z, rec_z, and dip.
 
-# Collect common input for empymod.
-inp = {
-    'src': np.r_[source.coordinates[:4], -source.coordinates[4:]],
-    'depth': [],
-    'res': h_res,
-    'aniso': aniso,
-    'strength': source.strength,
-    'srcpts': 5,
-    'freqtime': frequency,
-    'mpermH': mperm,  # <= Magnetic permeability
-    'htarg': {'pts_per_dec': -1},
-}
-
 # Compute
-epm_ex = empymod.bipole(
-    rec=[frx, fry, -rz, 0, 0], verb=3, **inp).reshape(np.shape(rx))
-epm_ey = empymod.bipole(
-    rec=[frx, fry, -rz, 90, 0], **inp).reshape(np.shape(rx))
-epm_ez = empymod.bipole(
-    rec=[frx, fry, -rz, 0, -90], **inp).reshape(np.shape(rx))
+epm = empymod.bipole(
+    src=np.r_[source.coordinates[:4], -source.coordinates[4:]],
+    rec=[frx, fry, -rz, azimuth, -elevation],
+    depth=[],
+    res=h_res,
+    aniso=aniso,
+    strength=source.strength,
+    srcpts=5,
+    freqtime=frequency,
+    mpermH=mperm,
+    htarg={'pts_per_dec': -1},
+    verb=3,
+).reshape(np.shape(rx))
 
 ###############################################################################
 # emg3d
@@ -132,32 +117,69 @@ model = emg3d.Model(
 # Compute the electric field
 efield = emg3d.solve_source(model, source, frequency, verb=4, plain=True)
 
+# Get responses at receivers
+e3d = efield.get_receiver((rx, ry, rz, azimuth, elevation))
+
 
 ###############################################################################
 # Plot
 # ````
-e3d_ex = efield.get_receiver((rx, ry, rz, 0, 0))
-plot.plot_sections(
-        epm_ex, e3d_ex, x, r'Diffusive Fullspace $E_x$',
-        vmin=-12, vmax=-6, mode='abs'
-)
 
-###############################################################################
-e3d_ey = efield.get_receiver((rx, ry, rz, 90, 0))
-plot.plot_sections(
-        epm_ey, e3d_ey, x, r'Diffusive Fullspace $E_y$',
-        vmin=-12, vmax=-6, mode='abs'
-)
 
-###############################################################################
-e3d_ez = efield.get_receiver((rx, ry, rz, 0, 90))
-plot.plot_sections(
-        epm_ez, e3d_ez, x, r'Diffusive Fullspace $E_z$',
-        vmin=-12, vmax=-6, mode='abs'
-)
+# Start figure.
+a_kwargs = {'cmap': "viridis", 'vmin': -12, 'vmax': -6, 'shading': 'nearest'}
 
-###############################################################################
-plot.plot_line(x, x, e3d_ex.real, epm_ex.real, grid, 'E_x')
+e_kwargs = {'cmap': plt.cm.get_cmap("RdBu_r", 8),
+            'vmin': -2, 'vmax': 2, 'shading': 'nearest'}
+
+fig, axs = plt.subplots(2, 3, figsize=(10, 5.5), sharex=True, sharey=True,
+                        subplot_kw={'box_aspect': 1})
+
+((ax1, ax2, ax3), (ax4, ax5, ax6)) = axs
+x3 = x/1000  # km
+
+# Plot Re(data)
+ax1.set_title(r"(a) |Re(empymod)|")
+cf0 = ax1.pcolormesh(x3, x3, np.log10(epm.real.amp()), **a_kwargs)
+
+ax2.set_title(r"(b) |Re(emg3d)|")
+ax2.pcolormesh(x3, x3, np.log10(e3d.real.amp()), **a_kwargs)
+
+ax3.set_title(r"(c) Error real part")
+rel_error = 100*np.abs((epm.real - e3d.real) / epm.real)
+cf2 = ax3.pcolormesh(x3, x3, np.log10(rel_error), **e_kwargs)
+
+# Plot Im(data)
+ax4.set_title(r"(d) |Im(empymod)|")
+ax4.pcolormesh(x3, x3, np.log10(epm.imag.amp()), **a_kwargs)
+
+ax5.set_title(r"(e) |Im(emg3d)|")
+ax5.pcolormesh(x3, x3, np.log10(e3d.imag.amp()), **a_kwargs)
+
+ax6.set_title(r"(f) Error imaginary part")
+rel_error = 100*np.abs((epm.imag - e3d.imag) / epm.imag)
+ax6.pcolormesh(x3, x3, np.log10(rel_error), **e_kwargs)
+
+# Colorbars
+fig.colorbar(cf0, ax=axs[0, :], label=r"$\log_{10}$ Amplitude (V/m)")
+cbar = fig.colorbar(cf2, ax=axs[1, :], label=r"Relative Error")
+cbar.set_ticks([-2, -1, 0, 1, 2])
+cbar.ax.set_yticklabels([r"$0.01\,\%$", r"$0.1\,\%$", r"$1\,\%$",
+                         r"$10\,\%$", r"$100\,\%$"])
+
+ax1.set_xlim(min(x3), max(x3))
+ax1.set_ylim(min(x3), max(x3))
+
+# Axis label
+fig.text(0.4, 0.05, "Inline Offset (km)", fontsize=14)
+fig.text(0.05, 0.3, "Crossline Offset (km)", rotation=90, fontsize=14)
+fig.suptitle(r'Diffusive Fullspace, $E$-field', y=1, fontsize=20)
+
+print(f"- Source: {source}")
+print(f"- Frequency: {frequency} Hz")
+print(f"- Electric receivers: z={rz} m; θ={azimuth}°, φ={elevation}°")
+
+fig.show()
 
 ###############################################################################
 emg3d.Report()

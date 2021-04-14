@@ -78,6 +78,9 @@ from matplotlib.colors import LogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 3
 
+return  # will break but create the title # TODO Not Updated Yet
+
+
 ###############################################################################
 # Survey
 # ------
@@ -114,17 +117,17 @@ grid
 # ------------
 
 # Layered_background
-res_x = np.ones(grid.nC)*res[0]            # Air resistivity
-res_x[grid.gridCC[:, 2] < 0] = res[1]      # Water resistivity
-res_x[grid.gridCC[:, 2] < -1000] = res[2]  # Background resistivity
+res_x = np.ones(grid.n_cells)*res[0]            # Air resistivity
+res_x[grid.cell_centers[:, 2] < 0] = res[1]      # Water resistivity
+res_x[grid.cell_centers[:, 2] < -1000] = res[2]  # Background resistivity
 
 # Background model
 model_pf = emg3d.Model(grid, property_x=res_x.copy(), mapping='Resistivity')
 
 # Include the target
-xx = (grid.gridCC[:, 0] >= 0) & (grid.gridCC[:, 0] <= 6000)
-yy = abs(grid.gridCC[:, 1]) <= 500
-zz = (grid.gridCC[:, 2] > -2500)*(grid.gridCC[:, 2] < -2000)
+xx = (grid.cell_centers[:, 0] >= 0) & (grid.cell_centers[:, 0] <= 6000)
+yy = abs(grid.cell_centers[:, 1]) <= 500
+zz = (grid.cell_centers[:, 2] > -2500)*(grid.cell_centers[:, 2] < -2000)
 
 res_x[xx*yy*zz] = 100.  # Target resistivity
 
@@ -170,7 +173,7 @@ em3_pf = emg3d.solve(grid, model_pf, sfield_pf, **modparams)
 
 # Get the difference of conductivity as volume-average values
 diff = 1/model.property_x-1/model_pf.property_x
-dsigma = grid.cell_volumes.reshape(grid.vnC, order='F')*diff
+dsigma = grid.cell_volumes.reshape(grid.shape_cells, order='F')*diff
 
 # Here we use the primary field computed with emg3d. This could be done
 # with a 1D modeller such as empymod instead.

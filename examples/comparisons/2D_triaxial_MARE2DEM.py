@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 # sphinx_gallery_thumbnail_path = '_static/thumbs/MARE2DEM.png'
 
+return  # will break but create the title # TODO Not Updated Yet
+
 
 ###############################################################################
 # Load MARE2DEM result
@@ -63,26 +65,26 @@ grid
 
 ###############################################################################
 
-xx = (grid.gridCC[:, 0] > 0)*(grid.gridCC[:, 0] <= 6000)
-zz = (grid.gridCC[:, 2] > -4200)*(grid.gridCC[:, 2] < -4000)
+xx = (grid.cell_centers[:, 0] > 0)*(grid.cell_centers[:, 0] <= 6000)
+zz = (grid.cell_centers[:, 2] > -4200)*(grid.cell_centers[:, 2] < -4000)
 
 
 ###############################################################################
 
 # Background
-res_x_full = 2*np.ones(grid.nC)
-res_y_full = 1*np.ones(grid.nC)
-res_z_full = 3*np.ones(grid.nC)
+res_x_full = 2*np.ones(grid.n_cells)
+res_y_full = 1*np.ones(grid.n_cells)
+res_z_full = 3*np.ones(grid.n_cells)
 
 # Water - isotropic
-res_x_full[grid.gridCC[:, 2] >= -2000] = 0.3
-res_y_full[grid.gridCC[:, 2] >= -2000] = 0.3
-res_z_full[grid.gridCC[:, 2] >= -2000] = 0.3
+res_x_full[grid.cell_centers[:, 2] >= -2000] = 0.3
+res_y_full[grid.cell_centers[:, 2] >= -2000] = 0.3
+res_z_full[grid.cell_centers[:, 2] >= -2000] = 0.3
 
 # Air - isotropic
-res_x_full[grid.gridCC[:, 2] >= 0] = 1e10
-res_y_full[grid.gridCC[:, 2] >= 0] = 1e10
-res_z_full[grid.gridCC[:, 2] >= 0] = 1e10
+res_x_full[grid.cell_centers[:, 2] >= 0] = 1e10
+res_y_full[grid.cell_centers[:, 2] >= 0] = 1e10
+res_z_full[grid.cell_centers[:, 2] >= 0] = 1e10
 
 # Target
 res_x_full_tg = res_x_full.copy()

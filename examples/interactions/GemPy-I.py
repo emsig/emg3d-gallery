@@ -28,8 +28,11 @@ import numpy as np
 import gempy as gempy
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 3
+
+return  # will break but create the title # TODO Not Updated Yet
+
 
 ###############################################################################
 # Get and initiate the *simple_fault_model*
@@ -141,7 +144,7 @@ geo_model.surfaces
 # -----------------------------
 
 # Now, we convert the id's to resistivities
-res = sol.custom[0][0, :grid.nC]
+res = sol.custom[0][0, :grid.n_cells]
 
 res[res == 1] = 1e8  # air
 # id=2 is the fault

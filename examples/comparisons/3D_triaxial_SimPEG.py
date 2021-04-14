@@ -19,6 +19,9 @@ import matplotlib.pyplot as plt
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_path = '_static/thumbs/SimPEG.png'
 
+return  # will break but create the title # TODO Not Updated Yet
+
+
 ###############################################################################
 # Model and survey parameters
 # ---------------------------
@@ -84,15 +87,15 @@ mesh
 # ------------
 
 # Layered_background
-res_x = res_air*np.ones(mesh.nC)
-res_x[mesh.gridCC[:, 2] <= 0] = res_sea
+res_x = res_air*np.ones(mesh.n_cells)
+res_x[mesh.cell_centers[:, 2] <= 0] = res_sea
 
 res_y = res_x.copy()
 res_z = res_x.copy()
 
-res_x[mesh.gridCC[:, 2] <= -water_depth] = res_back[0]
-res_y[mesh.gridCC[:, 2] <= -water_depth] = res_back[1]
-res_z[mesh.gridCC[:, 2] <= -water_depth] = res_back[2]
+res_x[mesh.cell_centers[:, 2] <= -water_depth] = res_back[0]
+res_y[mesh.cell_centers[:, 2] <= -water_depth] = res_back[1]
+res_z[mesh.cell_centers[:, 2] <= -water_depth] = res_back[2]
 
 res_x_bg = res_x.copy()
 res_y_bg = res_y.copy()
@@ -100,9 +103,12 @@ res_z_bg = res_z.copy()
 
 # Include the target
 target_inds = (
-    (mesh.gridCC[:, 0] >= target_x[0]) & (mesh.gridCC[:, 0] <= target_x[1]) &
-    (mesh.gridCC[:, 1] >= target_y[0]) & (mesh.gridCC[:, 1] <= target_y[1]) &
-    (mesh.gridCC[:, 2] >= target_z[0]) & (mesh.gridCC[:, 2] <= target_z[1])
+    (mesh.cell_centers[:, 0] >= target_x[0]) &
+    (mesh.cell_centers[:, 0] <= target_x[1]) &
+    (mesh.cell_centers[:, 1] >= target_y[0]) &
+    (mesh.cell_centers[:, 1] <= target_y[1]) &
+    (mesh.cell_centers[:, 2] >= target_z[0]) &
+    (mesh.cell_centers[:, 2] <= target_z[1])
 )
 res_x[target_inds] = res_target
 res_y[target_inds] = res_target

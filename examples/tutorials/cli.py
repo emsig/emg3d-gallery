@@ -49,8 +49,8 @@ fnames = ['GemPy-II-survey-A.h5', 'GemPy-II.h5', 'emg3d.cfg']
 dirs = ['surveys', 'models', 'cli']
 for fname, fdir in zip(fnames, dirs):
     if not os.path.isfile(fname):
-        url = ("https://github.com/emsig/emg3d-gallery/blob/master/"
-               f"examples/data/{fdir}/{fname}?raw=true")
+        url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
+               f"master/examples/data/{fdir}/{fname}")
         with open(fname, 'wb') as f:
             t = requests.get(url)
             f.write(t.content)
@@ -74,7 +74,7 @@ bash("emg3d --help")
 # full or relative path and filename as the first argument to ``emg3d``.
 #
 # The configuration parameters are described in the documentation, consult
-# `Manual -> CLI <https://emg3d.readthedocs.io/en/stable/cli.html>`_.
+# `Manual -> CLI <https://emg3d.emsig.xyz/en/stable/cli.html>`_.
 #
 # Let's look at the configuration file we use in this example:
 

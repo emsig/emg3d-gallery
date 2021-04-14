@@ -22,6 +22,9 @@ from matplotlib.colors import LogNorm, SymLogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 2
 
+return  # will break but create the title # TODO Not Updated Yet
+
+
 ###############################################################################
 # 1. Create a survey and a simple model
 # -------------------------------------
@@ -60,7 +63,8 @@ model_grid = emg3d.TensorMesh(
         [hx, hy, hz], origin=np.array([-3000, -3000, -5000]))
 
 # Initiate model with conductivities of 1 S/m.
-model = emg3d.Model(model_grid, np.ones(model_grid.nC), mapping='Conductivity')
+model = emg3d.Model(
+        model_grid, np.ones(model_grid.n_cells), mapping='Conductivity')
 model.property_x[:, :, -1] = 1e-8  # Add air layer.
 model.property_x[:, :, -2] = 3.33  # Add seawater layer.
 model_bg = model.copy()  # Make a copy for the background model.

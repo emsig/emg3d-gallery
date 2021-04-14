@@ -45,7 +45,7 @@ import emg3d
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 4
 
 ###############################################################################

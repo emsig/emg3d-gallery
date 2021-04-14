@@ -24,6 +24,8 @@ from matplotlib.colors import LogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 2
 
+return  # will break but create the title # TODO Not Updated Yet
+
 
 ###############################################################################
 # Model, Survey, and Analytical Solution
@@ -85,9 +87,9 @@ zz_1, z0_1 = emg3d.meshes.get_hx_h0(res=[res[1], res[0], 100], **z_inp, **inp)
 
 # Create grid and correpsoding model
 grid_1 = emg3d.TensorMesh([xx_1, yy_1, zz_1], x0=np.array([x0_1, y0_1, z0_1]))
-res_1 = res[0]*np.ones(grid_1.nC)
-res_1[grid_1.gridCC[:, 2] > -water_depth] = res[1]
-res_1[grid_1.gridCC[:, 2] > 0] = res[2]
+res_1 = res[0]*np.ones(grid_1.n_cells)
+res_1[grid_1.cell_centers[:, 2] > -water_depth] = res[1]
+res_1[grid_1.cell_centers[:, 2] > 0] = res[2]
 model_1 = emg3d.Model(grid_1, property_x=res_1, mapping='Resistivity')
 
 # QC
@@ -113,9 +115,9 @@ zz_2, z0_2 = emg3d.meshes.get_hx_h0(res=[res[1], res[0], 100], **z_inp, **inp)
 
 # Create grid and correpsoding model
 grid_2 = emg3d.TensorMesh([xx_2, yy_2, zz_2], x0=np.array([x0_2, y0_2, z0_2]))
-res_2 = res[0]*np.ones(grid_2.nC)
-res_2[grid_2.gridCC[:, 2] > -water_depth] = res[1]
-res_2[grid_2.gridCC[:, 2] > 0] = res[2]
+res_2 = res[0]*np.ones(grid_2.n_cells)
+res_2[grid_2.cell_centers[:, 2] > -water_depth] = res[1]
+res_2[grid_2.cell_centers[:, 2] > 0] = res[2]
 model_2 = emg3d.Model(grid_2, property_x=res_2, mapping='Resistivity')
 
 # QC

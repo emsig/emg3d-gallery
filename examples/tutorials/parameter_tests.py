@@ -21,6 +21,8 @@ from matplotlib.colors import LogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 3
 
+return  # will break but create the title # TODO Not Updated Yet
+
 
 ###############################################################################
 def plotit(infos, labels):
@@ -65,7 +67,7 @@ sfield = emg3d.get_source_field(grid, src=src, freq=freq)
 # Create a simple marine model for the tests.
 
 # Layered_background
-res_x = 1e8*np.ones(grid.vnC)              # Air
+res_x = 1e8*np.ones(grid.shape_cells)              # Air
 res_x[:, :, grid.cell_centers_z <= 0] = 0.3     # Water
 res_x[:, :, grid.cell_centers_z <= -1000] = 1.  # Background
 
