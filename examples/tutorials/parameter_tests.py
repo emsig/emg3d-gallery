@@ -18,10 +18,8 @@ import emg3d
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 3
-
-return  # will break but create the title # TODO Not Updated Yet
 
 
 ###############################################################################
@@ -62,7 +60,7 @@ grid = emg3d.construct_mesh(
 print(grid)
 
 # Source-field
-sfield = emg3d.get_source_field(grid, src=src, freq=freq)
+sfield = emg3d.get_source_field(grid, source=src, frequency=freq)
 
 # Create a simple marine model for the tests.
 
@@ -91,7 +89,8 @@ grid.plot_3d_slicer(model_iso.property_x.ravel('F'),
 # Test 1: F, W, and V MG cycles
 # -----------------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield, 'return_info': True}
+inp = {'model': model_iso, 'sfield': sfield, 'return_info': True,
+       'sslsolver': False, 'semicoarsening': False, 'linerelaxation': False}
 
 _, info1 = emg3d.solve(cycle='F', **inp)
 _, info2 = emg3d.solve(cycle='W', **inp)
@@ -103,11 +102,12 @@ plotit([info1, info2, info3], ['F-cycle', 'W-cycle', 'V-cycle'])
 # Test 2: semicoarsening, line-relaxation
 # ---------------------------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield, 'return_info': True}
+inp = {'model': model_iso, 'sfield': sfield, 'return_info': True,
+       'sslsolver': False}
 
-_, info1 = emg3d.solve(**inp)
-_, info2 = emg3d.solve(semicoarsening=True, **inp)
-_, info3 = emg3d.solve(linerelaxation=True, **inp)
+_, info1 = emg3d.solve(semicoarsening=False, linerelaxation=False, **inp)
+_, info2 = emg3d.solve(semicoarsening=True, linerelaxation=False, **inp)
+_, info3 = emg3d.solve(semicoarsening=False, linerelaxation=True, **inp)
 _, info4 = emg3d.solve(semicoarsening=True, linerelaxation=True, **inp)
 
 plotit([info1, info2, info3, info4], ['MG', 'MG+SC', 'MG+LR', 'MG+SC+LR'])
@@ -116,8 +116,8 @@ plotit([info1, info2, info3, info4], ['MG', 'MG+SC', 'MG+LR', 'MG+SC+LR'])
 # Test 3: MG and BiCGstab
 # -----------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'semicoarsening': True, 'return_info': True, 'maxit': 500}
+inp = {'model': model_iso, 'sfield': sfield, 'return_info': True, 'maxit': 500,
+       'semicoarsening': True, 'linerelaxation': False}
 
 _, info1 = emg3d.solve(cycle='F', sslsolver=False, **inp)
 _, info2 = emg3d.solve(cycle='F', sslsolver=True, **inp)
@@ -129,8 +129,8 @@ plotit([info1, info2, info3], ['MG', 'MG+BiCGStab', 'BiCGStab'])
 # Test 4: `nu_init`, `nu_pre`, `nu_coarse`, `nu_post`
 # ---------------------------------------------------
 
-inp = {'grid': grid, 'model': model_iso, 'sfield': sfield,
-       'semicoarsening': True, 'return_info': True}
+inp = {'model': model_iso, 'sfield': sfield, 'return_info': True,
+       'sslsolver': False, 'semicoarsening': True, 'linerelaxation': False}
 
 _, info1 = emg3d.solve(**inp)
 _, info2 = emg3d.solve(nu_pre=0, **inp)

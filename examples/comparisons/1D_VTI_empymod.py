@@ -27,7 +27,6 @@ import matplotlib.pyplot as plt
 # In order to shorten the build-time of the gallery we use a coarse model.
 # Set ``coarse_model = False`` to obtain a result of higher accuracy.
 coarse_model = True
-coarse_model = True
 
 
 ###############################################################################

@@ -5,97 +5,74 @@
 `SimPEG <https://simpeg.xyz>`_ is an open source python package for simulation
 and gradient based parameter estimation in geophysical applications. Here we
 compare ``emg3d`` with ``SimPEG`` using the forward solver ``Pardiso``.
-
-Note, in order to use the ``Pardiso``-solver ``pymatsolver`` has to be
-installed via ``conda``, not via ``pip``!
 """
+import os
 import emg3d
-import SimPEG
-import discretize
+import requests
 import numpy as np
-import pymatsolver
-import SimPEG.electromagnetics.frequency_domain as FDEM
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_path = '_static/thumbs/SimPEG.png'
-
-return  # will break but create the title # TODO Not Updated Yet
 
 
 ###############################################################################
-# Model and survey parameters
-# ---------------------------
+# Model parameters
+# ----------------
 
-# Depths (0 is sea-surface)
-water_depth = 1000
+# Depths (0 is sea-surface);
+# hence a deep sea case where we can ignore the air.
+water_depth = 3000
 target_x = np.r_[-500, 500]
 target_y = target_x
 target_z = -water_depth + np.r_[-400, -100]
 
 # Resistivities
-res_air = 2e8
 res_sea = 0.33
 res_back = [1., 2., 3.]  # Background in x-, y-, and z-directions
 res_target = 100.
 
-freq = 1.0
-
-src = [-100, 100, 0, 0, -900, -900]
-
+# Acquisition frequency
+frequency = 1.0
 
 ###############################################################################
-# Mesh and source-field
-# ---------------------
+# Grid
+# ----
 
-# skin depth
-skin_depth = 503*np.sqrt(res_back[0]/freq)
-print(f"\nThe skin_depth is {skin_depth} m.\n")
-
-cs = 100    # 100 m min_width of cells
-
-pf = 1.15   # Padding factor x- and y-directions
-pfz = 1.35  # .              z-direction
-npadx = 12  # Nr of padding in x- and y-directions
-npadz = 9   # .                z-direction
-
-domain_x = 4000            # x- and y-domain
-domain_z = - target_z[0]   # z-domain
-
-# Create mesh
-mesh = discretize.TensorMesh(
-    [[(cs, npadx, -pf), (cs, int(domain_x/cs)), (cs, npadx, pf)],
-     [(cs, npadx, -pf), (cs, int(domain_x/cs)), (cs, npadx, pf)],
-     [(cs, npadz, -pfz), (cs, int(domain_z/cs)), (cs, npadz, pfz)]],
+vx, vz = np.arange(-20, 21)*100, np.arange(-34, -19)*100
+grid = emg3d.meshes.construct_mesh(
+    frequency=frequency,
+    properties=1,
+    center=(0, 0, 0),
+    vector=(vx, vx, vz),
 )
 
-# Center mesh
-mesh.x0 = np.r_[-mesh.h[0].sum()/2, -mesh.h[1].sum()/2,
-                -mesh.h[2][:-npadz].sum()]
+grid
 
-# Create the source field for this mesh and given frequency
-sfield = emg3d.get_source_field(mesh, src, freq, strength=0)
+###############################################################################
+# Survey parameters
+# -----------------
 
 # We take the receiver locations at the actual CCx-locations
-rec_x = mesh.cell_centers_x[12:-12]
+rec_x = grid.cell_centers_x[12:-12]
+rec = (rec_x, 0, -water_depth, 0, 0)
 print(f"Receiver locations:\n{rec_x}\n")
 
-mesh
-
+source = emg3d.TxElectricDipole([-100, 100, 0, 0, -2900, -2900])
+sfield = emg3d.get_source_field(grid, source, frequency)  # Source field
 
 ###############################################################################
 # Create model
 # ------------
 
 # Layered_background
-res_x = res_air*np.ones(mesh.n_cells)
-res_x[mesh.cell_centers[:, 2] <= 0] = res_sea
-
+res_x = res_sea*np.ones(grid.n_cells)
 res_y = res_x.copy()
 res_z = res_x.copy()
 
-res_x[mesh.cell_centers[:, 2] <= -water_depth] = res_back[0]
-res_y[mesh.cell_centers[:, 2] <= -water_depth] = res_back[1]
-res_z[mesh.cell_centers[:, 2] <= -water_depth] = res_back[2]
+# Tri-axial background.
+res_x[grid.cell_centers[:, 2] <= -water_depth] = res_back[0]
+res_y[grid.cell_centers[:, 2] <= -water_depth] = res_back[1]
+res_z[grid.cell_centers[:, 2] <= -water_depth] = res_back[2]
 
 res_x_bg = res_x.copy()
 res_y_bg = res_y.copy()
@@ -103,155 +80,166 @@ res_z_bg = res_z.copy()
 
 # Include the target
 target_inds = (
-    (mesh.cell_centers[:, 0] >= target_x[0]) &
-    (mesh.cell_centers[:, 0] <= target_x[1]) &
-    (mesh.cell_centers[:, 1] >= target_y[0]) &
-    (mesh.cell_centers[:, 1] <= target_y[1]) &
-    (mesh.cell_centers[:, 2] >= target_z[0]) &
-    (mesh.cell_centers[:, 2] <= target_z[1])
+    (grid.cell_centers[:, 0] >= target_x[0]) &
+    (grid.cell_centers[:, 0] <= target_x[1]) &
+    (grid.cell_centers[:, 1] >= target_y[0]) &
+    (grid.cell_centers[:, 1] <= target_y[1]) &
+    (grid.cell_centers[:, 2] >= target_z[0]) &
+    (grid.cell_centers[:, 2] <= target_z[1])
 )
 res_x[target_inds] = res_target
 res_y[target_inds] = res_target
 res_z[target_inds] = res_target
 
 # Create emg3d-models for given frequency
-pmodel = emg3d.Model(
-        mesh, property_x=res_x, property_y=res_y,
+model = emg3d.Model(
+        grid, property_x=res_x, property_y=res_y,
         property_z=res_z, mapping='Resistivity')
-pmodel_bg = emg3d.Model(
-        mesh, property_x=res_x_bg, property_y=res_y_bg,
+model_bg = emg3d.Model(
+        grid, property_x=res_x_bg, property_y=res_y_bg,
         property_z=res_z_bg, mapping='Resistivity')
 
 # Plot a slice
-mesh.plot_3d_slicer(pmodel.property_x, zslice=-1100, clim=[0, 2],
-                    xlim=(-4000, 4000), ylim=(-4000, 4000), zlim=(-2000, 500))
-
-
-###############################################################################
-# Compute ``emg3d``
-# -------------------
-
-em3_tg = emg3d.solve(mesh, pmodel, sfield, verb=4, nu_pre=0,
-                     semicoarsening=True)
-
-
-###############################################################################
-
-em3_bg = emg3d.solve(mesh, pmodel_bg, sfield, verb=4, nu_pre=0,
-                     semicoarsening=True)
-
-
-###############################################################################
-# Compute ``SimPEG``
-# --------------------
-
-# Set up the receivers
-rx_locs = discretize.utils.ndgrid([rec_x, np.r_[0], np.r_[-water_depth]])
-rx_list = [
-    FDEM.receivers.PointElectricField(
-        orientation='x', component="real", locations=rx_locs),
-    FDEM.receivers.PointElectricField(
-        orientation='x', component="imag", locations=rx_locs)
-]
-
-# We use the emg3d-source-vector, to ensure we use the same in both cases
-src_sp = FDEM.sources.RawVec_e(rx_list, s_e=sfield.vector, frequency=freq)
-src_list = [src_sp]
-survey = FDEM.Survey(src_list)
-
-# Define the Simulation
-sim = FDEM.simulation.Simulation3DElectricField(
-        mesh,
-        survey=survey,
-        sigmaMap=SimPEG.maps.IdentityMap(mesh),
-        solver=pymatsolver.Pardiso,
+grid.plot_3d_slicer(
+        model.property_x, zslice=-3200, clim=[0, 2],
+        xlim=(-4000, 4000), ylim=(-4000, 4000), zlim=(-4000, -2000)
 )
 
 ###############################################################################
-spg_tg_dobs = sim.dpred(np.vstack([1./res_x, 1./res_y, 1./res_z]).T)
-spg_tg = SimPEG.survey.Data(survey, dobs=spg_tg_dobs)
+# Compute ``emg3d``
+# -----------------
+
+e3d_ftg = emg3d.solve(model, sfield, verb=1)
+e3d_tg = e3d_ftg.get_receiver(rec)
+
+e3d_fbg = emg3d.solve(model_bg, sfield, verb=1)
+e3d_bg = e3d_fbg.get_receiver(rec)
+
+###############################################################################
+# Compute ``SimPEG``
+# ------------------
+#
+# In order to reduce the runtime and memory requirements of the gallery the
+# SimPEG result is pre-computed. The following cell needs to be carried out
+# to compute the SimPEG results from scratch.
+#
+# .. code-block:: python
+#
+#     # ===================================================================== #
+#
+#     # Note, in order to use the ``Pardiso``-solver ``pymatsolver`` has to be
+#     # installed via ``conda``, not via ``pip``!
+#     import SimPEG
+#     import discretize
+#     import pymatsolver
+#     import SimPEG.electromagnetics.frequency_domain as FDEM
+#
+#     # Set up the receivers
+#     rx_locs = discretize.utils.ndgrid([rec_x, np.r_[0], np.r_[-water_depth]])
+#     rx_list = [
+#         FDEM.receivers.PointElectricField(
+#             orientation='x', component="real", locations=rx_locs),
+#         FDEM.receivers.PointElectricField(
+#             orientation='x', component="imag", locations=rx_locs)
+#     ]
+#
+#     # We use the emg3d-source-vector, to ensure we use the same in both cases
+#     svector = np.real(sfield.field/-sfield.smu0)
+#     src_sp = FDEM.sources.RawVec_e(rx_list, s_e=svector, frequency=frequency)
+#     src_list = [src_sp]
+#     survey = FDEM.Survey(src_list)
+#
+#     # Define the Simulation
+#     mesh = discretize.TensorMesh(grid.h, grid.origin)
+#     sim = FDEM.simulation.Simulation3DElectricField(
+#             mesh,
+#             survey=survey,
+#             sigmaMap=SimPEG.maps.IdentityMap(mesh),
+#             solver=pymatsolver.Pardiso,
+#     )
+#
+#     spg_tg_dobs = sim.dpred(np.vstack([1./res_x, 1./res_y, 1./res_z]).T)
+#     spg_ftg = SimPEG.survey.Data(survey, dobs=spg_tg_dobs)
+#
+#     spg_bg_dobs = sim.dpred(
+#             np.vstack([1./res_x_bg, 1./res_y_bg, 1./res_z_bg]).T)
+#     spg_fbg = SimPEG.survey.Data(survey, dobs=spg_bg_dobs)
+#
+#     spg_tg = spg_ftg[src_sp, rx_list[0]] + 1j*spg_ftg[src_sp, rx_list[1]]
+#     spg_bg = spg_fbg[src_sp, rx_list[0]] + 1j*spg_fbg[src_sp, rx_list[1]]
+#
+#     emg3d.save('simpeg.h5', spg_tg=spg_tg, spg_bg=spg_bg)
+#
+#     # ===================================================================== #
 
 
 ###############################################################################
-spg_bg_dobs = sim.dpred(
-        np.vstack([1./res_x_bg, 1./res_y_bg, 1./res_z_bg]).T)
-spg_bg = SimPEG.survey.Data(survey, dobs=spg_bg_dobs)
+# Load SimPEG result
+# ------------------
+#
+# The current pre-computed results were generated with:
+#
+# - SimPEG v0.14.3;
+# - pymatsolver v0.1.1;
+# - discretize v0.6.3.
+
+# Load pre-computed data.
+fname = 'simpeg.h5'
+if not os.path.isfile(fname):
+    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
+           f"master/examples/data/SimPEG/{fname}")
+    with open(fname, 'wb') as f:
+        t = requests.get(url)
+        f.write(t.content)
+
+spg = emg3d.load(fname)
+spg_tg, spg_bg = spg['spg_tg'], spg['spg_bg']
 
 
 ###############################################################################
 # Plot result
 # -----------
-ix1, ix2 = 12, 12
-iy = 32
-iz = 13
+def nrmsd(a, b):
+    """Return Normalized Root-Mean-Square Difference."""
+    return 200 * abs(a - b) / (abs(a) + abs(b))
 
-plt.figure(figsize=(9, 6))
 
-plt.subplot(221)
-plt.title('|Real(response)|')
-plt.semilogy(rec_x/1e3, np.abs(em3_bg.fx[ix1:-ix2, iy, iz].real))
-plt.semilogy(rec_x/1e3, np.abs(em3_tg.fx[ix1:-ix2, iy, iz].real))
-plt.semilogy(rec_x/1e3, np.abs(spg_bg[src_sp, rx_list[0]]), 'C4--')
-plt.semilogy(rec_x/1e3, np.abs(spg_tg[src_sp, rx_list[0]]), 'C5--')
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
+fig, axs = plt.subplots(2, 2, figsize=(9, 5), sharex=True, sharey='row')
+((ax1, ax3), (ax2, ax4)) = axs
 
-plt.subplot(223)
-plt.title('|Imag(response)|')
-plt.semilogy(rec_x/1e3, np.abs(em3_bg.fx[ix1:-ix2, iy, iz].imag),
-             label='emg3d BG')
-plt.semilogy(rec_x/1e3, np.abs(em3_tg.fx[ix1:-ix2, iy, iz].imag),
-             label='emg3d target')
-plt.semilogy(rec_x/1e3, np.abs(spg_bg[src_sp, rx_list[1]]), 'C4--',
-             label='SimPEG BG')
-plt.semilogy(rec_x/1e3, np.abs(spg_tg[src_sp, rx_list[1]]), 'C5--',
-             label='SimPEG target')
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
-plt.legend()
+# Real part
+ax1.set_title(r'|Real|')
+ax1.plot(rec_x/1e3, 1e12*np.abs(spg_tg.real), 'C0-', label='SimPEG target')
+ax1.plot(rec_x/1e3, 1e12*np.abs(spg_bg.real), 'C1-', label='SimPEG BG')
+ax1.plot(rec_x/1e3, 1e12*np.abs(e3d_tg.real), 'k:')
+ax1.plot(rec_x/1e3, 1e12*np.abs(e3d_bg.real), 'k--')
+ax1.set_ylabel('$E_x$ (pV/m)')
+ax1.set_yscale('log')
+ax1.legend()
 
-plt.subplot(222)
-plt.title('Difference Real')
+# Normalized difference real
+ax2.plot(rec_x/1e3, nrmsd(spg_tg.real, e3d_tg.real), 'C0.')
+ax2.plot(rec_x/1e3, nrmsd(spg_bg.real, e3d_bg.real), 'C1.')
+ax2.set_ylabel('Norm. Diff (%)')
+ax2.set_xlabel('Offset (km)')
 
-nrmsd_bg = 200*(abs(spg_bg[src_sp, rx_list[0]] -
-                    em3_bg.fx[ix1:-ix2, iy, iz].real) /
-                (abs(em3_bg.fx[ix1:-ix2, iy, iz].real) +
-                 abs(spg_bg[src_sp, rx_list[0]])))
-nrmsd_tg = 200*(abs(spg_tg[src_sp, rx_list[0]] -
-                    em3_tg.fx[ix1:-ix2, iy, iz].real) /
-                (abs(em3_tg.fx[ix1:-ix2, iy, iz].real) +
-                 abs(spg_tg[src_sp, rx_list[0]])))
+# Imaginary part
+ax3.set_title(r'|Imaginary|')
+ax3.plot(rec_x/1e3, 1e12*np.abs(spg_tg.imag), 'C0-')
+ax3.plot(rec_x/1e3, 1e12*np.abs(spg_bg.imag), 'C1-')
+ax3.plot(rec_x/1e3, 1e12*np.abs(e3d_tg.imag), 'k:', label='emg3d target')
+ax3.plot(rec_x/1e3, 1e12*np.abs(e3d_bg.imag), 'k--', label='emg3d BG')
+ax3.legend()
 
-plt.semilogy(rec_x/1e3, nrmsd_bg, label='BG')
-plt.semilogy(rec_x/1e3, nrmsd_tg, label='target')
+# Normalized difference imag
+ax4.plot(rec_x/1e3, nrmsd(spg_tg.imag, e3d_tg.imag), 'C0.')
+ax4.plot(rec_x/1e3, nrmsd(spg_bg.imag, e3d_bg.imag), 'C1.')
+ax4.set_xlabel('Offset (km)')
+ax4.set_yscale('log')
 
-plt.xlabel('Offset (km)')
-plt.ylabel('NRMSD (%)')
-plt.legend()
-
-plt.subplot(224)
-plt.title('Difference Imag')
-
-nrmsd_bg = 200*(abs(spg_bg[src_sp, rx_list[1]] -
-                    em3_bg.fx[ix1:-ix2, iy, iz].imag) /
-                (abs(em3_bg.fx[ix1:-ix2, iy, iz].imag) +
-                 abs(spg_bg[src_sp, rx_list[1]])))
-nrmsd_tg = 200*(abs(spg_tg[src_sp, rx_list[1]] -
-                    em3_tg.fx[ix1:-ix2, iy, iz].imag) /
-                (abs(em3_tg.fx[ix1:-ix2, iy, iz].imag) +
-                 abs(spg_tg[src_sp, rx_list[1]])))
-
-plt.semilogy(rec_x/1e3, nrmsd_bg, label='BG')
-plt.semilogy(rec_x/1e3, nrmsd_tg, label='target')
-
-plt.xlabel('Offset (km)')
-plt.ylabel('NRMSD (%)')
-plt.legend()
-
-plt.tight_layout()
-plt.show()
+fig.tight_layout()
+fig.show()
 
 
 ###############################################################################
-
-emg3d.Report([SimPEG, pymatsolver])
+emg3d.Report()
