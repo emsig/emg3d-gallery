@@ -23,14 +23,24 @@ todo_include_todos = True
 
 # Sphinx gallery configuration
 sphinx_gallery_conf = {
-    'examples_dirs': ['../examples/tutorials', '../examples/comparisons',
-                      '../examples/magnetics', '../examples/time_domain',
-                      '../examples/tools', '../examples/reproducing',
-                      '../examples/interactions'],
-    'gallery_dirs': ['gallery/tutorials', 'gallery/comparisons',
-                     'gallery/magnetics', 'gallery/time_domain',
-                     'gallery/tools', 'gallery/reproducing',
-                     'gallery/interactions'],
+    'examples_dirs': [
+        '../examples/tutorials',
+        '../examples/comparisons',
+        '../examples/magnetics',
+        '../examples/time_domain',
+        '../examples/tools',
+        '../examples/reproducing',
+        '../examples/interactions',
+    ],
+    'gallery_dirs': [
+        'gallery/tutorials',
+        'gallery/comparisons',
+        'gallery/magnetics',
+        'gallery/time_domain',
+        'gallery/tools',
+        'gallery/reproducing',
+        'gallery/interactions',
+    ],
     'capture_repr': ('_repr_html_', '__repr__'),
     # Patter to search for example files
     "filename_pattern": r"\.py",
@@ -60,7 +70,7 @@ intersphinx_mapping = {
     "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
-    "emg3d": ("https://emg3d.emsig.xyz/en/stable", None),
+    "emg3d": ("https://dev1.emsig.xyz/", None),
 }
 
 # ==== 2. General Settings ====
@@ -100,7 +110,7 @@ html_favicon = '_static/favicon.ico'
 html_theme_options = {
     "github_url": "https://github.com/emsig/emg3d",
     "external_links": [
-        {"name": "Documentation", "url": "https://emg3d.emsig.xyz"},
+        {"name": "Documentation", "url": "https://dev1.emsig.xyz"},
         {"name": "EMSiG", "url": "https://emsig.xyz"},
     ],
     # "use_edit_page_button": True,
