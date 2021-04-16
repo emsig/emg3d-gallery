@@ -182,8 +182,8 @@ grid.plot_3d_slicer(model.property_x, xslice=12000, yslice=7000,
 fig = plt.gcf()
 fig.suptitle('Resistivity model (Ohm.m) and survey layout')
 axs = fig.get_children()
-rec_coords = np.array([r.coordinates for r in survey.receivers.values()]).T
-src_coords = np.array([s.coordinates for s in survey.sources.values()]).T
+rec_coords = survey.receiver_coordinates()
+src_coords = survey.source_coordinates()
 axs[1].plot(rec_coords[0], rec_coords[1], 'bv')
 axs[2].plot(rec_coords[0], rec_coords[2], 'bv')
 axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
