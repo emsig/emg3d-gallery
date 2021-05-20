@@ -1,6 +1,6 @@
 """
-1. GemPy-I: *Simple Fault Model*
-================================
+GemPy-I: *Simple Fault Model*
+=============================
 
 This example uses `GemPy <https://www.gempy.org>`_ to create a geological model
 as input to emg3d, utilizing `discretize <http://discretize.simpeg.xyz>`_.

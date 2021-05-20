@@ -43,8 +43,6 @@ from memory_profiler import memory_usage
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_path = '_static/images/RAM.png'
 
-return  # will break but create the title # TODO Not Updated Yet
-
 
 ###############################################################################
 # Model
@@ -67,19 +65,13 @@ def compute(nx):
     x0 = -nx//2*50
     grid = emg3d.TensorMesh([hx, hx, hx], x0=(x0, x0, x0))
 
-    # Source location and frequency
-    src = [0, 0, 0, 0, 0]
-    freq = 1.0
-
-    # Resistivity model
-    res = 1.
-
     # Model and source field
-    model = emg3d.Model(grid, property_x=res, mapping='Resistivity')
-    sfield = emg3d.get_source_field(grid, src, freq=freq, strength=0)
+    model = emg3d.Model(grid, property_x=1.0, mapping='Resistivity')
+    sfield = emg3d.get_source_field(
+            grid, source=[0, 0, 0, 0, 0], frequency=1.0)
 
     # Compute the field
-    _, inf = emg3d.solve(grid, model, sfield, verb=1, return_info=True)
+    _, inf = emg3d.solve(model, sfield, verb=0, plain=True, return_info=True)
 
     return inf['time']
 

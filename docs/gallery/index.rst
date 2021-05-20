@@ -8,7 +8,6 @@ Gallery
    tutorials/index
    comparisons/index
    magnetics/index
-   time_domain/index
+   t-domain/index
    tools/index
-   reproducing/index
-   interactions/index
+   models/index

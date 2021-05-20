@@ -15,8 +15,6 @@ extensions = [
 
 # Numpydoc settings
 numpydoc_show_class_members = False
-# numfig = True
-# numfig_format = {'figure': 'Figure %s:'}
 
 # Todo settings
 todo_include_todos = True
@@ -27,19 +25,17 @@ sphinx_gallery_conf = {
         '../examples/tutorials',
         '../examples/comparisons',
         '../examples/magnetics',
-        '../examples/time_domain',
+        '../examples/t-domain',
         '../examples/tools',
-        '../examples/reproducing',
-        '../examples/interactions',
+        '../examples/models',
     ],
     'gallery_dirs': [
         'gallery/tutorials',
         'gallery/comparisons',
         'gallery/magnetics',
-        'gallery/time_domain',
+        'gallery/t-domain',
         'gallery/tools',
-        'gallery/reproducing',
-        'gallery/interactions',
+        'gallery/models',
     ],
     'capture_repr': ('_repr_html_', '__repr__'),
     # Patter to search for example files

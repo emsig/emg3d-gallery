@@ -24,43 +24,41 @@ from matplotlib.colors import LogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 2
 
-return  # will break but create the title # TODO Not Updated Yet
-
 
 ###############################################################################
 # Model, Survey, and Analytical Solution
 # --------------------------------------
 
-water_depth = 500                    # 500 m water depth
-off = np.linspace(2000, 7000, 501)   # Offsets
-src = [np.array([0]), np.array([0]),
-       np.array([-water_depth+50])]  # Source at origin, 50 m above seafloor
-rec = [off, off*0, -water_depth]     # Receivers on the seafloor
-depth = [-water_depth, 0]            # Simple model
-res = [1, 0.3, 1e8]                  # Simple model
-freq = 0.1                           # Frequency
+water_depth = 500                        # 500 m water depth
+offsets = np.linspace(2000, 7000, 501)   # Offsets
+src_coo = [0, 0, -water_depth+50, 0, 0]  # Src at origin, 50 m above seafloor
+rec_coo = [offsets, offsets*0, -water_depth, 0, 0]  # Receivers on the seafloor
+depth = [-water_depth, 0]                # Simple model
+resistivity = [1, 0.3, 1e8]              # Simple model
+frequency = 0.1                          # Frequency
+
+source = emg3d.TxElectricDipole(src_coo)
 
 # Compute analytical solution
-epm = empymod.dipole(src, rec, depth, res, freq)
+epm = empymod.bipole(src_coo, rec_coo, depth, resistivity, frequency)
 
 ###############################################################################
 # 3D Modelling
 # ------------
 
 # Parameter we keep the same for both grids
-x_inp = {'fixed': src[0], 'domain': [src[0][0]-500, off[-1]+500]}
-y_inp = {'fixed': src[1], 'domain': [src[1][0], src[1][0]]}
-z_inp = {'fixed': [0, -water_depth-100, 100], 'domain': [-600, 100]}
-inp = {'freq': freq, 'alpha': [1, 1.25, 0.01], 'min_width': 100}
-
-# Solver parameters
-solver_inp = {
-        'verb': 4,
-        'sslsolver': True,
-        'semicoarsening': True,
-        'linerelaxation': True
+grid_inp = {
+    'frequency': frequency,
+    'center': [src_coo[0], src_coo[1], -water_depth-100],
+    'domain': ([src_coo[0]-500, offsets[-1]+500],
+               [src_coo[1], src_coo[1]],
+               [-600, 100]),
+    'seasurface': 0,
+    'min_width_limits': 100,
+    'stretching': [1, 1.25],
+    'lambda_from_center': True,
+    'verb': 1,
 }
-
 
 ###############################################################################
 # 1st grid, only considering air resistivity for +z
@@ -72,34 +70,34 @@ solver_inp = {
 # with :math:`\rho=1e4, 1e3, 1e2, 1e1`, and the result was that after 100 there
 # is not much improvement any longer.)
 #
-# Also note that the function ``emg3d.meshes.get_hx_h0`` internally uses six
-# times the skin depth for the boundary. For :math:`\rho` = 100 Ohm.m and
-# :math:`f` = 0.1 Hz, the skin depth :math:`\delta` is roughly 16 km, which
+# Also note that the function :func:`emg3d.meshes.construct_mesh` internally
+# uses six times the skin depth for the boundary. For :math:`\rho` = 100 Ohm.m
+# and :math:`f` = 0.1 Hz, the skin depth :math:`\delta` is roughly 16 km, which
 # therefore results in a boundary of roughly 96 km.
 #
-# See the documentation of ``emg3d.meshes.get_hx_h0`` for more information on
-# how the grid is created.
+# See the documentation of :func:`emg3d.meshes.get_hx_h0` for more information
+# on how the grid is created.
 
-# Get cell widths and origin in each direction
-xx_1, x0_1 = emg3d.meshes.get_hx_h0(res=[res[1], res[0]], **x_inp, **inp)
-yy_1, y0_1 = emg3d.meshes.get_hx_h0(res=[res[1], res[0]], **y_inp, **inp)
-zz_1, z0_1 = emg3d.meshes.get_hx_h0(res=[res[1], res[0], 100], **z_inp, **inp)
+grid_1 = emg3d.construct_mesh(
+    properties=[resistivity[1], resistivity[0], resistivity[0], 100],
+    **grid_inp,
+)
+grid_1
 
-# Create grid and correpsoding model
-grid_1 = emg3d.TensorMesh([xx_1, yy_1, zz_1], x0=np.array([x0_1, y0_1, z0_1]))
-res_1 = res[0]*np.ones(grid_1.n_cells)
-res_1[grid_1.cell_centers[:, 2] > -water_depth] = res[1]
-res_1[grid_1.cell_centers[:, 2] > 0] = res[2]
+###############################################################################
+
+# Create corresponding model
+res_1 = resistivity[0]*np.ones(grid_1.n_cells)
+res_1[grid_1.cell_centers[:, 2] > -water_depth] = resistivity[1]
+res_1[grid_1.cell_centers[:, 2] > 0] = resistivity[2]
 model_1 = emg3d.Model(grid_1, property_x=res_1, mapping='Resistivity')
 
 # QC
 grid_1.plot_3d_slicer(
         np.log10(model_1.property_x), zlim=(-2000, 100), clim=[-1, 2])
 
-# Define source and solve the system
-sfield_1 = emg3d.get_source_field(
-        grid_1, [src[0], src[1], src[2], 0, 0], freq)
-efield_1 = emg3d.solve(grid_1, model_1, sfield_1, **solver_inp)
+# Solve the system
+efield_1 = emg3d.solve_source(model_1, source, frequency, verb=3)
 
 
 ###############################################################################
@@ -108,16 +106,18 @@ efield_1 = emg3d.solve(grid_1, model_1, sfield_1, **solver_inp)
 #
 # See comments below the heading of the 1st grid regarding boundary.
 
-# Get cell widths and origin in each direction
-xx_2, x0_2 = emg3d.meshes.get_hx_h0(res=[res[1], 100], **x_inp, **inp)
-yy_2, y0_2 = emg3d.meshes.get_hx_h0(res=[res[1], 100], **y_inp, **inp)
-zz_2, z0_2 = emg3d.meshes.get_hx_h0(res=[res[1], res[0], 100], **z_inp, **inp)
+grid_2 = emg3d.construct_mesh(
+    properties=[resistivity[1], resistivity[0], 100],
+    **grid_inp,
+)
+grid_2
 
-# Create grid and correpsoding model
-grid_2 = emg3d.TensorMesh([xx_2, yy_2, zz_2], x0=np.array([x0_2, y0_2, z0_2]))
-res_2 = res[0]*np.ones(grid_2.n_cells)
-res_2[grid_2.cell_centers[:, 2] > -water_depth] = res[1]
-res_2[grid_2.cell_centers[:, 2] > 0] = res[2]
+###############################################################################
+
+# Create corresponding model
+res_2 = resistivity[0]*np.ones(grid_2.n_cells)
+res_2[grid_2.cell_centers[:, 2] > -water_depth] = resistivity[1]
+res_2[grid_2.cell_centers[:, 2] > 0] = resistivity[2]
 model_2 = emg3d.Model(grid_2, property_x=res_2, mapping='Resistivity')
 
 # QC
@@ -125,9 +125,7 @@ model_2 = emg3d.Model(grid_2, property_x=res_2, mapping='Resistivity')
 #         np.log10(model_2.property_x), zlim=(-2000, 100), clim=[-1, 2])
 
 # Define source and solve the system
-sfield_2 = emg3d.get_source_field(
-        grid_2, [src[0], src[1], src[2], 0, 0], freq)
-efield_2 = emg3d.solve(grid_2, model_2, sfield_2, **solver_inp)
+efield_2 = emg3d.solve_source(model_2, source, frequency, verb=3)
 
 
 ###############################################################################
@@ -135,10 +133,8 @@ efield_2 = emg3d.solve(grid_2, model_2, sfield_2, **solver_inp)
 # -----------------------
 
 # Interpolate fields at receiver positions
-emg_1 = emg3d.get_receiver(
-        grid_1, efield_1.fx, (rec[0], rec[1], rec[2]))
-emg_2 = emg3d.get_receiver(
-        grid_2, efield_2.fx, (rec[0], rec[1], rec[2]))
+emg_1 = efield_1.get_receiver(tuple(rec_coo))
+emg_2 = efield_2.get_receiver(tuple(rec_coo))
 
 
 ###############################################################################
@@ -148,18 +144,18 @@ plt.figure(figsize=(10, 7))
 # Real, log-lin
 ax1 = plt.subplot(321)
 plt.title('(a) lin-lin Real')
-plt.plot(off/1e3, epm.real, 'k', lw=2, label='analytical')
-plt.plot(off/1e3, emg_1.real, 'C0--', label='grid 1')
-plt.plot(off/1e3, emg_2.real, 'C1:', label='grid 2')
+plt.plot(offsets/1e3, epm.real, 'k', lw=2, label='analytical')
+plt.plot(offsets/1e3, emg_1.real, 'C0--', label='grid 1')
+plt.plot(offsets/1e3, emg_2.real, 'C1:', label='grid 2')
 plt.ylabel('$E_x$ (V/m)')
 plt.legend()
 
 # Real, log-symlog
 ax3 = plt.subplot(323, sharex=ax1)
 plt.title('(c) lin-symlog Real')
-plt.plot(off/1e3, epm.real, 'k')
-plt.plot(off/1e3, emg_1.real, 'C0--')
-plt.plot(off/1e3, emg_2.real, 'C1:')
+plt.plot(offsets/1e3, epm.real, 'k')
+plt.plot(offsets/1e3, emg_1.real, 'C0--')
+plt.plot(offsets/1e3, emg_2.real, 'C1:')
 plt.ylabel('$E_x$ (V/m)')
 plt.yscale('symlog', linthresh=1e-15)
 
@@ -172,8 +168,8 @@ err_real_1 = np.clip(100*abs((epm.real-emg_1.real)/epm.real), 0.01, 10)
 err_real_2 = np.clip(100*abs((epm.real-emg_2.real)/epm.real), 0.01, 10)
 
 plt.ylabel('Rel. error %')
-plt.plot(off/1e3, err_real_1, 'C0--')
-plt.plot(off/1e3, err_real_2, 'C1:')
+plt.plot(offsets/1e3, err_real_1, 'C0--')
+plt.plot(offsets/1e3, err_real_2, 'C1:')
 plt.axhline(1, color='.4')
 
 plt.yscale('log')
@@ -183,16 +179,16 @@ plt.xlabel('Offset (km)')
 # Imaginary, log-lin
 ax2 = plt.subplot(322)
 plt.title('(b) lin-lin Imag')
-plt.plot(off/1e3, epm.imag, 'k')
-plt.plot(off/1e3, emg_1.imag, 'C0--')
-plt.plot(off/1e3, emg_2.imag, 'C1:')
+plt.plot(offsets/1e3, epm.imag, 'k')
+plt.plot(offsets/1e3, emg_1.imag, 'C0--')
+plt.plot(offsets/1e3, emg_2.imag, 'C1:')
 
 # Imaginary, log-symlog
 ax4 = plt.subplot(324, sharex=ax2)
 plt.title('(d) lin-symlog Imag')
-plt.plot(off/1e3, epm.imag, 'k')
-plt.plot(off/1e3, emg_1.imag, 'C0--')
-plt.plot(off/1e3, emg_2.imag, 'C1:')
+plt.plot(offsets/1e3, epm.imag, 'k')
+plt.plot(offsets/1e3, emg_1.imag, 'C0--')
+plt.plot(offsets/1e3, emg_2.imag, 'C1:')
 
 plt.yscale('symlog', linthresh=1e-15)
 
@@ -204,8 +200,8 @@ plt.title('(f) clipped 0.01-10')
 err_imag_1 = np.clip(100*abs((epm.imag-emg_1.imag)/epm.imag), 0.01, 10)
 err_imag_2 = np.clip(100*abs((epm.imag-emg_2.imag)/epm.imag), 0.01, 10)
 
-plt.plot(off/1e3, err_imag_1, 'C0--')
-plt.plot(off/1e3, err_imag_2, 'C1:')
+plt.plot(offsets/1e3, err_imag_1, 'C0--')
+plt.plot(offsets/1e3, err_imag_2, 'C1:')
 plt.axhline(1, color='.4')
 
 plt.yscale('log')
@@ -230,12 +226,12 @@ plt.show()
 
 grid_1.plot_3d_slicer(
     efield_1.fx.ravel('F'), view='abs', v_type='Ex',
-    xslice=src[0], yslice=src[1], zslice=rec[2],
+    xslice=src_coo[0], yslice=src_coo[1], zslice=rec_coo[2],
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 grid_1.plot_3d_slicer(
     efield_1.fx.ravel('F'), view='abs', v_type='Ex',
     zlim=[-5000, 1000],
-    xslice=src[0], yslice=src[1], zslice=rec[2],
+    xslice=src_coo[0], yslice=src_coo[1], zslice=rec_coo[2],
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 
 
@@ -249,14 +245,14 @@ grid_1.plot_3d_slicer(
 
 grid_2.plot_3d_slicer(
     efield_2.fx.ravel('F'), view='abs', v_type='Ex',
-    xslice=src[0], yslice=src[1], zslice=rec[2],
+    xslice=src_coo[0], yslice=src_coo[1], zslice=rec_coo[2],
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 grid_2.plot_3d_slicer(
     efield_2.fx.ravel('F'), view='abs', v_type='Ex',
     xlim=[grid_1.nodes_x[0], grid_1.nodes_x[-1]],  # Same square as grid_1
     ylim=[grid_1.nodes_y[0], grid_1.nodes_y[-1]],  # Same square as grid_1
     zlim=[-5000, 1000],
-    xslice=src[0], yslice=src[1], zslice=rec[2],
+    xslice=src_coo[0], yslice=src_coo[1], zslice=rec_coo[2],
     pcolor_opts={'norm': LogNorm(vmin=1e-17, vmax=1e-9)})
 
 

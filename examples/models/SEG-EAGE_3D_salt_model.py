@@ -1,6 +1,6 @@
 r"""
-1. SEG-EAGE 3D Salt Model
-=========================
+SEG-EAGE 3D Salt Model
+======================
 
 
 In this example we reproduce the results by [Muld07]_, which uses the SEG/EAGE

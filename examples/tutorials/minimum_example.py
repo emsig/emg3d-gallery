@@ -81,7 +81,7 @@ grid  # QC
 #
 # Next we have to build a model. What applies for the gridding applies as well
 # for the model building: there are better tools out there than emg3d for this
-# task (see, e.g., :ref:`sphx_glr_gallery_interactions_gempy-i.py`).
+# task (see, e.g., :ref:`sphx_glr_gallery_models_gempy-i.py`).
 #
 # However, building simple layered or block models is possible. Here we create
 # a very simple fullspace resistivity model with

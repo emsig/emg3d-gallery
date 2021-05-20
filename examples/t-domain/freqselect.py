@@ -2,8 +2,8 @@
 3. Interactive frequency selection
 ==================================
 
-The time domain examples :ref:`sphx_glr_gallery_time_domain_fullspace.py` and
-:ref:`sphx_glr_gallery_time_domain_marine_1D.py` use a relatively small range
+The time domain examples :ref:`sphx_glr_gallery_t-domain_fullspace.py` and
+:ref:`sphx_glr_gallery_t-domain_marine_1D.py` use a relatively small range
 of frequencies to go from the frequency domain to the time domain. The chosen
 frequencies where designed in an interactive GUI, which you can find in the
 repo `empymod/frequency-selection

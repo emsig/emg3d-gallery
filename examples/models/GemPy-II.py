@@ -1,12 +1,12 @@
 """
-2. GemPy-II: *Perth Basin*
-==========================
+GemPy-II: *Perth Basin*
+=======================
 
 This example is mainly about building a deep marine resistivity model that can
 be used in other examples. There is not a lot of explanation. For more details
 regarding the integration of `GemPy` and `emg3d` see the
-:ref:`sphx_glr_gallery_interactions_gempy-i.py`, and make sure to consult the
-many useful information over at `GemPy <https://www.gempy.org>`_.
+:ref:`sphx_glr_gallery_models_gempy-i.py`, and make sure to consult the many
+useful information over at `GemPy <https://www.gempy.org>`_.
 
 The model is based on the `Perth Basin Model
 <https://docs.gempy.org/examples/real/Perth_basin.html>`_ from GemPy. We take

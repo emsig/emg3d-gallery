@@ -119,8 +119,9 @@ e3d_bg = e3d_fbg.get_receiver(rec)
 # Compute ``SimPEG``
 # ------------------
 #
-# In order to reduce the runtime and memory requirements of the gallery the
-# SimPEG result is pre-computed. The following cell needs to be carried out
+# In order to reduce (a) the number of dependencies to generate the gallery
+# and, more importantly, (b) the runtime and memory requirements of the gallery
+# the SimPEG result is pre-computed. The following cell needs to be carried out
 # to compute the SimPEG results from scratch.
 #
 # .. code-block:: python
@@ -177,7 +178,7 @@ e3d_bg = e3d_fbg.get_receiver(rec)
 # Load SimPEG result
 # ------------------
 #
-# The current pre-computed results were generated with:
+# The current pre-computed results were generated on 2021-04-15 with:
 #
 # - SimPEG v0.14.3;
 # - pymatsolver v0.1.1;

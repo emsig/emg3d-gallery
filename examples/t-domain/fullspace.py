@@ -603,6 +603,6 @@ plt.show()
 # Note re second point, frequency selection: We only used 14 frequencies from
 # 0.05-20 Hz, whereas Mulder et al., 2008, used 26 frequencies from 0.01-100
 # Hz. Have a look at the example
-# :ref:`sphx_glr_gallery_time_domain_freqselect.py`.
+# :ref:`sphx_glr_gallery_t-domain_freqselect.py`.
 
 emg3d.Report()

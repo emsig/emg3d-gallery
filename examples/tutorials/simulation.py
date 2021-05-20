@@ -8,7 +8,7 @@ and Simulation classes, :class:`emg3d.surveys.Survey` and
 automatic gridding functionality.
 
 For this example we use the resistivity model created in the example
-:ref:`sphx_glr_gallery_interactions_gempy-ii.py`.
+:ref:`sphx_glr_gallery_models_gempy-ii.py`.
 
 """
 import os

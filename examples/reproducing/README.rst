@@ -1,4 +1,0 @@
-Reproducing
-===========
-
-Reproducing published results.
