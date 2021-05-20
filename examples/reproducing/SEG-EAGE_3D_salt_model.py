@@ -47,9 +47,6 @@ from matplotlib.colors import LogNorm
 plt.style.use('ggplot')
 # sphinx_gallery_thumbnail_number = 2
 
-return  # will break but create the title # TODO Not Updated Yet
-
-
 ###############################################################################
 # Velocity-to-resistivity transform
 # ---------------------------------
@@ -163,26 +160,31 @@ p.show()
 # Survey parameters
 # `````````````````
 
-src = [6400, 6600, 6500, 6500, -50, -50]  # source location
-freq = 1.0                                # Frequency
+# Create a source instance
+source = emg3d.TxElectricDipole(
+        coordinates=[6400, 6600, 6500, 6500, -50, -50],
+        strength=1/200.  # Normalize for length.
+)
+
+# Frequency (Hz)
+frequency = 1.0
 
 ###############################################################################
 # Initialize computation mesh
 # ```````````````````````````
 
-# Get computation domain as a function of frequency (resp., skin depth)
-hx_min, xdomain = emg3d.meshes.get_domain(
-        x0=6500, freq=freq, limits=[0, 13500], min_width=[5, 100])
-hz_min, zdomain = emg3d.meshes.get_domain(
-        freq=freq, limits=[-4180, 0], min_width=[5, 20], fact_pos=40)
-
-# Create stretched grid
-nx = 2**7
-hx = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, 6500)
-hy = emg3d.meshes.get_stretched_h(hx_min, xdomain, nx, 6500)
-hz = emg3d.meshes.get_stretched_h(hz_min, zdomain, nx, x0=-100, x1=0)
-grid = emg3d.TensorMesh(
-        [hx, hy, hz], x0=(xdomain[0], xdomain[0], zdomain[0]))
+grid = emg3d.construct_mesh(
+    frequency=frequency,
+    properties=[0.3, 1, 2, 15],
+    center=(6500, 6500, -50),
+    seasurface=0,
+    domain=([0, 13500], [0, 13500], None),
+    vector=(None, None, np.array([-100, -80, -60, -40, -20, 0])),
+    min_width_limits=([5, 100], [5, 100], [5, 20]),
+    min_width_pps=5,
+    stretching=[1.03, 1.05],
+    lambda_from_center=True,
+)
 grid
 
 ###############################################################################
@@ -190,7 +192,7 @@ grid
 # ``````````````````````````````````````````
 
 # Interpolate resistivities from fine mesh to coarser grid
-cres = emg3d.maps.grid2grid(mesh, res, grid, 'volume')
+cres = emg3d.maps.interpolate(mesh, res, grid, 'volume', log=True)
 
 # Create model
 model = emg3d.Model(grid, property_x=cres, mapping='Resistivity')
@@ -212,20 +214,17 @@ grid.plot_3d_slicer(
 # Solve the system
 # ````````````````
 
-# Source field
-sfield = emg3d.get_source_field(grid, src, freq, 0)
-
-pfield = emg3d.solve(
-    grid, model, sfield,
-    sslsolver=True,
+efield = emg3d.solve_source(
+    model, source, frequency,
     semicoarsening=False,
     linerelaxation=False,
-    verb=4)
+    verb=4
+)
 
 ###############################################################################
 
 grid.plot_3d_slicer(
-    pfield.fx.ravel('F'), zslice=-2000, zlim=(-4180, 500), view='abs',
+    efield.fx.ravel('F'), zslice=-2000, zlim=(-4180, 500), view='abs',
     v_type='Ex', pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)})
 
 ###############################################################################
@@ -236,7 +235,7 @@ y = grid.cell_centers_y
 rx = np.repeat([x, ], np.size(x), axis=0)
 ry = rx.transpose()
 rz = -2000
-data = emg3d.get_receiver(grid, pfield.fx, (rx, ry, rz))
+data = efield.get_receiver((rx, ry, rz, 0, 0))
 
 # Colour limits
 vmin, vmax = -16, -10.5

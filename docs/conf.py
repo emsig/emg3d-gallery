@@ -66,7 +66,7 @@ warnings.filterwarnings("ignore", category=UserWarning,
 intersphinx_mapping = {
     "numpy": ("https://numpy.org/doc/stable", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
-    "discretize": ("https://discretize.simpeg.xyz/en/master", None),
+    "discretize": ("https://discretize.simpeg.xyz/en/main", None),
     "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
@@ -87,7 +87,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'emg3d-gallery'
-author = 'The EMSiG community'
+author = 'The emsig community'
 copyright = f'2018-{time.strftime("%Y")}, {author}'
 
 # |version| and |today| tags (|release|-tag is not used).
@@ -111,7 +111,7 @@ html_theme_options = {
     "github_url": "https://github.com/emsig/emg3d",
     "external_links": [
         {"name": "Documentation", "url": "https://dev1.emsig.xyz"},
-        {"name": "EMSiG", "url": "https://emsig.xyz"},
+        {"name": "emsig", "url": "https://emsig.xyz"},
     ],
     # "use_edit_page_button": True,
 }
@@ -119,7 +119,7 @@ html_theme_options = {
 html_context = {
     "github_user": "emsig",
     "github_repo": "emg3d-gallery",
-    "github_version": "master",
+    "github_version": "main",
     "doc_path": "docs",
 }
 

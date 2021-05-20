@@ -5,7 +5,7 @@ emg3d Gallery
 :Release: |version|
 :Date: |today|
 :Source: `github.com/emsig/emg3d-gallery <https://github.com/emsig/emg3d-gallery>`_
-:EMSiG: `emsig.xyz <https://emsig.xyz>`_
+:emsig: `emsig.xyz <https://emsig.xyz>`_
 
 ----
 
