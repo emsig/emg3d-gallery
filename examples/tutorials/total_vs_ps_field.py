@@ -223,39 +223,37 @@ em3_sf_rec = em3_sf.get_receiver(rectuple)
 em3_ps_rec = em3_ps.get_receiver(rectuple)
 
 ###############################################################################
-plt.figure(figsize=(9, 5))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 5), sharex=True)
 
-ax1 = plt.subplot(121)
-plt.title('|Real part|')
-plt.plot(off/1e3, abs(em3_pf_rec.real), 'k',
+ax1.set_title('|Real part|')
+ax1.plot(off/1e3, abs(em3_pf_rec.real), 'k',
          label='Primary Field (1D Background)')
-plt.plot(off/1e3, abs(em3_sf_rec.real), '.4', ls='--',
+ax1.plot(off/1e3, abs(em3_sf_rec.real), '.4', ls='--',
          label='Secondary Field (Scatterer)')
-plt.plot(off/1e3, abs(em3_ps_rec.real))
-plt.plot(off[::2]/1e3, abs(em3_tf_rec[::2].real), '.')
-plt.plot(off/1e3, abs(em3_ps_rec.real-em3_tf_rec.real))
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
-plt.yscale('log')
-plt.legend()
+ax1.plot(off/1e3, abs(em3_ps_rec.real))
+ax1.plot(off[::2]/1e3, abs(em3_tf_rec[::2].real), '.')
+ax1.plot(off/1e3, abs(em3_ps_rec.real-em3_tf_rec.real))
+ax1.set_xlabel('Offset (km)')
+ax1.set_ylabel('$E_x$ (V/m)')
+ax1.set_yscale('log')
+ax1.legend()
 
-ax2 = plt.subplot(122, sharey=ax1)
-plt.title('|Imaginary part|')
-plt.plot(off/1e3, abs(em3_pf_rec.imag), 'k')
-plt.plot(off/1e3, abs(em3_sf_rec.imag), '.4', ls='--')
-plt.plot(off/1e3, abs(em3_ps_rec.imag), label='P/S Field')
-plt.plot(off[::2]/1e3, abs(em3_tf_rec[::2].imag), '.', label='Total Field')
-plt.plot(off/1e3, abs(em3_ps_rec.imag-em3_tf_rec.imag),
+ax2.set_title('|Imaginary part|')
+ax2.plot(off/1e3, abs(em3_pf_rec.imag), 'k')
+ax2.plot(off/1e3, abs(em3_sf_rec.imag), '.4', ls='--')
+ax2.plot(off/1e3, abs(em3_ps_rec.imag), label='P/S Field')
+ax2.plot(off[::2]/1e3, abs(em3_tf_rec[::2].imag), '.', label='Total Field')
+ax2.plot(off/1e3, abs(em3_ps_rec.imag-em3_tf_rec.imag),
          label=r'$\Delta$|P/S-Total|')
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
-plt.yscale('log')
+ax2.set_xlabel('Offset (km)')
+ax2.set_ylabel('$E_x$ (V/m)')
+ax2.set_yscale('log')
 ax2.yaxis.tick_right()
 ax2.yaxis.set_label_position("right")
 plt.legend()
 
-plt.tight_layout()
-plt.show()
+fig.tight_layout()
+fig.show()
 
 ###############################################################################
 

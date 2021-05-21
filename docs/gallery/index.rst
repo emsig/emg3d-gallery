@@ -9,5 +9,4 @@ Gallery
    comparisons/index
    magnetics/index
    t-domain/index
-   tools/index
    models/index

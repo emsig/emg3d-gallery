@@ -26,7 +26,6 @@ sphinx_gallery_conf = {
         '../examples/comparisons',
         '../examples/magnetics',
         '../examples/t-domain',
-        '../examples/tools',
         '../examples/models',
     ],
     'gallery_dirs': [
@@ -34,7 +33,6 @@ sphinx_gallery_conf = {
         'gallery/comparisons',
         'gallery/magnetics',
         'gallery/t-domain',
-        'gallery/tools',
         'gallery/models',
     ],
     'capture_repr': ('_repr_html_', '__repr__'),
@@ -48,8 +46,7 @@ sphinx_gallery_conf = {
     'show_memory': True,
     # Custom first notebook cell
     'first_notebook_cell': '%matplotlib notebook',
-    # PyVista scraper
-    'image_scrapers': ('matplotlib', 'pyvista', ),
+    'image_scrapers': ('matplotlib', ),
 }
 
 # https://github.com/sphinx-gallery/sphinx-gallery/pull/521/files

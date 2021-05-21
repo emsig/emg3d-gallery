@@ -50,7 +50,7 @@ depth = np.array([-2500, -2000, -1000, 0])
 # Create the mesh.
 orig_mesh = emg3d.TensorMesh(
     [[1, ], [1, ], np.r_[1000, np.diff(depth), 1000]],
-    x0=('C', 'C', depth[0]-1000))
+    origin=('C', 'C', depth[0]-1000))
 
 # Create a resistivity model using the 1D model and the above mesh.
 orig_model = emg3d.Model(
@@ -167,7 +167,7 @@ for fi, frq in enumerate(Fourier.freq_calc[::-1]):
                               np.max([hix['dmax'], hiy['dmax'], hiz['dmax']])]
 
     # Initiate mesh.
-    grid = emg3d.TensorMesh([xx, yy, zz], x0=np.array([x0, y0, z0]))
+    grid = emg3d.TensorMesh([xx, yy, zz], origin=np.array([x0, y0, z0]))
     # print(grid)
     values[key]['nC'] = grid.nC  # Store number of cells in log.
 

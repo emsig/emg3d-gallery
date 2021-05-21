@@ -2,17 +2,19 @@ r"""
 SEG-EAGE 3D Salt Model
 ======================
 
+[Muld07]_ presented electromagnetic responses for a resistivity model which he
+derived from the seismic velocities of the SEG/EAGE salt model [AmBK97]_.
 
-In this example we reproduce the results by [Muld07]_, which uses the SEG/EAGE
-salt model from [AmBK97]_.
+Here we reproduce and store this resistivity model, and compute electromagnetic
+responses for it.
 
-Velocity to resistivity transform
+Velocity-to-resistivity transform
 ---------------------------------
 
 Quoting here the description of the velocity-to-resistivity transform used by
 [Muld07]_:
 
-    "The SEG/EAGE salt model (Aminzadeh et al. 1997), originally designed for
+    «The SEG/EAGE salt model (Aminzadeh et al. 1997), originally designed for
     seismic simulations, served as a template for a realistic subsurface model.
     Its dimensions are 13500 by 13480 by 4680 m. The seismic velocities of the
     model were replaced by resistivity values. The water velocity of 1.5 km/s
@@ -21,7 +23,7 @@ Quoting here the description of the velocity-to-resistivity transform used by
     depth, was set to 0.002 Ohm m. The resistivity of the sediments was
     determined by :math:`(v/1700)^{3.88}` Ohm m, with the velocity v in m/s
     (Meju et al. 2003). For air, the resistivity was set to :math:`10^8` Ohm
-    m."
+    m.»
 
 Equation 1 of [MeGM03]_, is given by
 
@@ -36,122 +38,163 @@ where :math:`\rho` is resistivity, :math:`V_P` is P-wave velocity, and for
 The velocity-to-resistivity transform uses therefore a Faust model ([Faus53]_)
 with some additional constraints for water, salt, and basement.
 
+.. note::
+
+    To re-create the model you have to download the SEG/EAGE salt model, as
+    explained further down. For the 3D plotting example you have to install
+    ``pyvista``.
+
+    The code example and the ``SEG-EAGE-Salt-Model.h5``-file used in the
+    gallery were created on 2021-05-21 with ``pyvista=0.30.1``.
+
+    The SEG/EAGE Salt Model is licensed under the `CC-BY-4.0
+    <https://creativecommons.org/licenses/by/4.0>`_.
+
 """
+import os
 import emg3d
-import joblib
-import zipfile
-import pyvista
+import requests
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
-# sphinx_gallery_thumbnail_number = 2
+plt.style.use('bmh')
 
 ###############################################################################
-# Velocity-to-resistivity transform
-# ---------------------------------
+# Creating the resistivity model
+# ------------------------------
 #
-# The following cell loads the resistivity model ``res-model.lzma`` (~14 MB),
-# if it already exists in ``../data/SEG/``, or alternatively loads the velocity
-# model ``Saltf@@``, carries out the velocity-to-resistivity transform, and
-# stores the resistivity model.
+# To reduce runtime and dependencies of the gallery build we use a pre-computed
+# resistivity model, which was generated with the code provided below.
 #
-# You can get the data from the `SEG-website
+# In order to reproduce it yourself you have to download the data from the
+# `SEG-website
 # <https://wiki.seg.org/wiki/SEG/EAGE_Salt_and_Overthrust_Models>`_ or via this
 # `direct link
 # <https://s3.amazonaws.com/open.source.geoscience/open_data/seg_eage_models_cd/Salt_Model_3D.tar.gz>`_.
 # The zip-file is 513.1 MB big. Unzip the archive, and place the file
-# ``Salt_Model_3D/3-D_Salt_Model/VEL_GRIDS/SALTF.ZIP`` (20.0 MB) into
-# ``../data/SEG/`` (or adjust the path in the following cell).
+# ``Salt_Model_3D/3-D_Salt_Model/VEL_GRIDS/SALTF.ZIP`` (20.0 MB) in the same
+# directory as the notebook.
+#
+# The following cell loads takes this ``SALTF.ZIP``, carries out the
+# velocity-to-resistivity transform, and stores the resistivity model for later
+# use.
+#
+# .. code-block:: python
+#
+#     import emg3d
+#     import zipfile
+#     import numpy as np
+#
+#     # Dimension of seismic velocities
+#     nx, ny, nz = 676, 676, 210
+#
+#     # Create a discretize-mesh of the correct dimension
+#     # (nz: +1, for air)
+#     fgrid = emg3d.TensorMesh(
+#         [np.ones(nx)*20., np.ones(ny)*20., np.ones(nz+1)*20.],
+#         origin=(0, 0, -210*20))
+#     res = np.zeros(fgrid.shape_cells, order='F')
+#
+#     # Load data
+#     zipfile.ZipFile('SALTF.ZIP', 'r').extract('Saltf@@')
+#     with open('Saltf@@', 'r') as file:
+#         v = np.fromfile(file, dtype=np.dtype('float32').newbyteorder('>'))
+#         res[:, :, 1:] = v.reshape((nx, ny, nz), order='F')
+#
+#     # Velocity to resistivity transform for whole cube
+#     res = (res/1700)**3.88  # Sediment resistivity = 1
+#
+#     # Overwrite basement resistivity from 3660 m onwards
+#     res[:, :, np.arange(fgrid.shape_cells[2])*20 > 3680] = 500.
+#
+#     # Set sea-water to 0.3
+#     res[:, :, :16][res[:, :, :16] <= 1500] = 0.3
+#     # Ensure at least top layer is water
+#     res[:, :, 1] = 0.3
+#
+#     # Fix salt resistivity
+#     res[res == 4482] = 30.
+#
+#     # Set air resistivity
+#     res[:, :, 0] = 1e8
+#
+#     # THE SEG/EAGE salt-model uses positive z downwards; discretize positive
+#     # upwards. Hence for res, we use np.flip(res, 2) to flip the z-direction
+#     res = np.flip(res, 2)
+#
+#     # Create the resistivity model
+#     model = emg3d.Model(fgrid, property_x=res)
+#
+#     # Store the resistivity model
+#     emg3d.save("SEG-EAGE-Salt-Model.h5", model=model)
 
-path = '../data/SEG/'
-try:
-    # Get resistivities if we already computed them
-    res = joblib.load(path+'res-model.lzma')
-
-    # Get dimension
-    nx, ny, nz = res.shape
-
-except FileNotFoundError:  # THE ORIGINAL DATA ARE REQUIRED!
-
-    # Dimensions
-    nx, ny, nz = 676, 676, 210
-
-    # Extract Saltf@@ from SALTF.ZIP
-    zipfile.ZipFile(path+'SALTF.ZIP', 'r').extract('Saltf@@', path=path)
-
-    # Load data
-    with open(path+'Saltf@@', 'r') as file:
-        v = np.fromfile(file, dtype=np.dtype('float32').newbyteorder('>'))
-        v = v.reshape(nx, ny, nz, order='F')
-
-    # Velocity to resistivity transform for whole cube
-    res = (v/1700)**3.88  # Sediment resistivity = 1
-
-    # Overwrite basement resistivity from 3660 m onwards
-    res[:, :, np.arange(nz)*20 > 3660] = 500.  # Resistivity of basement
-
-    # Set sea-water to 0.3
-    res[:, :, :15][v[:, :, :15] <= 1500] = 0.3
-
-    # Fix salt resistivity
-    res[v == 4482] = 30.
-
-    # Save it in compressed form
-    # THE SEG/EAGE salt-model uses positive z downwards; discretize positive
-    # upwards. Hence:
-    # => for res, use np.flip(res, 2) to flip the z-direction
-    res = np.flip(res, 2)
-
-    # Very fast, but not so effective (118.6 MB).
-    # joblib.dump(res, './res-model', compress=True)
-
-    # lzma: very slow, but very effective (~ 18.6 MB).
-    joblib.dump(res, path+'res-model.lzma')
-
-# Create a discretize-mesh
-mesh = emg3d.TensorMesh(
-        [np.ones(nx)*20., np.ones(ny)*20., np.ones(nz)*20.], x0='00N')
-models = {'res': np.log10(res.ravel('F'))}
-
-# Limit colour-range
-# We're cutting here the colour-spectrum at 50 Omega.m (affects only
-# the basement) to have a better resolution in the sediments.
-clim = np.log10([np.nanmin(res), 50])
-
-mesh
 
 ###############################################################################
-# 3D-slicer
-# ---------
+# Load Model
+# ----------
+#
+# Load the pre-computed resistivity model.
 
-mesh.plot_3d_slicer(models['res'], zslice=-2000, clim=clim)
+fname = "SEG-EAGE-Salt-Model.h5"
+if not os.path.isfile(fname):
+    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
+           f"master/examples/data/models/{fname}")
+    with open(fname, 'wb') as f:
+        t = requests.get(url)
+        f.write(t.content)
+
+fmodel = emg3d.load(fname)['model']
+fgrid = fmodel.grid
+
+
+###############################################################################
+# Original resistivity model
+# --------------------------
+
+# Limit colour-range to [0.3, 50] Ohm.m
+# (affects only the basement and air, improves resolution in the sediments).
+vmin, vmax = 0.3, 50
+
+fgrid.plot_3d_slicer(
+        fmodel.property_x.ravel('F'),
+        zslice=-2000,
+        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
+)
 
 ###############################################################################
 # PyVista plot
 # ------------
 #
-# Create an interactive 3D render of the data.
+# The following cell is an example how you could plot this model with PyVista
+# (you need to install pyvista to run it).
+#
+# .. code-block:: python
+#
+#     import pyvista
+#
+#     dataset = fgrid.to_vtk({'res': np.log10(fmodel.property_x.ravel('F'))})
+#
+#     # Create the rendering scene and add a grid axes
+#     p = pyvista.Plotter(notebook=True)
+#     p.show_grid(location='outer')
+#
+#     dparams = {'rng': np.log10([vmin, vmax]), 'cmap': 'viridis',
+#                'show_edges': False}
+#     # Add spatially referenced data to the scene
+#     xyz = (5000, 6000, -3200)
+#     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
+#     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
+#     p.add_mesh(dataset.slice('z', xyz), name='z-slice', **dparams)
+#
+#     # Get the salt body
+#     p.add_mesh(dataset.threshold([1.47, 1.48]), name='vol', **dparams)
+#
+#     # Show the scene!
+#     p.camera_position = [
+#         (27000, 37000, 5800), (6600, 6600, -3300), (0, 0, 1)
+#     ]
+#     p.show()
 
-dataset = mesh.to_vtk(models)
-
-# Create the rendering scene and add a grid axes
-p = pyvista.Plotter(notebook=True)
-p.show_grid(location='outer')
-
-dparams = {'rng': clim, 'cmap': 'viridis', 'show_edges': False}
-# Add spatially referenced data to the scene
-xyz = (5000, 6000, -3200)
-p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
-p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
-p.add_mesh(dataset.slice('z', xyz), name='z-slice', **dparams)
-
-# Get the salt body
-p.add_mesh(dataset.threshold([1.47, 1.48]), name='vol', **dparams)
-
-# Show the scene!
-p.camera_position = [(27000, 37000, 5800), (6600, 6600, -3300), (0, 0, 1)]
-p.show()
 
 ###############################################################################
 # Forward modelling
@@ -191,24 +234,15 @@ grid
 # Put the salt model onto the modelling mesh
 # ``````````````````````````````````````````
 
-# Interpolate resistivities from fine mesh to coarser grid
-cres = emg3d.maps.interpolate(mesh, res, grid, 'volume', log=True)
-
-# Create model
-model = emg3d.Model(grid, property_x=cres, mapping='Resistivity')
-
-# Set air resistivity
-iz = np.argmin(np.abs(grid.nodes_z))
-model.property_x[:, :, iz:] = 1e8
-
-# Ensure at least top layer is water
-model.property_x[:, :, iz] = 0.3
-
-cmodels = {'res': np.log10(model.property_x.ravel('F'))}
+# Interpolate full model from full grid to grid
+model = fmodel.interpolate_to_grid(grid)
 
 grid.plot_3d_slicer(
-        cmodels['res'], zslice=-2000, zlim=(-4180, 500),
-        clim=np.log10([np.nanmin(model.property_x), 50]))
+        model.property_x.ravel('F'),
+        zslice=-2000,
+        zlim=(-4180, 500),
+        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
+)
 
 ###############################################################################
 # Solve the system
@@ -218,14 +252,19 @@ efield = emg3d.solve_source(
     model, source, frequency,
     semicoarsening=False,
     linerelaxation=False,
-    verb=4
+    verb=3,
 )
 
 ###############################################################################
 
 grid.plot_3d_slicer(
-    efield.fx.ravel('F'), zslice=-2000, zlim=(-4180, 500), view='abs',
-    v_type='Ex', pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)})
+    efield.fx.ravel('F'),
+    zslice=-2000,
+    zlim=(-4180, 500),
+    view='abs',
+    v_type='Ex',
+    pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)}
+)
 
 ###############################################################################
 
@@ -274,4 +313,4 @@ plt.show()
 
 ###############################################################################
 
-emg3d.Report(pyvista)
+emg3d.Report()

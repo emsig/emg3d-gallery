@@ -1,10 +1,8 @@
 *.npz
 *.npy
 *.h5
+
+docs/gallery/*/
+
 _build/
 __pycache__/
-gallery/
-examples/data/SEG/
-examples/t-domain/data/
-*raw.githubusercontent.com*
-examples/tutorials/emg3d*

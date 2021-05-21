@@ -113,7 +113,7 @@ for fi, frq in enumerate(Fourier.freq_calc[::-1]):
                           np.max([hix['dmax'], hiyz['dmax']])]
 
     # Initiate mesh.
-    grid = emg3d.TensorMesh([xx, yz, yz], x0=np.array([x0, yz0, yz0]))
+    grid = emg3d.TensorMesh([xx, yz, yz], origin=np.array([x0, yz0, yz0]))
     # print(grid)
     thislog['nC'] = grid.nC  # Store number of cells in log.
 

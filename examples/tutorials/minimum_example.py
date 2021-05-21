@@ -21,7 +21,7 @@ dependencies ``numba`` and ``scipy``), is given here:
 
     # Create a simple grid, 64x64x64 cell, 100x100x100 m each.
     hx = np.ones(64)*100
-    grid = emg3d.TensorMesh(h=[hx, hx, hx], x0=(-3200, -3200, -3200))
+    grid = emg3d.TensorMesh(h=[hx, hx, hx], origin=(-3200, -3200, -3200))
 
     # Fullspace model with tri-axial resistivities (Ohm.m).
     model = emg3d.Model(grid=grid, property_x=1.5, property_y=1.8,

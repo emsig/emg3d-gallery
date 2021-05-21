@@ -17,5 +17,6 @@ dependencies:
   - sphinx
   - sphinx-gallery
   - numpydoc
+  - pooch
   - pydata-sphinx-theme
   - mkl-service

@@ -1,5 +1,5 @@
 r"""
-2. Ensure computation domain is big enough
+8. Ensure computation domain is big enough
 ==========================================
 
 Ensure the boundary in :math:`\pm x`, :math:`\pm y`, and :math:`+ z` is big
