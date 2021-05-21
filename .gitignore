@@ -1,8 +1,5 @@
-*.npz
-*.npy
-*.h5
-
 docs/gallery/*/
+examples/download/
 
 _build/
 __pycache__/

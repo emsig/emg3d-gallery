@@ -15,14 +15,9 @@ move it 2 km down, fill it up with sea water, and add an air layer. The result
 is what is referred to in other examples as model `GemPy-II`, a synthetic,
 deep-marine resistivity model.
 
+This model is used, e.g., in :ref:`sphx_glr_gallery_tutorials_simulation.py`.
+
 .. note::
-
-    To re-create the model you have to install ``gempy``, and for the 3D
-    plotting example also ``pyvista``.
-
-    The code example and the ``GemPy-II.h5``-file used in the gallery were
-    created on 2021-05-21 with ``gempy=2.2.9``, ``pandas=1.2.4``, and
-    ``pyvista=0.30.1``.
 
     The original model (*Perth_Basin*) hosted on
     https://github.com/cgre-aachen/gempy_data is released under the `LGPL-3.0
@@ -34,9 +29,48 @@ import pooch
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('bmh')
+
+# Adjust this path to a folder of your choice.
+data_path = '../download/'
+
 
 ###############################################################################
+# Fetch the model
+# ---------------
+#
+# Retrieve and load the pre-computed resistivity model.
+
+fname = "GemPy-II.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
+    fname=fname,
+    path=data_path,
+)
+fmodel = emg3d.load(data_path + fname)['model']
+fgrid = fmodel.grid
+
+###############################################################################
+# QC resistivity model
+# --------------------
+
+fgrid.plot_3d_slicer(
+    fmodel.property_x, zslice=-3000, xslice=12000,
+    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=0.3, vmax=100)}
+)
+
+###############################################################################
+# Recreate the model
+# ------------------
+#
+# .. note::
+#
+#     The coming sections are about how to re-create the model. For this you
+#     have to install ``gempy``. The code example and the ``GemPy-II.h5``-file
+#     used in the gallery were created on 2021-05-21 with ``gempy=2.2.9`` and
+#     ``pandas=1.2.4``.
+#
+#
 # Get and initiate the *Perth Basin*
 # ----------------------------------
 #
@@ -46,9 +80,24 @@ plt.style.use('bmh')
 #
 #     # Initiate a model
 #     geo_model = gempy.create_model('GemPy-II')
-#
 #     url_path = 'https://raw.githubusercontent.com/cgre-aachen/gempy_data/'
 #     url_path += 'master/data/input_data/Perth_basin/'
+#     path_i = "Paper_GU2F_sc_faults_topo_Points.csv"
+#     path_o = "Paper_GU2F_sc_faults_topo_Foliations.csv"
+#
+#     pooch.retrieve(
+#         url_path + path_i,
+#         'f2964249dd941ceac35355beb78abd9c3189347fa6b845b6795240cc1a2f44d9',
+#         fname=path_i,
+#         path=data_path,
+#     )
+#     pooch.retrieve(
+#         url_path + path_o,
+#        'a6566d5caa8ce2fdcd4e4cb0ca643602436ca697342afacb31b7f4bd1d17c83d',
+#         fname=path_o,
+#         path=data_path,
+#     )
+#
 #
 #     # Define the grid
 #     nx, ny, nz = 100, 100, 100
@@ -59,10 +108,9 @@ plt.style.use('bmh')
 #         geo_model,
 #         extent=extent,
 #         resolution=[nx, ny, nz],
-#         path_i=url_path+"Paper_GU2F_sc_faults_topo_Points.csv",
-#         path_o=url_path+"Paper_GU2F_sc_faults_topo_Foliations.csv",
+#         path_i=data_path + "Paper_GU2F_sc_faults_topo_Points.csv",
+#         path_o=data_path + "Paper_GU2F_sc_faults_topo_Foliations.csv",
 #     )
-
 
 ###############################################################################
 # Initiate the stratigraphies and faults
@@ -158,8 +206,8 @@ plt.style.use('bmh')
 # .. code-block:: python
 #
 #     # We create a mesh 20 km x 20 km x 5 km, starting at the origin.
-#     # As long as we have the same number of cells we can trick the original grid
-#     # into any grid we want.
+#     # As long as we have the same number of cells we can trick the grid
+#     # original into any grid we want.
 #     hx = np.ones(nx)*20000/nx
 #     hy = np.ones(ny)*20000/ny
 #     hz = np.ones(nz)*5000/nz
@@ -189,26 +237,30 @@ plt.style.use('bmh')
 # .. code::
 #
 #     out = geo_model.set_topography(source='random')
-#     np.save('../data/GemPy/'+topo_name, topo)
+#     np.save(data_path + topo_name, topo)
 #
 # .. code-block:: python
 #
-#
 #     # Load the stored topography.
 #     topo_name = 'GemPy-II-topo.npy'
-#     topo_path = 'https://raw.github.com/emsig/emg3d-gallery/master/'
-#     topo_path += 'examples/data/GemPy/'+topo_name
-#     with open(topo_name, 'wb') as f:
-#         t = requests.get(topo_path)
-#         f.write(t.content)
+#     topo_path = 'https://raw.github.com/emsig/data/master/'
+#     topo_path += 'emg3d/external/GemPy/'+topo_name
+#
+#     pooch.retrieve(
+#         topo_path,
+#         '10bb3d672ba26f6d8cb85eb33086daebb1c19bcbf9547c0b17d93f1c0dcf4e20',
+#         fname=topo_name,
+#         path=data_path,
+#     )
+#
 #     out = geo_model.set_topography(
-#             source='saved', filepath=topo_name, allow_pickle=True)
+#             source='saved', filepath=data_path+topo_name, allow_pickle=True)
 #     topo = out.topography.values_2d
 #
 #     # Apply the topography to our resistivity cube.
 #     res = res.reshape(grid.shape_cells, order='C')
 #
-#     # Get the scaling factor between the original extent and our made-up extent.
+#     # Get the scaling factor betw. original extent and our made-up extent.
 #     fact = 5000/np.diff(extent[4:])
 #
 #     # Loop over all x-y-values and convert cells above topography to water.
@@ -224,7 +276,7 @@ plt.style.use('bmh')
 # .. code-block:: python
 #
 #     # Create an emg3d-model.
-#     model = emg3d.Model(grid, property_x=res.ravel('F'), mapping='Resistivity')
+#     model = emg3d.Model(grid, property_x=res.ravel('F'))
 #
 #     # Add 2 km water and 500 m air.
 #     fhz = np.r_[np.ones(nz)*5000/nz, 2000, 500]
@@ -239,43 +291,21 @@ plt.style.use('bmh')
 #     fmodel.property_x[:, :, -2] = 0.3
 #     fmodel.property_x[:, :, -1] = 1e8
 #
-#     emg3d.save('GemPy-II.h5', model=fmodel)
+#     # emg3d.save(data_path + 'GemPy-II.h5', model=fmodel)
 #
 #     fgrid
-
-
-###############################################################################
-# Load Model
-# ----------
-#
-# Load the pre-computed resistivity model.
-
-fname = "GemPy-II.h5"
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/models/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-fmodel = emg3d.load(fname)['model']
-fgrid = fmodel.grid
-
-###############################################################################
-# Show resistivity model
-# ----------------------
-
-fgrid.plot_3d_slicer(
-    fmodel.property_x, zslice=-3000, xslice=12000,
-    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=0.3, vmax=100)}
-)
 
 
 ###############################################################################
 # PyVista plot
 # ------------
 #
-# The following cell is an example how you could plot this model with PyVista.
+# .. note::
+#
+#     The final cell is about how to plot the model in 3D using PyVista,
+#     for which you have to install ``pyvista``.
+#
+#     The code example was created on 2021-05-21 with ``pyvista=0.30.1``.
 #
 # .. code-block:: python
 #
@@ -288,7 +318,8 @@ fgrid.plot_3d_slicer(
 #     p.show_grid(location='outer')
 #
 #     # Add spatially referenced data to the scene
-#     dparams = {'rng': np.log10([0.3, 500]), 'cmap': 'viridis', 'show_edges': False}
+#     dparams = {'rng': np.log10([0.3, 500]),
+#                'cmap': 'viridis', 'show_edges': False}
 #     xyz = (17500, 17500, -1500)
 #     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
 #     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
@@ -298,7 +329,9 @@ fgrid.plot_3d_slicer(
 #         [np.log10(49.9), np.log10(50.1)]), name='vol', **dparams)
 #
 #     # Show the scene!
-#     p.camera_position = [(-10000, -41000, 8500), (10000, 10000, -3250), (0, 0, 1)]
+#     p.camera_position = [
+#           (-10000, -41000, 8500), (10000, 10000, -3250), (0, 0, 1)
+#     ]
 #     p.show()
 
 
