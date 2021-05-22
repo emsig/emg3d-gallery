@@ -15,7 +15,7 @@ move it 2 km down, fill it up with sea water, and add an air layer. The result
 is what is referred to in other examples as model `GemPy-II`, a synthetic,
 deep-marine resistivity model.
 
-This model is used, e.g., in :ref:`sphx_glr_gallery_tutorials_simulation.py`.
+This model is used in, e.g., :ref:`sphx_glr_gallery_tutorials_simulation.py`.
 
 .. note::
 
@@ -24,14 +24,13 @@ This model is used, e.g., in :ref:`sphx_glr_gallery_tutorials_simulation.py`.
     License <https://www.gnu.org/licenses/lgpl-3.0.en.html>`_.
 
 """
+import os
 import emg3d
 import pooch
-import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 
 # Adjust this path to a folder of your choice.
-data_path = '../download/'
+data_path = os.path.join('..', 'download', '')
 
 
 ###############################################################################
@@ -50,22 +49,23 @@ pooch.retrieve(
 fmodel = emg3d.load(data_path + fname)['model']
 fgrid = fmodel.grid
 
+
 ###############################################################################
 # QC resistivity model
 # --------------------
 
 fgrid.plot_3d_slicer(
     fmodel.property_x, zslice=-3000, xslice=12000,
-    pcolor_opts={'cmap': 'viridis', 'norm': LogNorm(vmin=0.3, vmax=100)}
+    pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=100)}
 )
 
 ###############################################################################
-# Recreate the model
-# ------------------
+# Reproduce the model
+# -------------------
 #
 # .. note::
 #
-#     The coming sections are about how to re-create the model. For this you
+#     The coming sections are about how to reproduce the model. For this you
 #     have to install ``gempy``. The code example and the ``GemPy-II.h5``-file
 #     used in the gallery were created on 2021-05-21 with ``gempy=2.2.9`` and
 #     ``pandas=1.2.4``.
@@ -77,6 +77,7 @@ fgrid.plot_3d_slicer(
 # .. code-block:: python
 #
 #     import gempy as gempy
+#     import numpy as np
 #
 #     # Initiate a model
 #     geo_model = gempy.create_model('GemPy-II')
@@ -310,6 +311,7 @@ fgrid.plot_3d_slicer(
 # .. code-block:: python
 #
 #     import pyvista
+#     import numpy as np
 #
 #     dataset = fgrid.toVTK({'res': np.log10(fmodel.property_x.ravel('F'))})
 #
@@ -318,8 +320,7 @@ fgrid.plot_3d_slicer(
 #     p.show_grid(location='outer')
 #
 #     # Add spatially referenced data to the scene
-#     dparams = {'rng': np.log10([0.3, 500]),
-#                'cmap': 'viridis', 'show_edges': False}
+#     dparams = {'rng': np.log10([0.3, 500]), 'show_edges': False}
 #     xyz = (17500, 17500, -1500)
 #     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
 #     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)

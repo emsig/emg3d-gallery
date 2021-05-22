@@ -6,6 +6,13 @@
 electromagnetic (CSEM) and magnetotelluric (MT) data, see
 `mare2dem.bitbucket.io <https://mare2dem.bitbucket.io>`_.
 
+
+.. note::
+
+    The ``MARE2DEM`` results are pre-computed. All input files to reproduce the
+    results are available on
+    https://github.com/emsig/data/tree/main/emg3d/external/MARE2DEM .
+
 """
 import emg3d
 import numpy as np
@@ -20,8 +27,7 @@ plt.style.use('bmh')
 # --------------------
 
 # Location of data files.
-data_url = 'https://raw.githubusercontent.com/emsig/emg3d-gallery/'
-data_url += 'master/examples/data/MARE2DEM/'
+data_url = 'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'
 
 mar_tg = np.loadtxt(data_url+'triaxial.0.resp', skiprows=93, usecols=6)
 mar_tg = mar_tg[::2] + 1j*mar_tg[1::2]

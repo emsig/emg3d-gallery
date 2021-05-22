@@ -11,12 +11,16 @@ For this example we use the survey and data as obtained in the example
 
 """
 import os
+import pooch
 import emg3d
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm, SymLogNorm
 # sphinx_gallery_thumbnail_number = 2
+
+
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
 
 
 ###############################################################################
@@ -27,14 +31,13 @@ from matplotlib.colors import LogNorm, SymLogNorm
 # :ref:`sphx_glr_gallery_tutorials_simulation.py`.
 
 fname = 'GemPy-II-survey-A.h5'
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/surveys/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-survey = emg3d.load(fname)['survey']
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/surveys/'+fname,
+    '5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7',
+    fname=fname,
+    path=data_path,
+)
+survey = emg3d.load(data_path + fname)['survey']
 
 # Let's have a look
 survey
@@ -53,15 +56,14 @@ survey
 # air-seawater-subsurface, which includes the topography of the seafloor.
 
 # Load true model
-fname = 'GemPy-II.h5'
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/models/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-model = emg3d.load(fname)['model']
+fname = "GemPy-II.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
+    fname=fname,
+    path=data_path,
+)
+model = emg3d.load(data_path + fname)['model']
 grid = model.grid
 
 

@@ -19,13 +19,6 @@ with a fault. It is one of a few models created to be used in other examples.
 
 .. note::
 
-    To re-create the model you have to install ``gempy``, and for the 3D
-    plotting example also ``pyvista``.
-
-    The code example and the ``GemPy-I.h5``-file used in the gallery were
-    created on 2021-05-21 with ``gempy=2.2.9``, ``pandas=1.2.4``, and
-    ``pyvista=0.30.1``.
-
     The original model (*simple_fault_model*) hosted on
     https://github.com/cgre-aachen/gempy_data is released under the `LGPL-3.0
     License <https://www.gnu.org/licenses/lgpl-3.0.en.html>`_.
@@ -33,15 +26,95 @@ with a fault. It is one of a few models created to be used in other examples.
 
 """
 import os
+import pooch
 import emg3d
-import requests
-import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 plt.style.use('bmh')
 
 
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
+
+
 ###############################################################################
+# Fetch the model
+# ---------------
+#
+# Retrieve and load the pre-computed resistivity model.
+
+fname = "GemPy-I.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    '06f522a69c94dc02ca3da0ea4ca7b60f7a9c764cdcbf6699ef4155621d70b3bb',
+    fname=fname,
+    path=data_path,
+)
+fmodel = emg3d.load(data_path + fname)['model']
+fgrid = fmodel.grid
+
+
+###############################################################################
+# QC resistivity model
+# --------------------
+
+fgrid.plot_3d_slicer(
+    fmodel.property_x, zslice=-1000,
+    pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=500)}
+)
+
+
+###############################################################################
+# Compute some example CSEM data with it
+# --------------------------------------
+
+# Source:  x-directed electric-source at (1000, 1000, -500)
+src_coo = [1000, 1000, -500, 0, 0]
+frequency = 1.0  # Hz
+
+# Computational grid
+grid = emg3d.construct_mesh(
+    frequency=frequency,
+    center=src_coo[:3],
+    properties=[0.3, 200, 1000],
+    domain=([0, 2000], [0, 2000], [-2000, 0]),
+    seasurface=0,
+)
+grid
+
+# Get the computational model
+model = fmodel.interpolate_to_grid(grid)
+
+# Compute the response
+efield = emg3d.solve_source(
+    model=model,
+    source=emg3d.TxElectricDipole(src_coo),
+    frequency=frequency,
+    verb=1,
+)
+
+# Plot the response
+grid.plot_3d_slicer(
+    efield.fx.ravel('F'),
+    view='abs', v_type='Ex',
+    zslice=-1000,
+    xlim=(-500, 2500), ylim=(-500, 2500), zlim=(-2000, 50),
+    pcolor_opts={'norm': LogNorm(vmin=5e-12, vmax=5e-9)},
+)
+
+
+###############################################################################
+# Reproduce the model
+# -------------------
+#
+# .. note::
+#
+#     The coming sections are about how to reproduce the model. For this you
+#     have to install ``gempy``. The code example and the ``GemPy-I.h5``-file
+#     used in the gallery were created on 2021-05-21 with ``gempy=2.2.9`` and
+#     ``pandas=1.2.4``.
+#
+#
 # Get and initiate the *simple_fault_model*
 # -----------------------------------------
 #
@@ -55,6 +128,7 @@ plt.style.use('bmh')
 # .. code-block:: python
 #
 #     import gempy as gempy
+#     import numpy as np
 #
 #     # Initiate a model
 #     geo_model = gempy.create_model('GemPy-I')
@@ -85,7 +159,7 @@ plt.style.use('bmh')
 #     geo_model.add_surface_points(0, 0, 0, 'air')
 #     geo_model.add_orientations(0, 0, 0, 'air', [0, 0, 1])
 #
-#     # Add a Series for the air layer; this series will not be cut by the fault
+#     # Add Series for the air layer; this series will not be cut by the fault
 #     geo_model.add_series('Air_Series')
 #     geo_model.modify_order_series(2, 'Air_Series')
 #     gempy.map_series_to_surfaces(geo_model, {'Air_Series': 'air'})
@@ -127,7 +201,8 @@ plt.style.use('bmh')
 #     sol = gempy.compute_model(geo_model, compute_mesh=True)
 #
 #     # Plot lithologies (colour-code corresponds to lithologies)
-#     _ = gempy.plot_2d(geo_model, cell_number=25, direction='y', show_data=True)
+#     _ = gempy.plot_2d(geo_model, cell_number=25, direction='y',
+#                       show_data=True)
 
 
 ###############################################################################
@@ -142,15 +217,14 @@ plt.style.use('bmh')
 #
 # .. code-block:: python
 #
-#     # First we create a detailed discretize-mesh to store the resistivity model and
-#     # use it in other examples as well.
+#     # First we create a detailed discretize-mesh to store the resistivity
+#     # model and use it in other examples as well.
 #     hxy = np.ones(100)*100
 #     hz = np.ones(100)*25
-#     grid = emg3d.TensorMesh([hxy, hxy, hz], origin=(-4000, -4000, -2400))
-#     grid
+#     fgrid = emg3d.TensorMesh([hxy, hxy, hz], origin=(-4000, -4000, -2400))
 #
 #     # Get the solution at cell centers of our grid.
-#     sol = gempy.compute_model(geo_model, at=grid.gridCC)
+#     sol = gempy.compute_model(geo_model, at=fgrid.gridCC)
 #
 #     # Show the surfaces.
 #     geo_model.surfaces
@@ -163,7 +237,7 @@ plt.style.use('bmh')
 # .. code-block:: python
 #
 #     # Now, we convert the id's to resistivities
-#     res = sol.custom[0][0, :grid.n_cells]
+#     res = sol.custom[0][0, :fgrid.n_cells]
 #
 #     res[res == 1] = 1e8  # air
 #     # id=2 is the fault
@@ -174,58 +248,36 @@ plt.style.use('bmh')
 #     res[np.round(res) == 7] = 200  # resistive basement
 #
 #     # Create an emg3d-model.
-#     model = emg3d.Model(grid, property_x=res, mapping='Resistivity')
+#     fmodel = emg3d.Model(fgrid, property_x=res, mapping='Resistivity')
 #
 #     # Store model.
-#     emg3d.save('GemPy-I.h5', model=model)
+#     emg3d.save('GemPy-I.h5', model=fmodel)
 
-
-###############################################################################
-# Load Model
-# ----------
-#
-# Load the pre-computed resistivity model.
-
-fname = "GemPy-I.h5"
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/models/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-model = emg3d.load(fname)['model']
-grid = model.grid
-
-
-###############################################################################
-# Show resistivity model
-# ----------------------
-
-grid.plot_3d_slicer(
-    model.property_x,
-    zslice=-1000,
-    pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=500)}
-)
 
 ###############################################################################
 # PyVista plot
 # ------------
 #
-# The following cell is an example how you could plot this model with PyVista.
+# .. note::
+#
+#     The final cell is about how to plot the model in 3D using PyVista,
+#     for which you have to install ``pyvista``.
+#
+#     The code example was created on 2021-05-21 with ``pyvista=0.30.1``.
 #
 # .. code-block:: python
 #
 #     import pyvista
+#     import numpy as np
 #
-#     dataset = grid.toVTK({'res': np.log10(model.property_x.ravel('F'))})
+#     dataset = fgrid.toVTK({'res': np.log10(fmodel.property_x.ravel('F'))})
 #
 #     # Create the rendering scene and add a grid axes
 #     p = pyvista.Plotter(notebook=True)
 #     p.show_grid(location='outer')
 #
 #     # Add spatially referenced data to the scene
-#     dparams = {'rng': np.log10([0.3, 500]), 'cmap': 'viridis', 'show_edges': False}
+#     dparams = {'rng': np.log10([0.3, 500]), 'show_edges': False}
 #     xyz = (1500, 500, -1500)
 #     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
 #     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
@@ -234,53 +286,10 @@ grid.plot_3d_slicer(
 #     p.add_mesh(dataset.threshold([1.69, 1.7]), name='vol', **dparams)
 #
 #     # Show the scene!
-#     p.camera_position = [(-10000, 25000, 4000), (1000, 1000, -1000), (0, 0, 1)]
+#     p.camera_position = [
+#         (-10000, 25000, 4000), (1000, 1000, -1000), (0, 0, 1)
+#     ]
 #     p.show()
-
-
-###############################################################################
-# Define an example CSEM survey
-# -----------------------------
-
-# Source:  x-directed electric-source at (1000, 1000, -500)
-src_coo = [1000, 1000, -500, 0, 0]
-frequency = 1.0  # Hz
-
-# Computational grid
-cgrid = emg3d.construct_mesh(
-    frequency=frequency,
-    center=src_coo[:3],
-    properties=[0.3, 200, 1000],
-    domain=([0, 2000], [0, 2000], [-2000, 0]),
-    seasurface=0,
-)
-cgrid
-
-
-###############################################################################
-# Compute the electric field
-# --------------------------
-
-# Get the computational model
-cmodel = model.interpolate_to_grid(cgrid)
-
-efield = emg3d.solve_source(
-    model=cmodel,
-    source=emg3d.TxElectricDipole(src_coo),
-    frequency=frequency,
-    verb=4,
-)
-
-
-###############################################################################
-
-cgrid.plot_3d_slicer(
-    efield.fx.ravel('F'),
-    view='abs', v_type='Ex',
-    zslice=-1000,
-    xlim=(-500, 2500), ylim=(-500, 2500), zlim=(-2000, 50),
-    pcolor_opts={'norm': LogNorm(vmin=5e-12, vmax=5e-9)},
-)
 
 
 ###############################################################################

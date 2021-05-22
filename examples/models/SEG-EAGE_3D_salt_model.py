@@ -40,28 +40,220 @@ with some additional constraints for water, salt, and basement.
 
 .. note::
 
-    To re-create the model you have to download the SEG/EAGE salt model, as
-    explained further down. For the 3D plotting example you have to install
-    ``pyvista``.
-
-    The code example and the ``SEG-EAGE-Salt-Model.h5``-file used in the
-    gallery were created on 2021-05-21 with ``pyvista=0.30.1``.
-
     The SEG/EAGE Salt Model is licensed under the `CC-BY-4.0
     <https://creativecommons.org/licenses/by/4.0>`_.
 
 """
 import os
+import pooch
 import emg3d
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 plt.style.use('bmh')
 
+
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
+
+
 ###############################################################################
-# Creating the resistivity model
-# ------------------------------
+# Fetch the model
+# ---------------
+#
+# Retrieve and load the pre-computed resistivity model.
+
+fname = "SEG-EAGE-Salt-Model.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    '6ee10663de588d445332ba7cc1c0dc3d6f9c50d1965f797425cebc64f9c71de6',
+    fname=fname,
+    path=data_path,
+)
+fmodel = emg3d.load(data_path + fname)['model']
+fgrid = fmodel.grid
+
+
+###############################################################################
+# QC resistivity model
+# --------------------
+
+# Limit colour-range to [0.3, 50] Ohm.m
+# (affects only the basement and air, improves resolution in the sediments).
+vmin, vmax = 0.3, 50
+
+fgrid.plot_3d_slicer(
+        fmodel.property_x,
+        zslice=-2000,
+        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
+)
+
+
+###############################################################################
+# Compute some example CSEM data with it
+# --------------------------------------
+#
+# Survey parameters
+# `````````````````
+
+# Create a source instance
+source = emg3d.TxElectricDipole(
+        coordinates=[6400, 6600, 6500, 6500, -50, -50],
+        strength=1/200.  # Normalize for length.
+)
+
+# Frequency (Hz)
+frequency = 1.0
+
+###############################################################################
+# Initialize computation mesh
+# ```````````````````````````
+
+grid = emg3d.construct_mesh(
+    frequency=frequency,
+    properties=[0.3, 1, 2, 15],
+    center=(6500, 6500, -50),
+    seasurface=0,
+    domain=([0, 13500], [0, 13500], None),
+    vector=(None, None, np.array([-100, -80, -60, -40, -20, 0])),
+    min_width_limits=([5, 100], [5, 100], [5, 20]),
+    min_width_pps=5,
+    stretching=[1.03, 1.05],
+    lambda_from_center=True,
+)
+grid
+
+###############################################################################
+# Put the salt model onto the modelling mesh
+# ``````````````````````````````````````````
+
+# Interpolate full model from full grid to grid
+model = fmodel.interpolate_to_grid(grid)
+
+grid.plot_3d_slicer(
+        model.property_x,
+        zslice=-2000,
+        zlim=(-4180, 500),
+        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
+)
+
+###############################################################################
+# Solve the system
+# ````````````````
+
+efield = emg3d.solve_source(
+    model, source, frequency,
+    semicoarsening=False,
+    linerelaxation=False,
+    verb=1,
+)
+
+###############################################################################
+
+grid.plot_3d_slicer(
+    efield.fx.ravel('F'),
+    zslice=-2000,
+    zlim=(-4180, 500),
+    view='abs',
+    v_type='Ex',
+    pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)}
+)
+
+###############################################################################
+
+# Interpolate for a "more detailed" image
+x = grid.cell_centers_x
+y = grid.cell_centers_y
+rx = np.repeat([x, ], np.size(x), axis=0)
+ry = rx.transpose()
+rz = -2000
+data = efield.get_receiver((rx, ry, rz, 0, 0))
+
+# Colour limits
+vmin, vmax = -16, -10.5
+
+# Create a figure
+fig, axs = plt.subplots(figsize=(8, 5), nrows=1, ncols=2)
+axs = axs.ravel()
+plt.subplots_adjust(hspace=0.3, wspace=0.3)
+
+titles = [r'|Real|', r'|Imaginary|']
+dat = [np.log10(np.abs(data.real)), np.log10(np.abs(data.imag))]
+
+for i in range(2):
+    plt.sca(axs[i])
+    axs[i].set_title(titles[i])
+    axs[i].set_xlim(min(x)/1000, max(x)/1000)
+    axs[i].set_ylim(min(x)/1000, max(x)/1000)
+    axs[i].axis('equal')
+    cs = axs[i].pcolormesh(x/1000, x/1000, dat[i], vmin=vmin, vmax=vmax,
+                           linewidth=0, rasterized=True, shading='nearest')
+    plt.xlabel('Inline Offset (km)')
+    plt.ylabel('Crossline Offset (km)')
+
+# Colorbar
+# fig.colorbar(cf0, ax=axs[0], label=r'$\log_{10}$ Amplitude (V/m)')
+
+# Plot colorbar
+cax, kw = plt.matplotlib.colorbar.make_axes(
+        axs, location='bottom', fraction=.05, pad=0.2, aspect=30)
+cb = plt.colorbar(cs, cax=cax, label=r"$\log_{10}$ Amplitude (V/m)", **kw)
+
+# Title
+fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", y=1, fontsize=16)
+
+plt.show()
+
+
+###############################################################################
+# QC resistivity model with PyVista
+# ---------------------------------
+#
+# .. note::
+#
+#     The following cell is about how to plot the model in 3D using PyVista,
+#     for which you have to install ``pyvista``.
+#
+#     The code example was created on 2021-05-21 with ``pyvista=0.30.1``.
+#
+# .. code-block:: python
+#
+#     import pyvista
+#
+#     dataset = fgrid.to_vtk({'res': np.log10(fmodel.property_x.ravel('F'))})
+#
+#     # Create the rendering scene and add a grid axes
+#     p = pyvista.Plotter(notebook=True)
+#     p.show_grid(location='outer')
+#
+#     dparams = {'rng': np.log10([vmin, vmax]), 'show_edges': False}
+#     # Add spatially referenced data to the scene
+#     xyz = (5000, 6000, -3200)
+#     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
+#     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
+#     p.add_mesh(dataset.slice('z', xyz), name='z-slice', **dparams)
+#
+#     # Get the salt body
+#     p.add_mesh(dataset.threshold([1.47, 1.48]), name='vol', **dparams)
+#
+#     # Show the scene!
+#     p.camera_position = [
+#         (27000, 37000, 5800), (6600, 6600, -3300), (0, 0, 1)
+#     ]
+#     p.show()
+
+
+###############################################################################
+# Reproduce the resistivity model
+# -------------------------------
+#
+# .. note::
+#
+#     The last cell as about how to reproduce the resistivity model. For this
+#     you have to download the SEG/EAGE salt model, as explained further down.
+#
+#     The code example and the ``SEG-EAGE-Salt-Model.h5``-file used in the
+#     gallery were created on 2021-05-21.
 #
 # To reduce runtime and dependencies of the gallery build we use a pre-computed
 # resistivity model, which was generated with the code provided below.
@@ -127,189 +319,6 @@ plt.style.use('bmh')
 #
 #     # Store the resistivity model
 #     emg3d.save("SEG-EAGE-Salt-Model.h5", model=model)
-
-
-###############################################################################
-# Load Model
-# ----------
-#
-# Load the pre-computed resistivity model.
-
-fname = "SEG-EAGE-Salt-Model.h5"
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/models/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-fmodel = emg3d.load(fname)['model']
-fgrid = fmodel.grid
-
-
-###############################################################################
-# Original resistivity model
-# --------------------------
-
-# Limit colour-range to [0.3, 50] Ohm.m
-# (affects only the basement and air, improves resolution in the sediments).
-vmin, vmax = 0.3, 50
-
-fgrid.plot_3d_slicer(
-        fmodel.property_x.ravel('F'),
-        zslice=-2000,
-        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
-)
-
-###############################################################################
-# PyVista plot
-# ------------
-#
-# The following cell is an example how you could plot this model with PyVista
-# (you need to install pyvista to run it).
-#
-# .. code-block:: python
-#
-#     import pyvista
-#
-#     dataset = fgrid.to_vtk({'res': np.log10(fmodel.property_x.ravel('F'))})
-#
-#     # Create the rendering scene and add a grid axes
-#     p = pyvista.Plotter(notebook=True)
-#     p.show_grid(location='outer')
-#
-#     dparams = {'rng': np.log10([vmin, vmax]), 'cmap': 'viridis',
-#                'show_edges': False}
-#     # Add spatially referenced data to the scene
-#     xyz = (5000, 6000, -3200)
-#     p.add_mesh(dataset.slice('x', xyz), name='x-slice', **dparams)
-#     p.add_mesh(dataset.slice('y', xyz), name='y-slice', **dparams)
-#     p.add_mesh(dataset.slice('z', xyz), name='z-slice', **dparams)
-#
-#     # Get the salt body
-#     p.add_mesh(dataset.threshold([1.47, 1.48]), name='vol', **dparams)
-#
-#     # Show the scene!
-#     p.camera_position = [
-#         (27000, 37000, 5800), (6600, 6600, -3300), (0, 0, 1)
-#     ]
-#     p.show()
-
-
-###############################################################################
-# Forward modelling
-# -----------------
-#
-# Survey parameters
-# `````````````````
-
-# Create a source instance
-source = emg3d.TxElectricDipole(
-        coordinates=[6400, 6600, 6500, 6500, -50, -50],
-        strength=1/200.  # Normalize for length.
-)
-
-# Frequency (Hz)
-frequency = 1.0
-
-###############################################################################
-# Initialize computation mesh
-# ```````````````````````````
-
-grid = emg3d.construct_mesh(
-    frequency=frequency,
-    properties=[0.3, 1, 2, 15],
-    center=(6500, 6500, -50),
-    seasurface=0,
-    domain=([0, 13500], [0, 13500], None),
-    vector=(None, None, np.array([-100, -80, -60, -40, -20, 0])),
-    min_width_limits=([5, 100], [5, 100], [5, 20]),
-    min_width_pps=5,
-    stretching=[1.03, 1.05],
-    lambda_from_center=True,
-)
-grid
-
-###############################################################################
-# Put the salt model onto the modelling mesh
-# ``````````````````````````````````````````
-
-# Interpolate full model from full grid to grid
-model = fmodel.interpolate_to_grid(grid)
-
-grid.plot_3d_slicer(
-        model.property_x.ravel('F'),
-        zslice=-2000,
-        zlim=(-4180, 500),
-        pcolor_opts={'norm': LogNorm(vmin=vmin, vmax=vmax)}
-)
-
-###############################################################################
-# Solve the system
-# ````````````````
-
-efield = emg3d.solve_source(
-    model, source, frequency,
-    semicoarsening=False,
-    linerelaxation=False,
-    verb=3,
-)
-
-###############################################################################
-
-grid.plot_3d_slicer(
-    efield.fx.ravel('F'),
-    zslice=-2000,
-    zlim=(-4180, 500),
-    view='abs',
-    v_type='Ex',
-    pcolor_opts={'norm': LogNorm(vmin=1e-16, vmax=1e-9)}
-)
-
-###############################################################################
-
-# Interpolate for a "more detailed" image
-x = grid.cell_centers_x
-y = grid.cell_centers_y
-rx = np.repeat([x, ], np.size(x), axis=0)
-ry = rx.transpose()
-rz = -2000
-data = efield.get_receiver((rx, ry, rz, 0, 0))
-
-# Colour limits
-vmin, vmax = -16, -10.5
-
-# Create a figure
-fig, axs = plt.subplots(figsize=(8, 5), nrows=1, ncols=2)
-axs = axs.ravel()
-plt.subplots_adjust(hspace=0.3, wspace=0.3)
-
-titles = [r'|Real|', r'|Imaginary|']
-dat = [np.log10(np.abs(data.real)), np.log10(np.abs(data.imag))]
-
-for i in range(2):
-    plt.sca(axs[i])
-    axs[i].set_title(titles[i])
-    axs[i].set_xlim(min(x)/1000, max(x)/1000)
-    axs[i].set_ylim(min(x)/1000, max(x)/1000)
-    axs[i].axis('equal')
-    cs = axs[i].pcolormesh(x/1000, x/1000, dat[i], vmin=vmin, vmax=vmax,
-                           linewidth=0, rasterized=True, shading='nearest')
-    plt.xlabel('Inline Offset (km)')
-    plt.ylabel('Crossline Offset (km)')
-
-# Colorbar
-# fig.colorbar(cf0, ax=axs[0], label=r'$\log_{10}$ Amplitude (V/m)')
-
-# Plot colorbar
-cax, kw = plt.matplotlib.colorbar.make_axes(
-        axs, location='bottom', fraction=.05, pad=0.2, aspect=30)
-cb = plt.colorbar(cs, cax=cax, label=r"$\log_{10}$ Amplitude (V/m)", **kw)
-
-# Title
-fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", y=1, fontsize=16)
-
-plt.show()
 
 ###############################################################################
 

@@ -7,12 +7,16 @@ and gradient based parameter estimation in geophysical applications. Here we
 compare ``emg3d`` with ``SimPEG`` using the forward solver ``Pardiso``.
 """
 import os
+import pooch
 import emg3d
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
 plt.style.use('bmh')
 # sphinx_gallery_thumbnail_path = '_static/thumbs/SimPEG.png'
+
+
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
 
 
 ###############################################################################
@@ -115,85 +119,22 @@ e3d_tg = e3d_ftg.get_receiver(rec)
 e3d_fbg = emg3d.solve(model_bg, sfield, verb=1)
 e3d_bg = e3d_fbg.get_receiver(rec)
 
-###############################################################################
-# Compute ``SimPEG``
-# ------------------
-#
-# In order to reduce (a) the number of dependencies to generate the gallery
-# and, more importantly, (b) the runtime and memory requirements of the gallery
-# the SimPEG result is pre-computed. The following cell needs to be carried out
-# to compute the SimPEG results from scratch.
-#
-# .. code-block:: python
-#
-#     # ===================================================================== #
-#
-#     # Note, in order to use the ``Pardiso``-solver ``pymatsolver`` has to be
-#     # installed via ``conda``, not via ``pip``!
-#     import SimPEG
-#     import discretize
-#     import pymatsolver
-#     import SimPEG.electromagnetics.frequency_domain as FDEM
-#
-#     # Set up the receivers
-#     rx_locs = discretize.utils.ndgrid([rec_x, np.r_[0], np.r_[-water_depth]])
-#     rx_list = [
-#         FDEM.receivers.PointElectricField(
-#             orientation='x', component="real", locations=rx_locs),
-#         FDEM.receivers.PointElectricField(
-#             orientation='x', component="imag", locations=rx_locs)
-#     ]
-#
-#     # We use the emg3d-source-vector, to ensure we use the same in both cases
-#     svector = np.real(sfield.field/-sfield.smu0)
-#     src_sp = FDEM.sources.RawVec_e(rx_list, s_e=svector, frequency=frequency)
-#     src_list = [src_sp]
-#     survey = FDEM.Survey(src_list)
-#
-#     # Define the Simulation
-#     mesh = discretize.TensorMesh(grid.h, grid.origin)
-#     sim = FDEM.simulation.Simulation3DElectricField(
-#             mesh,
-#             survey=survey,
-#             sigmaMap=SimPEG.maps.IdentityMap(mesh),
-#             solver=pymatsolver.Pardiso,
-#     )
-#
-#     spg_tg_dobs = sim.dpred(np.vstack([1./res_x, 1./res_y, 1./res_z]).T)
-#     spg_ftg = SimPEG.survey.Data(survey, dobs=spg_tg_dobs)
-#
-#     spg_bg_dobs = sim.dpred(
-#             np.vstack([1./res_x_bg, 1./res_y_bg, 1./res_z_bg]).T)
-#     spg_fbg = SimPEG.survey.Data(survey, dobs=spg_bg_dobs)
-#
-#     spg_tg = spg_ftg[src_sp, rx_list[0]] + 1j*spg_ftg[src_sp, rx_list[1]]
-#     spg_bg = spg_fbg[src_sp, rx_list[0]] + 1j*spg_fbg[src_sp, rx_list[1]]
-#
-#     emg3d.save('simpeg.h5', spg_tg=spg_tg, spg_bg=spg_bg)
-#
-#     # ===================================================================== #
-
 
 ###############################################################################
-# Load SimPEG result
-# ------------------
-#
-# The current pre-computed results were generated on 2021-04-15 with:
-#
-# - SimPEG v0.14.3;
-# - pymatsolver v0.1.1;
-# - discretize v0.6.3.
+# Fetch and load SimPEG result
+# ----------------------------
+
+# Fetch pre-computed data.
+fname = 'simpeg.h5'
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/external/'+fname,
+    'e0502ccfb6dfec599f4c53d9b8f8a0c79b7d872c7224a9b403cb57f39e729409',
+    fname=fname,
+    path=data_path,
+)
 
 # Load pre-computed data.
-fname = 'simpeg.h5'
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/SimPEG/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-spg = emg3d.load(fname)
+spg = emg3d.load(data_path + fname)
 spg_tg, spg_bg = spg['spg_tg'], spg['spg_bg']
 
 
@@ -240,6 +181,69 @@ ax4.set_yscale('log')
 
 fig.tight_layout()
 fig.show()
+
+
+###############################################################################
+# Reproduce ``SimPEG`` result
+# ---------------------------
+#
+# In order to reduce (a) the number of dependencies to generate the gallery
+# and, more importantly, (b) the runtime and memory requirements of the gallery
+# the SimPEG result is pre-computed.
+#
+# .. note::
+#
+#     The following cell needs to be carried out to compute the SimPEG results
+#     from scratch. For this you  have to install ``simpeg`` and
+#     ``pymatsolver``. The code example and the ``simpeg.h5``-file used above
+#     were created on 2021-04-14 with ``simpeg=0.14.3``, ``pymatsolver=0.1.1``,
+#     and ``discretize=0.6.3``.
+#
+#
+# .. code-block:: python
+#
+#     # Note, in order to use the ``Pardiso``-solver ``pymatsolver`` has to be
+#     # installed via ``conda``, not via ``pip``!
+#     import SimPEG
+#     import discretize
+#     import pymatsolver
+#     import SimPEG.electromagnetics.frequency_domain as FDEM
+#
+#     # Set up the receivers
+#     rx_locs = discretize.utils.ndgrid([rec_x, np.r_[0], np.r_[-water_depth]])
+#     rx_list = [
+#         FDEM.receivers.PointElectricField(
+#             orientation='x', component="real", locations=rx_locs),
+#         FDEM.receivers.PointElectricField(
+#             orientation='x', component="imag", locations=rx_locs)
+#     ]
+#
+#     # We use the emg3d-source-vector, to ensure we use the same in both cases
+#     svector = np.real(sfield.field/-sfield.smu0)
+#     src_sp = FDEM.sources.RawVec_e(rx_list, s_e=svector, frequency=frequency)
+#     src_list = [src_sp]
+#     survey = FDEM.Survey(src_list)
+#
+#     # Define the Simulation
+#     mesh = discretize.TensorMesh(grid.h, grid.origin)
+#     sim = FDEM.simulation.Simulation3DElectricField(
+#             mesh,
+#             survey=survey,
+#             sigmaMap=SimPEG.maps.IdentityMap(mesh),
+#             solver=pymatsolver.Pardiso,
+#     )
+#
+#     spg_tg_dobs = sim.dpred(np.vstack([1./res_x, 1./res_y, 1./res_z]).T)
+#     spg_ftg = SimPEG.survey.Data(survey, dobs=spg_tg_dobs)
+#
+#     spg_bg_dobs = sim.dpred(
+#             np.vstack([1./res_x_bg, 1./res_y_bg, 1./res_z_bg]).T)
+#     spg_fbg = SimPEG.survey.Data(survey, dobs=spg_bg_dobs)
+#
+#     spg_tg = spg_ftg[src_sp, rx_list[0]] + 1j*spg_ftg[src_sp, rx_list[1]]
+#     spg_bg = spg_fbg[src_sp, rx_list[0]] + 1j*spg_fbg[src_sp, rx_list[1]]
+#
+#     # emg3d.save('simpeg.h5', spg_tg=spg_tg, spg_bg=spg_bg)
 
 
 ###############################################################################

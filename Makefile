@@ -55,9 +55,3 @@ deploy:
 
 clean:
 	rm -rf docs/gallery/*/ docs/gallery/*.zip docs/_build/
-	rm -rf examples/comparisons/raw.githubusercontent.com/
-	rm -rf examples/comparisons/*.h5
-	rm -rf examples/models/GemPy-II-topo.npy
-	rm -rf examples/t-domain/*.npz
-	rm -rf examples/tutorials/*.h5 examples/tutorials/*.cfg
-	rm -rf examples/tutorials/*.log examples/tutorials/*.json

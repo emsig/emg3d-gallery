@@ -12,8 +12,8 @@ For this example we use the resistivity model created in the example
 
 """
 import os
+import pooch
 import emg3d
-import requests
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
@@ -21,19 +21,24 @@ from scipy.interpolate import RectBivariateSpline
 plt.style.use('bmh')
 
 
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
+
+
 ###############################################################################
-# Load Model
-# ----------
+# Fetch the model
+# ---------------
+#
+# Retrieve and load the pre-computed resistivity model.
 
-fname = 'GemPy-II.h5'
-if not os.path.isfile(fname):
-    url = ("https://raw.githubusercontent.com/emsig/emg3d-gallery/"
-           f"master/examples/data/models/{fname}")
-    with open(fname, 'wb') as f:
-        t = requests.get(url)
-        f.write(t.content)
-
-model = emg3d.load(fname)['model']
+fname = "GemPy-II.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
+    fname=fname,
+    path=data_path,
+)
+model = emg3d.load(data_path + fname)['model']
 
 
 ###############################################################################
@@ -325,7 +330,7 @@ plt.show()
 #   parameter ``what``).
 
 # Survey file name
-# survey_fname = '../data/surveys/GemPy-II-survey-A.h5'
+# survey_fname = 'GemPy-II-survey-A.h5'
 
 # To store, run
 # survey.to_file(survey_fname)  # .h5, .json, or .npz
