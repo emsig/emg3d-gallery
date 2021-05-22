@@ -1,24 +1,76 @@
 """
-1. Transient CSEM for a homogeneous space
-=========================================
+9. Transient CSEM
+=================
+
+blabla
+
+The multigrid solver ``emg3d`` is a frequency-domain (or Laplace-domain)
+code. However, we can also use ``emg3d`` to model time-domain data.
+
+See the repo https://github.com/emsig/article-TDEM for more info.
+
+blabla
 
 Example how to use ``emg3d`` to model time-domain data, using FFTLog and DLF.
 
 This example is based on the first example (Figures 3-4) of [MuWS08]_, those
 original results are shown at the bottom of this example.
 
+See the repo https://github.com/emsig/article-TDEM for more info.
+
+Interactive frequency selection
+-------------------------------
+
+The time domain examples :ref:`sphx_glr_gallery_t-domain_fullspace.py` and
+:ref:`sphx_glr_gallery_t-domain_marine_1D.py` use a relatively small range
+of frequencies to go from the frequency domain to the time domain. The chosen
+frequencies where designed in an interactive GUI, which you can find in the
+repo `empymod/frequency-selection
+<https://github.com/emsig/frequency-selection>`_.
+
+The repo contains a Python file ``freqselect.py``, which contains the routines,
+and two notebooks:
+
+1. ``AdaptiveFrequencySelection.ipynb``: Reproduces and improves a previously
+   published, adaptive frequency-selection scheme.
+2. ``InteractiveFrequencySelection.ipynb``: The interactive GUI that was used
+   to design the selected frequencies in the above mentioned examples.
+
+
+A screenshot of the GUI for the interactive frequency selection is shown in the
+following figure:
+
+.. figure:: ../../_static/images/GUI-freqselect.png
+   :scale: 66 %
+   :align: center
+   :alt: Frequency-selection App
+   :name: freqselect
+
+
+The GUI uses the 1D modeller ``empymod`` and a layered model, and internally
+the ``Fourier`` class of the 3D modeller ``emg3d``. The following parameters
+can be specified interactively:
+
+- points per decade
+- frequency range (min/max)
+- offset
+- Fourier transform (FFTLog or DLF with different filters)
+- signal (impulse or switch-on/-off)
+
+Other parameters have to be specified fix when initiating the widget.
+
 """
+import os
 import emg3d
 import empymod
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 2
 
-return  # will break but create the title # TODO Not Updated Yet
 
-
-# Name is used to store the data for each frequency.
+# path and name is used to store the data for each frequency.
+path = os.path.join('..', 'download', '..')
 name = 'Fullspace'
 
 ###############################################################################
@@ -36,8 +88,8 @@ name = 'Fullspace'
 # - Receiver at an inline-offset of 900 m.
 # - Both source and receiver are x-directed electric dipoles.
 
-src = [0, 0, 0]
-rec = [900, 0, 0]
+src = [0, 0, 0, 0, 0]
+rec = [900, 0, 0, 0, 0]
 res = 1                  # Fullspace resistivity
 depth = []
 
@@ -66,8 +118,8 @@ Fourier = emg3d.Fourier(
 
 # Dense frequencies for comparison reasons
 freq_dense = np.logspace(
-        np.log10(Fourier.freq_req.min()),
-        np.log10(Fourier.freq_req.max()),
+        np.log10(Fourier.freq_required.min()),
+        np.log10(Fourier.freq_required.max()),
         301
 )
 
@@ -89,12 +141,12 @@ gridinput = {
 }
 #
 # Start the timer.
-runtime = emg3d.utils.Time()
+runtime = emg3d.utils.Timer()
 #
 # Loop over frequencies, going from high to low.
 old_grid = None
-for fi, frq in enumerate(Fourier.freq_calc[::-1]):
-    print(f"  {fi+1:2}/{Fourier.freq_calc.size} :: {frq:10.6f} Hz")
+for fi, frq in enumerate(Fourier.freq_compute[::-1]):
+    print(f"  {fi+1:2}/{Fourier.freq_compute.size} :: {frq:10.6f} Hz")
 
     # Initiate log for this frequency.
     thislog = {}
@@ -157,13 +209,13 @@ for fi, frq in enumerate(Fourier.freq_calc[::-1]):
 total_time = runtime.runtime
 
 # Store data and info to disk
-emg3d.save(name+'.npz', values=values)
+emg3d.save(path + name + '.npz', values=values)
 
 
 ###############################################################################
 
 # Load info and data
-values = emg3d.load(name+'.npz')['values']
+values = emg3d.load(path + name + '.npz')['values']
 
 runtime = 0
 for key, value in values.items():
@@ -184,10 +236,10 @@ print(f"\n                **** TOTAL RUNTIME :: "
 # ```````````````````````````````````````````
 
 # Initiate data with zeros.
-data = np.zeros(Fourier.freq_calc.size, dtype=complex)
+data = np.zeros(Fourier.freq_compute.size, dtype=complex)
 
 # Loop over frequencies.
-for fi, frq in enumerate(Fourier.freq_calc):
+for fi, frq in enumerate(Fourier.freq_compute):
     key = str(int(frq*1e6))
     data[fi] = values[key]['data']
 
@@ -202,8 +254,8 @@ for fi, frq in enumerate(Fourier.freq_calc):
 data_int = Fourier.interpolate(data)
 
 # Compute analytical result using empymod (epm)
-epm_req = empymod.dipole(src, rec, depth, res, Fourier.freq_req, verb=1)
-epm_calc = empymod.dipole(src, rec, depth, res, Fourier.freq_calc, verb=1)
+epm_req = empymod.dipole(src, rec, depth, res, Fourier.freq_required, verb=1)
+epm_calc = empymod.dipole(src, rec, depth, res, Fourier.freq_compute, verb=1)
 epm_dense = empymod.dipole(src, rec, depth, res, freq_dense, verb=1)
 
 
@@ -217,8 +269,8 @@ plt.figure(figsize=(10, 7))
 ax1 = plt.subplot(321)
 plt.title('(a) log-lin Real')
 plt.plot(freq_dense, 1e9*epm_dense.real, 'C1')
-plt.plot(Fourier.freq_req, 1e9*data_int.real, 'k.', label='interpolated')
-plt.plot(Fourier.freq_calc, 1e9*data.real, 'C0*')
+plt.plot(Fourier.freq_required, 1e9*data_int.real, 'k.', label='interpolated')
+plt.plot(Fourier.freq_compute, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
 
@@ -226,8 +278,8 @@ plt.xscale('log')
 ax3 = plt.subplot(323, sharex=ax1)
 plt.title('(c) log-symlog Real')
 plt.plot(freq_dense, 1e9*epm_dense.real, 'C1')
-plt.plot(Fourier.freq_req, 1e9*data_int.real, 'k.')
-plt.plot(Fourier.freq_calc, 1e9*data.real, 'C0*')
+plt.plot(Fourier.freq_required, 1e9*data_int.real, 'k.')
+plt.plot(Fourier.freq_compute, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
 plt.yscale('symlog', linthresh=1e-5)
@@ -243,8 +295,8 @@ err_cal_r = np.clip(100*abs((data.real-epm_calc.real) /
                             epm_calc.real), 0.01, 10)
 
 plt.ylabel('Rel. error %')
-plt.plot(Fourier.freq_req, err_int_r, 'k.')
-plt.plot(Fourier.freq_calc, err_cal_r, 'C0*')
+plt.plot(Fourier.freq_required, err_int_r, 'k.')
+plt.plot(Fourier.freq_compute, err_cal_r, 'C0*')
 plt.axhline(1, color='.4')
 
 plt.xscale('log')
@@ -256,16 +308,16 @@ plt.xlabel('Frequency (Hz)')
 ax2 = plt.subplot(322)
 plt.title('(b) log-lin Imag')
 plt.plot(freq_dense, 1e9*epm_dense.imag, 'C1')
-plt.plot(Fourier.freq_req, 1e9*data_int.imag, 'k.', label='interpolated')
-plt.plot(Fourier.freq_calc, 1e9*data.imag, 'C0*')
+plt.plot(Fourier.freq_required, 1e9*data_int.imag, 'k.', label='interpolated')
+plt.plot(Fourier.freq_compute, 1e9*data.imag, 'C0*')
 plt.xscale('log')
 
 # Imaginary, log-symlog
 ax4 = plt.subplot(324, sharex=ax2)
 plt.title('(d) log-symlog Imag')
 plt.plot(freq_dense, 1e9*epm_dense.imag, 'C1')
-plt.plot(Fourier.freq_req, 1e9*data_int.imag, 'k.')
-plt.plot(Fourier.freq_calc, 1e9*data.imag, 'C0*')
+plt.plot(Fourier.freq_required, 1e9*data_int.imag, 'k.')
+plt.plot(Fourier.freq_compute, 1e9*data.imag, 'C0*')
 
 plt.xscale('log')
 plt.yscale('symlog', linthresh=1e-5)
@@ -280,8 +332,8 @@ err_int_i = np.clip(100*abs((data_int.imag-epm_req.imag) /
 err_cal_i = np.clip(100*abs((data.imag-epm_calc.imag) /
                             epm_calc.imag), 0.01, 10)
 
-plt.plot(Fourier.freq_req, err_int_i, 'k.')
-plt.plot(Fourier.freq_calc, err_cal_i, 'C0*')
+plt.plot(Fourier.freq_required, err_int_i, 'k.')
+plt.plot(Fourier.freq_compute, err_cal_i, 'C0*')
 plt.axhline(1, color='.4')
 
 plt.xscale('log')
@@ -387,14 +439,14 @@ Fourier_dlf = emg3d.Fourier(
     fmax=21,
     ft='dlf',  # Fourier transform to use
     ftarg={'pts_per_dec': -1},
-    freq_inp=Fourier.freq_req,  # Use same frequencies as in above example
+    input_freq=Fourier.freq_required,  # Use same freqs as in above example
 )
 
 
 # Dense frequencies for comparison reasons
 freq_dense_dlf = np.logspace(
-        np.log10(Fourier_dlf.freq_req.min()),
-        np.log10(Fourier_dlf.freq_req.max()),
+        np.log10(Fourier_dlf.freq_required.min()),
+        np.log10(Fourier_dlf.freq_required.max()),
         301)
 
 # Get data
@@ -402,9 +454,9 @@ data_int_dlf = Fourier_dlf.interpolate(data)
 
 # Compute analytical result using empymod (epm)
 epm_req_dlf = empymod.dipole(
-        src, rec, depth, res, Fourier_dlf.freq_req, verb=1)
+        src, rec, depth, res, Fourier_dlf.freq_required, verb=1)
 epm_calc_dlf = empymod.dipole(
-        src, rec, depth, res, Fourier_dlf.freq_calc, verb=1)
+        src, rec, depth, res, Fourier_dlf.freq_compute, verb=1)
 epm_dense_dlf = empymod.dipole(src, rec, depth, res, freq_dense_dlf, verb=1)
 
 
@@ -416,9 +468,9 @@ data_int_dlf = Fourier_dlf.interpolate(data)
 
 # Compute analytical result using empymod (epm)
 epm_req_dlf = empymod.dipole(
-        src, rec, depth, res, Fourier_dlf.freq_req, verb=1)
+        src, rec, depth, res, Fourier_dlf.freq_required, verb=1)
 epm_calc_dlf = empymod.dipole(
-        src, rec, depth, res, Fourier_dlf.freq_calc, verb=1)
+        src, rec, depth, res, Fourier_dlf.freq_compute, verb=1)
 epm_dense_dlf = empymod.dipole(src, rec, depth, res, freq_dense_dlf, verb=1)
 
 
@@ -432,9 +484,9 @@ plt.figure(figsize=(10, 7))
 ax1 = plt.subplot(321)
 plt.title('(a) log-lin Real')
 plt.plot(freq_dense_dlf, 1e9*epm_dense_dlf.real, 'C1')
-plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.real, 'k--',
+plt.plot(Fourier_dlf.freq_required, 1e9*data_int_dlf.real, 'k--',
          label='interpolated')
-plt.plot(Fourier_dlf.freq_calc, 1e9*data.real, 'C0*')
+plt.plot(Fourier_dlf.freq_compute, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
 
@@ -442,8 +494,8 @@ plt.xscale('log')
 ax3 = plt.subplot(323, sharex=ax1)
 plt.title('(c) log-symlog Real')
 plt.plot(freq_dense_dlf, 1e9*epm_dense_dlf.real, 'C1')
-plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.real, 'k--')
-plt.plot(Fourier_dlf.freq_calc, 1e9*data.real, 'C0*')
+plt.plot(Fourier_dlf.freq_required, 1e9*data_int_dlf.real, 'k--')
+plt.plot(Fourier_dlf.freq_compute, 1e9*data.real, 'C0*')
 plt.ylabel('$E_x$ (nV/m)')
 plt.xscale('log')
 plt.yscale('symlog', linthresh=1e-5)
@@ -459,8 +511,8 @@ err_cal_r = np.clip(100*abs((data.real-epm_calc_dlf.real) /
                             epm_calc_dlf.real), 0.01, 10)
 
 plt.ylabel('Rel. error %')
-plt.plot(Fourier_dlf.freq_req, err_int_r, 'k.')
-plt.plot(Fourier_dlf.freq_calc, err_cal_r, 'C0*')
+plt.plot(Fourier_dlf.freq_required, err_int_r, 'k.')
+plt.plot(Fourier_dlf.freq_compute, err_cal_r, 'C0*')
 plt.axhline(1, color='.4')
 
 plt.xscale('log')
@@ -472,17 +524,17 @@ plt.xlabel('Frequency (Hz)')
 ax2 = plt.subplot(322)
 plt.title('(b) log-lin Imag')
 plt.plot(freq_dense_dlf, 1e9*epm_dense_dlf.imag, 'C1')
-plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.imag, 'k--',
+plt.plot(Fourier_dlf.freq_required, 1e9*data_int_dlf.imag, 'k--',
          label='interpolated')
-plt.plot(Fourier_dlf.freq_calc, 1e9*data.imag, 'C0*')
+plt.plot(Fourier_dlf.freq_compute, 1e9*data.imag, 'C0*')
 plt.xscale('log')
 
 # Imaginary, log-symlog
 ax4 = plt.subplot(324, sharex=ax2)
 plt.title('(d) log-symlog Imag')
 plt.plot(freq_dense_dlf, 1e9*epm_dense_dlf.imag, 'C1')
-plt.plot(Fourier_dlf.freq_req, 1e9*data_int_dlf.imag, 'k--')
-plt.plot(Fourier_dlf.freq_calc, 1e9*data.imag, 'C0*')
+plt.plot(Fourier_dlf.freq_required, 1e9*data_int_dlf.imag, 'k--')
+plt.plot(Fourier_dlf.freq_compute, 1e9*data.imag, 'C0*')
 
 plt.xscale('log')
 plt.yscale('symlog', linthresh=1e-5)
@@ -497,8 +549,8 @@ err_int_i = np.clip(100*abs((data_int_dlf.imag-epm_req_dlf.imag) /
 err_cal_i = np.clip(100*abs((data.imag-epm_calc_dlf.imag) /
                             epm_calc_dlf.imag), 0.01, 10)
 
-plt.plot(Fourier_dlf.freq_req, err_int_i, 'k.')
-plt.plot(Fourier_dlf.freq_calc, err_cal_i, 'C0*')
+plt.plot(Fourier_dlf.freq_required, err_int_i, 'k.')
+plt.plot(Fourier_dlf.freq_compute, err_cal_i, 'C0*')
 plt.axhline(1, color='.4')
 
 plt.xscale('log')

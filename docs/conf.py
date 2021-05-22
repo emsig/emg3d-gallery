@@ -24,15 +24,11 @@ sphinx_gallery_conf = {
     'examples_dirs': [
         '../examples/tutorials',
         '../examples/comparisons',
-        '../examples/magnetics',
-        '../examples/t-domain',
         '../examples/models',
     ],
     'gallery_dirs': [
         'gallery/tutorials',
         'gallery/comparisons',
-        'gallery/magnetics',
-        'gallery/t-domain',
         'gallery/models',
     ],
     'capture_repr': ('_repr_html_', '__repr__'),

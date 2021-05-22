@@ -7,6 +7,4 @@ Gallery
 
    tutorials/index
    comparisons/index
-   magnetics/index
-   t-domain/index
    models/index

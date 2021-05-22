@@ -106,9 +106,9 @@ gridding = single
 # nothing specified
 
 [data]
-sources = Tx1
-receivers = Rx08, Rx38
-frequencies = 1.0""")
+sources = TxED-1
+receivers = RxEP-08, RxEP-38
+frequencies = f-1""")
 
 
 ###############################################################################
