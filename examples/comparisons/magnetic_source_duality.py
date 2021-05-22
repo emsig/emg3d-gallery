@@ -1,5 +1,5 @@
 r"""
-3. Magnetic source using duality
+8. Magnetic source using duality
 ================================
 
 Computing the :math:`E` and :math:`H` fields from a magnetic source using the

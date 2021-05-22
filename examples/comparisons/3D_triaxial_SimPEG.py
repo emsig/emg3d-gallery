@@ -127,7 +127,7 @@ e3d_bg = e3d_fbg.get_receiver(rec)
 # Fetch pre-computed data.
 fname = 'simpeg.h5'
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/master/emg3d/external/'+fname,
+    'https://raw.github.com/emsig/data/main/emg3d/external/'+fname,
     'e0502ccfb6dfec599f4c53d9b8f8a0c79b7d872c7224a9b403cb57f39e729409',
     fname=fname,
     path=data_path,

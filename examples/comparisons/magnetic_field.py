@@ -1,5 +1,5 @@
 r"""
-1. Magnetic field due to an el. source
+6. Magnetic field due to an el. source
 ======================================
 
 The solver ``emg3d`` returns the electric field in x-, y-, and z-direction.

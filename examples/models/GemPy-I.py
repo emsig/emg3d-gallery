@@ -45,7 +45,7 @@ data_path = os.path.join('..', 'download', '')
 
 fname = "GemPy-I.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    'https://raw.github.com/emsig/data/main/emg3d/models/'+fname,
     '06f522a69c94dc02ca3da0ea4ca7b60f7a9c764cdcbf6699ef4155621d70b3bb',
     fname=fname,
     path=data_path,
@@ -290,6 +290,13 @@ grid.plot_3d_slicer(
 #         (-10000, 25000, 4000), (1000, 1000, -1000), (0, 0, 1)
 #     ]
 #     p.show()
+#
+#
+# .. figure:: ../../_static/images/GemPy-I.png
+#    :scale: 66 %
+#    :align: center
+#    :alt: GemPy-I model with PyVista
+#    :name: gempy-i
 
 
 ###############################################################################

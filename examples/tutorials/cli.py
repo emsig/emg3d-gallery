@@ -54,14 +54,14 @@ def bash(command):
 # provide your own survey, model, and parameter files.
 model = "GemPy-II.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/master/emg3d/models/'+model,
+    'https://raw.github.com/emsig/data/main/emg3d/models/'+model,
     'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
     fname=model,
     path=data_path,
 )
 survey = 'GemPy-II-survey-A.h5'
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/master/emg3d/surveys/'+survey,
+    'https://raw.github.com/emsig/data/main/emg3d/surveys/'+survey,
     '5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7',
     fname=survey,
     path=data_path,

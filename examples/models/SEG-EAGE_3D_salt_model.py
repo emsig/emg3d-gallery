@@ -65,7 +65,7 @@ data_path = os.path.join('..', 'download', '')
 
 fname = "SEG-EAGE-Salt-Model.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/master/emg3d/models/'+fname,
+    'https://raw.github.com/emsig/data/main/emg3d/models/'+fname,
     '6ee10663de588d445332ba7cc1c0dc3d6f9c50d1965f797425cebc64f9c71de6',
     fname=fname,
     path=data_path,
@@ -241,6 +241,13 @@ plt.show()
 #         (27000, 37000, 5800), (6600, 6600, -3300), (0, 0, 1)
 #     ]
 #     p.show()
+#
+#
+# .. figure:: ../../_static/images/SEG-EAGE_3D_salt_model.png
+#    :scale: 66 %
+#    :align: center
+#    :alt: SEG-EAGE 3D salt model with PyVista
+#    :name: salt_model
 
 
 ###############################################################################

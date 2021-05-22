@@ -14,6 +14,8 @@ electromagnetic (CSEM) and magnetotelluric (MT) data, see
     https://github.com/emsig/data/tree/main/emg3d/external/MARE2DEM .
 
 """
+import os
+import pooch
 import emg3d
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,17 +24,32 @@ plt.style.use('bmh')
 # sphinx_gallery_thumbnail_path = '_static/thumbs/MARE2DEM.png'
 
 
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
+
+
 ###############################################################################
-# Load MARE2DEM result
-# --------------------
+# Fetch and load MARE2DEM result
+# ------------------------------
 
-# Location of data files.
-data_url = 'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'
-
-mar_tg = np.loadtxt(data_url+'triaxial.0.resp', skiprows=93, usecols=6)
+fname1 = 'triaxial.0.resp'
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'+fname1,
+    '29ec8e3dbfc615bcb430df5cbd89fea6302bb3867d90ae969907314013dc871b',
+    fname=fname1,
+    path=data_path,
+)
+mar_tg = np.loadtxt(data_path + fname1, skiprows=93, usecols=6)
 mar_tg = mar_tg[::2] + 1j*mar_tg[1::2]
 
-mar_bg = np.loadtxt(data_url+'triaxial-BG.0.resp', skiprows=93, usecols=6)
+fname2 = 'triaxial-BG.0.resp'
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'+fname2,
+    '036f72e30b7794304c45ef73403cdd8318ca0fc5c2fdbe7d05a33731cf3f2cf6',
+    fname=fname2,
+    path=data_path,
+)
+mar_bg = np.loadtxt(data_path + fname2, skiprows=93, usecols=6)
 mar_bg = mar_bg[::2] + 1j*mar_bg[1::2]
 
 

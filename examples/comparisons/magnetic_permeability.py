@@ -1,5 +1,5 @@
 r"""
-4. Magnetic permeability
+9. Magnetic permeability
 ========================
 
 The solver ``emg3d`` uses the diffusive approximation of Maxwell's equations;
