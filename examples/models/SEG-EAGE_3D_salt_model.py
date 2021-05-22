@@ -65,7 +65,7 @@ data_path = os.path.join('..', 'download', '')
 
 fname = "SEG-EAGE-Salt-Model.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/models/'+fname,
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/models/'+fname,
     '6ee10663de588d445332ba7cc1c0dc3d6f9c50d1965f797425cebc64f9c71de6',
     fname=fname,
     path=data_path,

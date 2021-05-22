@@ -32,9 +32,10 @@ data_path = os.path.join('..', 'download', '')
 # Fetch and load MARE2DEM result
 # ------------------------------
 
+url = 'https://raw.github.com/emsig/data/2021-05-21/emg3d/external/MARE2DEM/'
 fname1 = 'triaxial.0.resp'
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'+fname1,
+    url + fname1,
     '29ec8e3dbfc615bcb430df5cbd89fea6302bb3867d90ae969907314013dc871b',
     fname=fname1,
     path=data_path,
@@ -44,7 +45,7 @@ mar_tg = mar_tg[::2] + 1j*mar_tg[1::2]
 
 fname2 = 'triaxial-BG.0.resp'
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/external/MARE2DEM/'+fname2,
+    url + fname2,
     '036f72e30b7794304c45ef73403cdd8318ca0fc5c2fdbe7d05a33731cf3f2cf6',
     fname=fname2,
     path=data_path,

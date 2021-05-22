@@ -33,7 +33,7 @@ data_path = os.path.join('..', 'download', '')
 
 fname = "GemPy-II.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/models/'+fname,
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/models/'+fname,
     'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
     fname=fname,
     path=data_path,

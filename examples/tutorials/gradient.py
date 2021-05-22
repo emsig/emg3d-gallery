@@ -32,7 +32,7 @@ data_path = os.path.join('..', 'download', '')
 
 fname = 'GemPy-II-survey-A.h5'
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/surveys/'+fname,
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/surveys/'+fname,
     '5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7',
     fname=fname,
     path=data_path,
@@ -58,7 +58,7 @@ survey
 # Load true model
 fname = "GemPy-II.h5"
 pooch.retrieve(
-    'https://raw.github.com/emsig/data/main/emg3d/models/'+fname,
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/models/'+fname,
     'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
     fname=fname,
     path=data_path,
