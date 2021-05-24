@@ -5,14 +5,12 @@ channels:
 
 dependencies:
   - "libblas=*=*mkl"
-  - mamba
   - empymod
   - emg3d
   - xarray
   - discretize
   - h5py
   - matplotlib
-  - memory_profiler
   - scooby
   - sphinx
   - sphinx-gallery

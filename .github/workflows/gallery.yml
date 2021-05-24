@@ -57,7 +57,7 @@ jobs:
           python-version: 3.8
           miniforge-variant: Mambaforge
           use-mamba: true
-          # The following should not be necessary with Mambaforg(?).
+          # The following should not be necessary with Mambaforge(?).
           channels: conda-forge,defaults
           channel-priority: strict
 
@@ -68,19 +68,14 @@ jobs:
           conda config --show-sources
           conda config --show
           conda env create -f environment.yml
-          conda activate emg3d-gallery
-          conda info -a
-          conda list
-
-      # - uses: ammaraskar/sphinx-action@master
-      #   with:
-      #     docs-folder: "docs/"
 
       - name: Create docs
         shell: bash -l {0}
         run: |
           conda activate emg3d-gallery
           conda install pip
+          conda info -a
+          conda list
           pip install emg3d==1.0.0rc2
           cd docs
           make html -b linkcheck
