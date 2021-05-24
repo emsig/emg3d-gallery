@@ -71,15 +71,16 @@ jobs:
           conda info -a
           conda list
 
-      - uses: ammaraskar/sphinx-action@master
-        with:
-          docs-folder: "docs/"
+      # - uses: ammaraskar/sphinx-action@master
+      #   with:
+      #     docs-folder: "docs/"
 
-      # - name: Create docs
-      #   shell: bash -l {0}
-      #   run: |
-      #     cd docs
-      #     make html -b linkcheck
+      - name: Create docs
+        shell: bash -l {0}
+        run: |
+          conda activate emg3d-gallery
+          cd docs
+          make html -b linkcheck
 
       - name: Artifact Upload
         if: success()
