@@ -79,6 +79,8 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate emg3d-gallery
+          conda install pip
+          pip install emg3d==1.0.0rc2
           cd docs
           make html -b linkcheck
 
