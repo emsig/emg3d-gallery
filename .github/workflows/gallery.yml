@@ -54,7 +54,7 @@ jobs:
         with:
           auto-update-conda: true
           miniconda-version: "latest"
-          python-version: 3.8
+          python-version: 3.9
           miniforge-variant: Mambaforge
           use-mamba: true
           # The following should not be necessary with Mambaforge(?).
@@ -77,6 +77,7 @@ jobs:
           conda info -a
           conda list
           pip install emg3d==1.0.0rc2
+          emg3d --report
           cd docs
           make html -b linkcheck
 
