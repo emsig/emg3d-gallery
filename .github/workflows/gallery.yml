@@ -21,7 +21,6 @@ jobs:
   gallery:
 
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
 
@@ -52,37 +51,29 @@ jobs:
         # [pin v2.1.1 (2021-04-01)]
         uses: conda-incubator/setup-miniconda@35d1405e78aa3f784fe3ce9a2eb378d5eeb62169
         with:
-          auto-update-conda: true
-          miniconda-version: "latest"
+          auto-update-conda: false
           python-version: 3.9
+          environment-file: environment.yml
+          activate-environment: emg3d-gallery
           miniforge-variant: Mambaforge
+          miniforge-version: latest
           use-mamba: true
-          # The following should not be necessary with Mambaforge(?).
-          channels: conda-forge,defaults
-          channel-priority: strict
-
-      - name: Install dependencies
-        shell: bash -l {0}
-        run: |
-          conda config --set always_yes yes --set changeps1 no
-          conda config --show-sources
-          conda config --show
-          conda env create -f environment.yml
 
       - name: Create docs
         shell: bash -l {0}
         run: |
-          conda activate emg3d-gallery
-          conda install pip
-          conda info -a
-          conda list
+          conda config --show-sources
+          conda config --show
+          mamba install pip
+          mamba info -a
+          mamba list
           pip install emg3d==1.0.0rc2
           emg3d --report
           cd docs
           make html -b linkcheck
 
       - name: Artifact Upload
-        if: success()
+        # if: success() # # # # # # # #
         uses: actions/upload-artifact@v2
         with:
           name: emg3d-gallery-${{ github.sha }}
