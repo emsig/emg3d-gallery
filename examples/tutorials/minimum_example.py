@@ -118,7 +118,6 @@ model  # QC
 # models in terms of conductivity or their logarithms.
 #
 #
-###############################################################################
 # 1.4 Compute the electric field
 # ------------------------------
 #

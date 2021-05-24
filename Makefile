@@ -6,6 +6,7 @@ help:
 	@echo "  flake8        style check with flake8"
 	@echo "  doc           build docs (update existing)"
 	@echo "  example FILE= build particular example"
+	@echo "  doc-noplot   build docs without gallery"
 	@echo "  doc-clean     build docs (new, removing any existing)"
 	@echo "  preview       renders docs in Browser"
 	@echo "  linkcheck     check all links in docs"
@@ -29,6 +30,9 @@ flake8:
 
 doc:
 	cd docs && make html
+
+doc-noplot:
+	cd docs && make html-noplot
 
 doc-clean:
 	cd docs && rm -rf gallery/*/ && rm -rf _build/ && make html
