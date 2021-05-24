@@ -71,15 +71,19 @@ jobs:
           conda info -a
           conda list
 
-      - name: Create docs
-        shell: bash -l {0}
-        run: |
-          cd docs
-          make html -b linkcheck
+      - uses: ammaraskar/sphinx-action@master
+        with:
+          docs-folder: "docs/"
+
+      # - name: Create docs
+      #   shell: bash -l {0}
+      #   run: |
+      #     cd docs
+      #     make html -b linkcheck
 
       - name: Artifact Upload
         if: success()
         uses: actions/upload-artifact@v2
         with:
           name: emg3d-gallery-${{ github.sha }}
-          path: docs/_build
+          path: docs/_build/html/
