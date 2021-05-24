@@ -68,6 +68,7 @@ jobs:
           conda config --show-sources
           conda config --show
           conda env create -f environment.yml
+          conda activate emg3d-gallery
           conda info -a
           conda list
 
