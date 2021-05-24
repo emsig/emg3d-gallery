@@ -68,7 +68,7 @@ jobs:
           conda config --set always_yes yes --set changeps1 no
           conda config --show-sources
           conda config --show
-          conda mamba env create -f environment.yml
+          conda env create -f environment.yml
           conda info -a
           conda list
 
