@@ -49,16 +49,35 @@ plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 4
 
 ###############################################################################
-# 1.1 Grid
+# 1.1 Survey
+# ----------
+#
+# First we define the survey parameters. The source is an x-directed, electric
+# dipole at the origin, of 1 A strength. Source coordinates for an electric
+# dipole can be either in a couple of different ways, see
+# :class:`emg3d.electrodes.TxElectricDipole`.
+
+# Define source coordinates.
+src_coo = (0, 0, 0, 0, 0)  # (x, y, z, azimuth, elevation)
+
+# Frequency of the source.
+frequency = 10
+
+# Create source instance.
+source = emg3d.TxElectricDipole(coordinates=src_coo)
+source  # QC
+
+
+###############################################################################
+# 1.2 Grid
 # --------
 #
-# The first step is usually to define a grid. It is at the same time also the
-# most difficult step. A grid should be fine enough in order to resolve any
-# relevant feature in the underground, and it should be fine enough around
-# sources and receivers to not loose accuracy through the required
-# interpolation. On the other hand, its boundary has to be far away to avoid
-# effects from the boundary condition. And then it should need as few cells as
-# possible for fast computation.
+# Now we have to define a grid. This is the most difficult step. A grid should
+# be fine enough in order to resolve any relevant feature in the underground,
+# and it should be fine enough around sources and receivers to not loose
+# accuracy through the required interpolation. On the other hand, its boundary
+# has to be far away to avoid effects from the boundary condition. And then it
+# should need as few cells as possible for fast computation.
 #
 # You can define your grid in any way that suits you, and there are better
 # grid-building tools than emg3d. However, emg3d does have some functionality
@@ -67,16 +86,17 @@ plt.style.use('bmh')
 # more details.
 
 grid = emg3d.construct_mesh(
-    center=(0, 0, 0),    # Center of wanted grid
-    frequency=10,        # Frequency we will use the grid for
-    properties=2,        # Reference resistivity
-    domain=[-800, 800],  # Domain in which we want precise results
+    center=src_coo[:3],   # Center of wanted grid
+    frequency=frequency,  # Frequency we will use the grid for
+    properties=2,         # Reference resistivity
+    domain=[-800, 800],   # Domain in which we want precise results
 )
 
 grid  # QC
 
+
 ###############################################################################
-# 1.2 Model
+# 1.3 Model
 # ---------
 #
 # Next we have to build a model. What applies for the gridding applies as well
@@ -88,9 +108,9 @@ grid  # QC
 # :math:`\rho_x=1.5\,\Omega\,\rm{m}`, :math:`\rho_y=1.8\,\Omega\,\rm{m}`, and
 # :math:`\rho_z=3.3\,\Omega\,\rm{m}`.
 
-model = emg3d.Model(grid, property_x=1.5, property_y=1.8,
-                    property_z=3.3, mapping='Resistivity')
+model = emg3d.Model(grid, property_x=1.5, property_y=1.8, property_z=3.3)
 model  # QC
+
 
 ###############################################################################
 # The properties are here defined in terms of resistivity. Have a look at the
@@ -98,18 +118,6 @@ model  # QC
 # models in terms of conductivity or their logarithms.
 #
 #
-# 1.3 Source
-# ----------
-#
-# The source is an x-directed, electric dipole at the origin, of 1 A strength.
-# Source coordinates for an electric dipole can be either in a couple of
-# different ways, see :class:`emg3d.electrodes.TxElectricDipole`.
-
-source = emg3d.TxElectricDipole(
-        coordinates=(0, 0, 0, 0, 0),  # (x, y, z, azimuth, elevation)
-        strength=1.0,  # 1.0 is the default.
-)
-
 ###############################################################################
 # 1.4 Compute the electric field
 # ------------------------------
