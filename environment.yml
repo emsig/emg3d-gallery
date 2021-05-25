@@ -18,3 +18,4 @@ dependencies:
   - pooch
   - pydata-sphinx-theme
   - mkl-service
+  - tqdm
