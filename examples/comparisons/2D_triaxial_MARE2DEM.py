@@ -62,7 +62,7 @@ mar_bg = mar_bg[::2] + 1j*mar_bg[1::2]
 # Set ``coarse_model = False`` to obtain a result of higher accuracy.
 coarse_model = True
 
-# Source location [x, y, z, azimuth, dip]
+# Source location [x, y, z, azimuth, elevation]
 source = emg3d.TxElectricDipole((50, 0, -1950, 0, 0))
 rec = (np.arange(80)*100+2050, 0, -1999.9, 0, 0)
 frequency = 0.5             # Frequency (Hz)

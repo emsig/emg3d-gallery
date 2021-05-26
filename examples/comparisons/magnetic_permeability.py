@@ -65,7 +65,7 @@ mperm = 2.5             # Magnetic permeability
 # empymod
 # ```````
 # Note: The coordinate system of empymod is positive z down, for emg3d it is
-# positive z up. We have to switch therefore src_z, rec_z, and dip.
+# positive z up. We have to switch therefore src_z, rec_z, and elevation.
 
 # Compute
 epm = empymod.bipole(

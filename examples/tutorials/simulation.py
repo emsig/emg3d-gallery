@@ -97,10 +97,10 @@ bathymetry = RectBivariateSpline(
 # providing coordinates, where two coordinate formats are accepted:
 #
 # - ``(x0, x1, y0, y1, z0, z1)``: finite length dipole,
-# - ``(x, y, z, azimuth, dip)``: point dipole,
+# - ``(x, y, z, azimuth, elevation)``: point dipole,
 #
-# where the angles (azimuth and dip) are in degrees. For the coordinate system
-# see `coordinate_system
+# where the angles (azimuth and elevation) are in degrees. For the coordinate
+# system see `coordinate_system
 # <https://empymod.emsig.xyz/en/stable/examples/coordinate_system.html>`_.
 #
 # A survey can contain electric and magnetic receivers, arbitrarily rotated.
@@ -110,7 +110,7 @@ bathymetry = RectBivariateSpline(
 # and observed data - it does not know anything of an underlying model.
 
 # Angles for horizontal, x-directed Ex point dipoles
-dip = 0.0
+elevation = 0.0
 azimuth = 0.0
 
 # Acquisition source frequencies (Hz)
@@ -123,7 +123,7 @@ src_y = 7500
 src_z = bathymetry(src_x, src_y).ravel()+50
 src = emg3d.surveys.txrx_coordinates_to_dict(
         emg3d.TxElectricDipole,
-        (src_x, src_y, src_z, dip, azimuth)
+        (src_x, src_y, src_z, azimuth, elevation)
 )
 
 # Receiver positions
@@ -133,7 +133,7 @@ RX, RY = np.meshgrid(rec_x, rec_y, indexing='ij')
 RZ = bathymetry(rec_x, rec_y)
 rec = emg3d.surveys.txrx_coordinates_to_dict(
         emg3d.RxElectricPoint,
-        (RX.ravel(), RY.ravel(), RZ.ravel(), dip, azimuth)
+        (RX.ravel(), RY.ravel(), RZ.ravel(), azimuth, elevation)
 )
 
 

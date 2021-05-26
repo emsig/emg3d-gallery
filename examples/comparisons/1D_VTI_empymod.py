@@ -65,7 +65,7 @@ v_res = h_res*aniso**2  # Vertical resistivity
 # empymod
 # ```````
 # Note: The coordinate system of empymod is positive z down, for emg3d it is
-# positive z up. We have to switch therefore src_z, rec_z, and dip.
+# positive z up. We have to switch therefore src_z, rec_z, and elevation.
 
 # Collect common input for empymod.
 inp = {
