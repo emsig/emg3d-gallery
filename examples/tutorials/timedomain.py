@@ -192,16 +192,16 @@ print(f"\n                **** TOTAL RUNTIME :: {runtime//60:.0f} min "
 #
 # Compute analytical result and interpolate missing responses
 
-data_int = Fourier.interpolate(data)
-
-# Compute analytical result using empymod
-epm_req = empymod.bipole(src_coo, rec_coo, depth, resistivity,
-                         Fourier.freq_required, verb=1)
-epm_dense = empymod.bipole(src_coo, rec_coo, depth, resistivity,
-                           freq_dense, verb=1)
-
-# Compute error
-err = np.clip(100*abs((data_int.imag-epm_req.imag)/epm_req.imag), 0.1, 100)
+# data_int = Fourier.interpolate(data)
+# 
+# # Compute analytical result using empymod
+# epm_req = empymod.bipole(src_coo, rec_coo, depth, resistivity,
+#                          Fourier.freq_required, verb=1)
+# epm_dense = empymod.bipole(src_coo, rec_coo, depth, resistivity,
+#                            freq_dense, verb=1)
+# 
+# # Compute error
+# err = np.clip(100*abs((data_int.imag-epm_req.imag)/epm_req.imag), 0.1, 100)
 
 
 ###############################################################################
@@ -210,86 +210,86 @@ err = np.clip(100*abs((data_int.imag-epm_req.imag)/epm_req.imag), 0.1, 100)
 #
 # Do the transform and compute analytical result.
 
-# Compute corresponding time-domain signal.
-data_time = Fourier.freq2time(data, rec_coo[0])
-
-# Analytical result
-epm_time = empymod.analytical(src_coo[:3], rec_coo[:3], resistivity, time,
-                              solution='dfs', signal=0, verb=1)
-
-# Relative error and peak error
-err_egd = 100*abs((data_time-epm_time)/epm_time)
+# # Compute corresponding time-domain signal.
+# data_time = Fourier.freq2time(data, rec_coo[0])
+# 
+# # Analytical result
+# epm_time = empymod.analytical(src_coo[:3], rec_coo[:3], resistivity, time,
+#                               solution='dfs', signal=0, verb=1)
+# 
+# # Relative error and peak error
+# err_egd = 100*abs((data_time-epm_time)/epm_time)
 
 
 ###############################################################################
 # Plot it
 # ```````
 
-plt.figure(figsize=(9, 5))
-
-# Frequency-domain, imaginary, log-log
-ax1 = plt.subplot2grid((4, 2), (0, 0), rowspan=3)
-plt.title('(a) frequency domain')
-plt.plot(freq_dense, 1e9*abs(epm_dense.imag), 'C3', label='analytical')
-plt.plot(Fourier.freq_compute, 1e9*abs(data.imag), 'C0o', label='computed')
-plt.plot(Fourier.freq_required[~Fourier.ifreq_compute],
-         1e9*abs(data_int[~Fourier.ifreq_compute].imag), 'k.',
-         label='interpolated / 0')
-plt.ylabel(r'$|\Im\{E_x\}|$ (nV/m)')
-plt.xscale('log')
-plt.yscale('symlog', linthresh=5e-9)
-plt.ylim([-1e-9, 5e-1])
-ax1.set_xticklabels([])
-plt.legend()
-plt.grid(axis='y', c='0.9')
-
-# Frequency-domain, imaginary, error
-ax2 = plt.subplot2grid((4, 2), (3, 0))
-plt.plot(Fourier.freq_required, err, '.4')
-plt.plot(Fourier.freq_required[~Fourier.ifreq_compute],
-         err[~Fourier.ifreq_compute], 'k.')
-plt.plot(Fourier.freq_compute, err[Fourier.ifreq_compute], 'C0o')
-plt.axhline(1, color='0.4', zorder=1)
-
-plt.xscale('log')
-plt.yscale('log')
-plt.xlabel('Frequency (Hz)')
-plt.ylabel('Rel. error %')
-plt.ylim([8e-3, 120])
-plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
-plt.grid(axis='y', c='0.9')
-
-
-# Time-domain
-ax3 = plt.subplot2grid((4, 2), (0, 1), rowspan=3)
-plt.title('(b) time domain')
-plt.plot(time, epm_time*1e9, 'C3', lw=2, label='analytical')
-plt.plot(time, data_time*1e9, 'k--', label='transformed')
-plt.xlim([0, 2])
-plt.ylabel('$E_x$ (nV/m)')
-ax3.set_xticklabels([])
-plt.legend()
-ax3.yaxis.tick_right()
-ax3.yaxis.set_label_position("right")
-plt.grid(axis='y', c='0.9')
-
-# Time-domain, error
-ax4 = plt.subplot2grid((4, 2), (3, 1))
-plt.plot(time, err_egd, 'k')
-plt.axhline(1, color='0.4', zorder=1)
-
-plt.yscale('log')
-plt.xlabel('Time (s)')
-plt.ylabel('Rel. error %')
-plt.xlim([0, 2])
-plt.ylim([8e-3, 120])
-plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
-ax4.yaxis.tick_right()
-ax4.yaxis.set_label_position("right")
-plt.grid(axis='y', c='0.9')
-
-plt.tight_layout()
-plt.show()
+# plt.figure(figsize=(9, 5))
+# 
+# # Frequency-domain, imaginary, log-log
+# ax1 = plt.subplot2grid((4, 2), (0, 0), rowspan=3)
+# plt.title('(a) frequency domain')
+# plt.plot(freq_dense, 1e9*abs(epm_dense.imag), 'C3', label='analytical')
+# plt.plot(Fourier.freq_compute, 1e9*abs(data.imag), 'C0o', label='computed')
+# plt.plot(Fourier.freq_required[~Fourier.ifreq_compute],
+#          1e9*abs(data_int[~Fourier.ifreq_compute].imag), 'k.',
+#          label='interpolated / 0')
+# plt.ylabel(r'$|\Im\{E_x\}|$ (nV/m)')
+# plt.xscale('log')
+# plt.yscale('symlog', linthresh=5e-9)
+# plt.ylim([-1e-9, 5e-1])
+# ax1.set_xticklabels([])
+# plt.legend()
+# plt.grid(axis='y', c='0.9')
+# 
+# # Frequency-domain, imaginary, error
+# ax2 = plt.subplot2grid((4, 2), (3, 0))
+# plt.plot(Fourier.freq_required, err, '.4')
+# plt.plot(Fourier.freq_required[~Fourier.ifreq_compute],
+#          err[~Fourier.ifreq_compute], 'k.')
+# plt.plot(Fourier.freq_compute, err[Fourier.ifreq_compute], 'C0o')
+# plt.axhline(1, color='0.4', zorder=1)
+# 
+# plt.xscale('log')
+# plt.yscale('log')
+# plt.xlabel('Frequency (Hz)')
+# plt.ylabel('Rel. error %')
+# plt.ylim([8e-3, 120])
+# plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
+# plt.grid(axis='y', c='0.9')
+# 
+# 
+# # Time-domain
+# ax3 = plt.subplot2grid((4, 2), (0, 1), rowspan=3)
+# plt.title('(b) time domain')
+# plt.plot(time, epm_time*1e9, 'C3', lw=2, label='analytical')
+# plt.plot(time, data_time*1e9, 'k--', label='transformed')
+# plt.xlim([0, 2])
+# plt.ylabel('$E_x$ (nV/m)')
+# ax3.set_xticklabels([])
+# plt.legend()
+# ax3.yaxis.tick_right()
+# ax3.yaxis.set_label_position("right")
+# plt.grid(axis='y', c='0.9')
+# 
+# # Time-domain, error
+# ax4 = plt.subplot2grid((4, 2), (3, 1))
+# plt.plot(time, err_egd, 'k')
+# plt.axhline(1, color='0.4', zorder=1)
+# 
+# plt.yscale('log')
+# plt.xlabel('Time (s)')
+# plt.ylabel('Rel. error %')
+# plt.xlim([0, 2])
+# plt.ylim([8e-3, 120])
+# plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
+# ax4.yaxis.tick_right()
+# ax4.yaxis.set_label_position("right")
+# plt.grid(axis='y', c='0.9')
+# 
+# plt.tight_layout()
+# plt.show()
 
 
 ###############################################################################
