@@ -5,27 +5,17 @@ channels:
 
 dependencies:
   - "libblas=*=*mkl"
-  - mamba
   - empymod
   - emg3d
   - xarray
   - discretize
   - h5py
-  - joblib
   - matplotlib
-  - memory_profiler
-  - pandas<1.0
-  - pip
-  - pymatsolver
   - scooby
-  - simpeg
   - sphinx
   - sphinx-gallery
   - numpydoc
-  - sphinx_rtd_theme
+  - pooch
+  - pydata-sphinx-theme
   - mkl-service
-  - pip:
-    - pyvista
-    - gempy
-    - nptyping
-    - sphinx_numfig
+  - tqdm

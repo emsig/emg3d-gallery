@@ -75,8 +75,9 @@ import emg3d
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
-plt.style.use('ggplot')
+plt.style.use('bmh')
 # sphinx_gallery_thumbnail_number = 3
+
 
 ###############################################################################
 # Survey
@@ -87,6 +88,8 @@ off = np.arange(5, 81)*100  # Offsets
 rec = [off, off*0, -1000]   # In-line receivers on the seafloor
 res = [1e10, 0.3, 1]        # 1D resistivities (Ohm.m): [air, water, backgr.]
 freq = 1.0                  # Frequency (Hz)
+
+source = emg3d.TxElectricDipole(src)
 
 ###############################################################################
 # Mesh
@@ -114,17 +117,17 @@ grid
 # ------------
 
 # Layered_background
-res_x = np.ones(grid.nC)*res[0]            # Air resistivity
-res_x[grid.gridCC[:, 2] < 0] = res[1]      # Water resistivity
-res_x[grid.gridCC[:, 2] < -1000] = res[2]  # Background resistivity
+res_x = np.ones(grid.n_cells)*res[0]            # Air resistivity
+res_x[grid.cell_centers[:, 2] < 0] = res[1]      # Water resistivity
+res_x[grid.cell_centers[:, 2] < -1000] = res[2]  # Background resistivity
 
 # Background model
 model_pf = emg3d.Model(grid, property_x=res_x.copy(), mapping='Resistivity')
 
 # Include the target
-xx = (grid.gridCC[:, 0] >= 0) & (grid.gridCC[:, 0] <= 6000)
-yy = abs(grid.gridCC[:, 1]) <= 500
-zz = (grid.gridCC[:, 2] > -2500)*(grid.gridCC[:, 2] < -2000)
+xx = (grid.cell_centers[:, 0] >= 0) & (grid.cell_centers[:, 0] <= 6000)
+yy = abs(grid.cell_centers[:, 1]) <= 500
+zz = (grid.cell_centers[:, 2] > -2500)*(grid.cell_centers[:, 2] < -2000)
 
 res_x[xx*yy*zz] = 100.  # Target resistivity
 
@@ -142,13 +145,7 @@ grid.plot_3d_slicer(
 # Compute total field with ``emg3d``
 # ----------------------------------
 
-modparams = {
-        'verb': 2, 'sslsolver': True,
-        'semicoarsening': True, 'linerelaxation': True
-}
-
-sfield_tf = emg3d.get_source_field(grid, src, freq, strength=0)
-em3_tf = emg3d.solve(grid, model, sfield_tf, **modparams)
+em3_tf = emg3d.solve_source(model, source, freq, verb=1)
 
 
 ###############################################################################
@@ -158,8 +155,7 @@ em3_tf = emg3d.solve(grid, model, sfield_tf, **modparams)
 # Here we use ``emg3d`` to compute the primary field. This could be replaced
 # by a (semi-)analytical solution.
 
-sfield_pf = emg3d.get_source_field(grid, src, freq, strength=0)
-em3_pf = emg3d.solve(grid, model_pf, sfield_pf, **modparams)
+em3_pf = emg3d.solve_source(model_pf, source, freq, verb=1)
 
 ###############################################################################
 # Compute secondary field (scatterer) with ``emg3d``
@@ -170,25 +166,23 @@ em3_pf = emg3d.solve(grid, model_pf, sfield_pf, **modparams)
 
 # Get the difference of conductivity as volume-average values
 diff = 1/model.property_x-1/model_pf.property_x
-dsigma = grid.cell_volumes.reshape(grid.vnC, order='F')*diff
+dsigma = grid.cell_volumes.reshape(grid.shape_cells, order='F')*diff
 
 # Here we use the primary field computed with emg3d. This could be done
 # with a 1D modeller such as empymod instead.
-fx = em3_pf.fx.copy()
-fy = em3_pf.fy.copy()
-fz = em3_pf.fz.copy()
+sfield_sf = em3_pf.copy()
 
 # Average delta sigma to the corresponding edges
-fx[:, 1:-1, 1:-1] *= 0.25*(dsigma[:, :-1, :-1] + dsigma[:, 1:, :-1] +
-                           dsigma[:, :-1, 1:] + dsigma[:, 1:, 1:])
-fy[1:-1, :, 1:-1] *= 0.25*(dsigma[:-1, :, :-1] + dsigma[1:, :, :-1] +
-                           dsigma[:-1, :, 1:] + dsigma[1:, :, 1:])
-fz[1:-1, 1:-1, :] *= 0.25*(dsigma[:-1, :-1, :] + dsigma[1:, :-1, :] +
-                           dsigma[:-1, 1:, :] + dsigma[1:, 1:, :])
+sfield_sf.fx[:, 1:-1, 1:-1] *= 0.25*(dsigma[:, :-1, :-1] + dsigma[:, 1:, :-1] +
+                                     dsigma[:, :-1, 1:] + dsigma[:, 1:, 1:])
+sfield_sf.fy[1:-1, :, 1:-1] *= 0.25*(dsigma[:-1, :, :-1] + dsigma[1:, :, :-1] +
+                                     dsigma[:-1, :, 1:] + dsigma[1:, :, 1:])
+sfield_sf.fz[1:-1, 1:-1, :] *= 0.25*(dsigma[:-1, :-1, :] + dsigma[1:, :-1, :] +
+                                     dsigma[:-1, 1:, :] + dsigma[1:, 1:, :])
 
-# Create field instance iwu dsigma E
-sfield_sf = sfield_pf.smu0*emg3d.Field(fx, fy, fz, freq=freq)
-sfield_sf.ensure_pec
+# Create field instance -iwu dsigma E
+sfield_sf = emg3d.Field(
+        sfield_sf.grid, -sfield_sf.field*sfield_sf.smu0, frequency=freq)
 
 ###############################################################################
 # Plot the secondary source
@@ -211,56 +205,55 @@ grid.plot_3d_slicer(
 # Compute the secondary source
 # ````````````````````````````
 
-em3_sf = emg3d.solve(grid, model, sfield_sf, **modparams)
+em3_sf = emg3d.solve(model, sfield_sf, verb=1)
 
 ###############################################################################
 # Plot result
 # -----------
 
 # E = E^p + E^s
-em3_ps = em3_pf + em3_sf
+em3_ps = em3_pf.copy()
+em3_ps.field += em3_sf.field
 
 # Get the responses at receiver locations
-rectuple = (rec[0], rec[1], rec[2])
-em3_pf_rec = emg3d.get_receiver(grid, em3_pf.fx, rectuple)
-em3_tf_rec = emg3d.get_receiver(grid, em3_tf.fx, rectuple)
-em3_sf_rec = emg3d.get_receiver(grid, em3_sf.fx, rectuple)
-em3_ps_rec = emg3d.get_receiver(grid, em3_ps.fx, rectuple)
+rectuple = (rec[0], rec[1], rec[2], 0, 0)
+em3_pf_rec = em3_pf.get_receiver(rectuple)
+em3_tf_rec = em3_tf.get_receiver(rectuple)
+em3_sf_rec = em3_sf.get_receiver(rectuple)
+em3_ps_rec = em3_ps.get_receiver(rectuple)
 
 ###############################################################################
-plt.figure(figsize=(9, 5))
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 5), sharex=True)
 
-ax1 = plt.subplot(121)
-plt.title('|Real part|')
-plt.plot(off/1e3, abs(em3_pf_rec.real), 'k',
+ax1.set_title('|Real part|')
+ax1.plot(off/1e3, abs(em3_pf_rec.real), 'k',
          label='Primary Field (1D Background)')
-plt.plot(off/1e3, abs(em3_sf_rec.real), '.4', ls='--',
+ax1.plot(off/1e3, abs(em3_sf_rec.real), '.4', ls='--',
          label='Secondary Field (Scatterer)')
-plt.plot(off/1e3, abs(em3_ps_rec.real))
-plt.plot(off[::2]/1e3, abs(em3_tf_rec[::2].real), '.')
-plt.plot(off/1e3, abs(em3_ps_rec.real-em3_tf_rec.real))
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
-plt.yscale('log')
-plt.legend()
+ax1.plot(off/1e3, abs(em3_ps_rec.real))
+ax1.plot(off[::2]/1e3, abs(em3_tf_rec[::2].real), '.')
+ax1.plot(off/1e3, abs(em3_ps_rec.real-em3_tf_rec.real))
+ax1.set_xlabel('Offset (km)')
+ax1.set_ylabel('$E_x$ (V/m)')
+ax1.set_yscale('log')
+ax1.legend()
 
-ax2 = plt.subplot(122, sharey=ax1)
-plt.title('|Imaginary part|')
-plt.plot(off/1e3, abs(em3_pf_rec.imag), 'k')
-plt.plot(off/1e3, abs(em3_sf_rec.imag), '.4', ls='--')
-plt.plot(off/1e3, abs(em3_ps_rec.imag), label='P/S Field')
-plt.plot(off[::2]/1e3, abs(em3_tf_rec[::2].imag), '.', label='Total Field')
-plt.plot(off/1e3, abs(em3_ps_rec.imag-em3_tf_rec.imag),
+ax2.set_title('|Imaginary part|')
+ax2.plot(off/1e3, abs(em3_pf_rec.imag), 'k')
+ax2.plot(off/1e3, abs(em3_sf_rec.imag), '.4', ls='--')
+ax2.plot(off/1e3, abs(em3_ps_rec.imag), label='P/S Field')
+ax2.plot(off[::2]/1e3, abs(em3_tf_rec[::2].imag), '.', label='Total Field')
+ax2.plot(off/1e3, abs(em3_ps_rec.imag-em3_tf_rec.imag),
          label=r'$\Delta$|P/S-Total|')
-plt.xlabel('Offset (km)')
-plt.ylabel('$E_x$ (V/m)')
-plt.yscale('log')
+ax2.set_xlabel('Offset (km)')
+ax2.set_ylabel('$E_x$ (V/m)')
+ax2.set_yscale('log')
 ax2.yaxis.tick_right()
 ax2.yaxis.set_label_position("right")
 plt.legend()
 
-plt.tight_layout()
-plt.show()
+fig.tight_layout()
+fig.show()
 
 ###############################################################################
 

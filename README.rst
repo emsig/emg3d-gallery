@@ -1,30 +1,19 @@
-.. image:: https://raw.githubusercontent.com/emsig/emg3d-logo/master/logo-emg3d-cut.png
-   :target: https://emsig.github.io
+.. image:: https://raw.github.com/emsig/logos/main/emg3d/emg3d-logo.png
+   :target: https://emsig.xyz
    :alt: emg3d logo
-   
-----
 
-.. sphinx-inclusion-marker
+|
 
+Gallery of ``emg3d``, a multigrid solver for 3D electromagnetic diffusion in
+Python.
 
-About ``emg3d``
-===============
-
-A multigrid solver for 3D electromagnetic diffusion with tri-axial electrical
-anisotropy. The matrix-free solver can be used as main solver or as
-preconditioner for one of the Krylov subspace methods implemented in
-`scipy.sparse.linalg`, and the governing equations are discretized on a
-staggered Yee grid. The code is written completely in Python using the
-NumPy/SciPy-stack, where the most time- and memory-consuming parts are sped up
-through jitted numba-functions.
-
-
-More information
-================
-
-- **Website**: https://emsig.github.io,
-- **Documentation**: https://emg3d.rtfd.io,
-- **Source Code**: https://github.com/emsig/emg3d,
+- **Website:** https://emsig.xyz
+- **Documentation:** https://emg3d.emsig.xyz
+- **Source Code:** https://github.com/emsig/emg3d
+- **Bug reports:** https://github.com/emsig/emg3d/issues
+- **Contributing:** https://emg3d.emsig.xyz/en/latest/dev
+- **Contact:** see https://emsig.xyz
+- **Zenodo:** https://doi.org/10.5281/zenodo.3229006
 
 
 Workflow
@@ -43,11 +32,3 @@ To remove the environment:
 .. code-block:: console
 
     make remove
-
-
-License information
-===================
-
-Copyright 2018-2021 The emg3d Developers.
-
-Licensed under the Apache License, Version 2.0, see the ``LICENSE``-file.

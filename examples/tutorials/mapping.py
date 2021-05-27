@@ -34,16 +34,16 @@ resulting electric field is the same.
 import emg3d
 import numpy as np
 import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+plt.style.use('bmh')
 
 ###############################################################################
 # Survey
 # ------
 
-src = [0, 0, -950, 0, 0]    # x-dir. source at the origin, 50 m above seafloor
+src = [0, 0, -1950, 0, 0]   # x-dir. source at the origin, 50 m above seafloor
 off = np.arange(5, 81)*100  # Offsets
-rec = [off, off*0, -1000]   # In-line receivers on the seafloor
-res = [1e10, 0.3, 1]        # 1D resistivities (Ohm.m): [air, water, backgr.]
+rec = [off, off*0, -2000]   # In-line receivers on the seafloor
+res = [0.3, 1]              # 1D resistivities (Ohm.m): [water, background]
 freq = 1.0                  # Frequency (Hz)
 
 ###############################################################################
@@ -55,10 +55,9 @@ freq = 1.0                  # Frequency (Hz)
 grid = emg3d.construct_mesh(
         frequency=freq,
         min_width_limits=100.0,
-        properties=[res[1], 100., 2, 100],
-        center=(src[0], src[1], -1000),
-        seasurface=0.0,
-        domain=([-100, 8100], [-500, 500], [-2500, 0]),
+        properties=[res[0], res[1], res[1], res[0]],
+        center=(src[0], src[1], -2000),
+        domain=([-100, 8100], [-500, 500], [-3500, -1500]),
         verb=0,
 )
 grid
@@ -69,14 +68,13 @@ grid
 # --------------------
 
 # Layered_background
-res_x = np.ones(grid.nC)*res[0]            # Air resistivity
-res_x[grid.gridCC[:, 2] < 0] = res[1]      # Water resistivity
-res_x[grid.gridCC[:, 2] < -1000] = res[2]  # Background resistivity
+res_x = np.ones(grid.n_cells)*res[0]            # Water resistivity
+res_x[grid.cell_centers[:, 2] < -2000] = res[1]  # Background resistivity
 
 # Include the target
-xx = (grid.gridCC[:, 0] >= 0) & (grid.gridCC[:, 0] <= 6000)
-yy = abs(grid.gridCC[:, 1]) <= 500
-zz = (grid.gridCC[:, 2] > -2500)*(grid.gridCC[:, 2] < -2000)
+xx = (grid.cell_centers[:, 0] >= 0) & (grid.cell_centers[:, 0] <= 6000)
+yy = abs(grid.cell_centers[:, 1]) <= 500
+zz = (grid.cell_centers[:, 2] > -3500)*(grid.cell_centers[:, 2] < -3000)
 
 res_x[xx*yy*zz] = 100.  # Target resistivity
 
@@ -97,17 +95,17 @@ fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
 
 # log10-res
 f0 = grid.plot_slice(model_lg_res.property_x, v_type='CC',
-                     normal='Y', ind=20, ax=axs[0], clim=[-3, 3])
+                     normal='Y', ax=axs[0], clim=[-2, 2])
 axs[0].set_title(r'Resistivity (Ohm.m); $\log_{10}$-scale')
 axs[0].set_xlim([-1000, 8000])
-axs[0].set_ylim([-3000, 500])
+axs[0].set_ylim([-4000, -1500])
 
 # log10-con
 f1 = grid.plot_slice(model_lg_con.property_x, v_type='CC',
-                     normal='Y', ind=20, ax=axs[1], clim=[-3, 3])
+                     normal='Y', ax=axs[1], clim=[-2, 2])
 axs[1].set_title(r'Conductivity (S/m); $\log_{10}$-scale')
 axs[1].set_xlim([-1000, 8000])
-axs[1].set_ylim([-3000, 500])
+axs[1].set_ylim([-4000, -1500])
 
 plt.tight_layout()
 fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05)
@@ -117,37 +115,37 @@ plt.show()
 # Compute electric fields
 # -----------------------
 
+source = emg3d.TxElectricDipole(coordinates=src)
 solver_opts = {
-        'verb': 2, 'sslsolver': True,
-        'semicoarsening': True, 'linerelaxation': True
+    'source': source,
+    'frequency': freq,
+    'verb': 1,
 }
 
-sfield = emg3d.get_source_field(grid, src, freq, strength=0)
-efield_lg_res = emg3d.solve(grid, model_lg_res, sfield, **solver_opts)
-efield_lg_con = emg3d.solve(grid, model_lg_con, sfield, **solver_opts)
+efield_lg_res = emg3d.solve_source(model_lg_res, **solver_opts)
+efield_lg_con = emg3d.solve_source(model_lg_con, **solver_opts)
 
 # Extract responses at receiver locations.
-rectuple = (rec[0], rec[1], rec[2])
-rec_lg_res = emg3d.get_receiver(grid, efield_lg_res.fx, rectuple)
-rec_lg_con = emg3d.get_receiver(grid, efield_lg_con.fx, rectuple)
+rec_lg_res = efield_lg_res.get_receiver((*rec, 0, 0))
+rec_lg_con = efield_lg_con.get_receiver((*rec, 0, 0))
 
 ###############################################################################
 # Compare the two results
 # -----------------------
 
-plt.figure(figsize=(9, 5))
+plt.figure()
 plt.title('Comparison')
 
 # Log_10(resistivity)-model.
-plt.plot(off/1e3, rec_lg_res.real, 'k',
+plt.plot(off/1e3, rec_lg_res.real, 'C0',
          label=r'$\Re[\log_{10}(\rho)]$-model')
 plt.plot(off/1e3, rec_lg_res.imag, 'C1-',
          label=r'$\Im[\log_{10}(\rho)]$-model')
 
 # Log_10(conductivity)-model.
-plt.plot(off/1e3, rec_lg_con.real, 'C0-.',
+plt.plot(off/1e3, rec_lg_con.real, 'C2-.',
          label=r'$\Re[\log_{10}(\sigma)]$-model')
-plt.plot(off/1e3, rec_lg_con.imag, 'C4-.',
+plt.plot(off/1e3, rec_lg_con.imag, 'C3-.',
          label=r'$\Im[\log_{10}(\sigma)]$-model')
 
 plt.xlabel('Offset (km)')

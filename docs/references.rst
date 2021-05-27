@@ -25,3 +25,7 @@ References
    multigrid solver for 3D electromagnetic diffusion: Journal of Open Source
    Software, 4(39), 1463;
    DOI: `10.21105/joss.01463 <https://doi.org/10.21105/joss.01463>`_.
+.. [WeMS21] Werthmüller, D., W. A. Mulder, and E. C. Slob, 2021, Fast Fourier
+   transformation of electromagnetic data for computationally expensive
+   kernels: Geophysical Journal International, ggab171; DOI:
+   `10.1093/gji/ggab171 <https://doi.org/10.1093/gji/ggab171>`_.

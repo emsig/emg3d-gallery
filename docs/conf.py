@@ -1,42 +1,36 @@
 import time
 import warnings
 from emg3d import __version__
-from sphinx_gallery.sorting import ExplicitOrder, ExampleTitleSortKey
+from sphinx_gallery.sorting import ExampleTitleSortKey
 
 # ==== 1. Extensions  ====
 
 # Load extensions
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.todo',
-    'sphinx.ext.intersphinx',
     'numpydoc',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
 ]
 
 # Numpydoc settings
 numpydoc_show_class_members = False
-# numfig = True
-# numfig_format = {'figure': 'Figure %s:'}
 
 # Todo settings
 todo_include_todos = True
 
 # Sphinx gallery configuration
 sphinx_gallery_conf = {
-    'examples_dirs': '../examples',
-    'gallery_dirs': 'gallery',
-    'subsection_order': ExplicitOrder([
+    'examples_dirs': [
         '../examples/tutorials',
         '../examples/comparisons',
-        '../examples/magnetics',
-        '../examples/time_domain',
-        '../examples/tools',
-        '../examples/reproducing',
-        '../examples/interactions',
-        ]),
+        '../examples/models',
+    ],
+    'gallery_dirs': [
+        'gallery/tutorials',
+        'gallery/comparisons',
+        'gallery/models',
+    ],
     'capture_repr': ('_repr_html_', '__repr__'),
     # Patter to search for example files
     "filename_pattern": r"\.py",
@@ -48,8 +42,7 @@ sphinx_gallery_conf = {
     'show_memory': True,
     # Custom first notebook cell
     'first_notebook_cell': '%matplotlib notebook',
-    # PyVista scraper
-    'image_scrapers': ('matplotlib', 'pyvista', ),
+    'image_scrapers': ('matplotlib', ),
 }
 
 # https://github.com/sphinx-gallery/sphinx-gallery/pull/521/files
@@ -60,18 +53,20 @@ warnings.filterwarnings("ignore", category=UserWarning,
 
 # Intersphinx configuration
 intersphinx_mapping = {
-    "numpy": ("https://docs.scipy.org/doc/numpy", None),
+    "numpy": ("https://numpy.org/doc/stable", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/reference", None),
-    "discretize": ("https://discretize.simpeg.xyz/en/master", None),
-    "empymod": ("https://empymod.readthedocs.io/en/stable", None),
-    "emg3d": ("https://emg3d.readthedocs.io/en/stable", None),
+    "discretize": ("https://discretize.simpeg.xyz/en/main", None),
+    "empymod": ("https://empymod.emsig.xyz/en/stable", None),
+    "xarray": ("https://xarray.pydata.org/en/stable", None),
+    "numba": ("https://numba.readthedocs.io/en/stable", None),
+    "emg3d": ("https://dev1.emsig.xyz/", None),
 }
 
 # ==== 2. General Settings ====
 description = 'A multigrid solver for 3D electromagnetic diffusion.'
 
 # The templates path.
-templates_path = ['_templates']
+# templates_path = ['_templates']
 
 # The suffix(es) of source filenames.
 source_suffix = '.rst'
@@ -81,8 +76,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'emg3d-gallery'
-copyright = u'2018-{}, The emg3d Developers.'.format(time.strftime("%Y"))
-author = 'The emg3d Developers'
+author = 'The emsig community'
+copyright = f'2018-{time.strftime("%Y")}, {author}'
 
 # |version| and |today| tags (|release|-tag is not used).
 version = __version__
@@ -96,36 +91,27 @@ exclude_patterns = ['_build', ]
 pygments_style = 'friendly'
 
 # ==== 3. HTML settings ====
-html_theme = 'sphinx_rtd_theme'
-html_theme_options = {
-    'logo_only': True,
-    'display_version': True,
-    'prev_next_buttons_location': 'both',
-}
+html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
-html_logo = '_static/logo-emg3d-cut.svg'
+html_logo = '_static/emg3d-logo.svg'
 html_favicon = '_static/favicon.ico'
-html_sidebars = {
-    '**': [
-        'about.html',
-        'navigation.html',
-        'searchbox.html',
-    ]
+
+html_theme_options = {
+    "github_url": "https://github.com/emsig/emg3d",
+    "external_links": [
+        {"name": "Documentation", "url": "https://dev1.emsig.xyz"},
+        {"name": "emsig", "url": "https://emsig.xyz"},
+    ],
+    # "use_edit_page_button": True,
 }
 
 html_context = {
-    'menu_links_name': 'Links',
-    'menu_links': [
-        ('<i class="fa fa-link fa-fw"></i> Website',
-         'https://emsig.github.io'),
-        ('<i class="fa fa-github fa-fw"></i> Source Code',
-         'https://github.com/emsig/emg3d-gallery'),
-    ],
+    "github_user": "emsig",
+    "github_repo": "emg3d-gallery",
+    "github_version": "main",
+    "doc_path": "docs",
 }
 
-htmlhelp_basename = 'emg3d-gallery-doc'
-
-
-# -- CSS fixes --
-def setup(app):
-    app.add_css_file("style.css")
+html_use_modindex = True
+html_file_suffix = '.html'
+htmlhelp_basename = 'emg3d-gallery'

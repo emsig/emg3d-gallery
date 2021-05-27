@@ -1,9 +1,5 @@
-*.npz
-*.npy
-*.h5
+docs/gallery/*/
+examples/download/
+
 _build/
-gallery/
-examples/data/SEG/
-examples/time_domain/data/
-*raw.githubusercontent.com*
-examples/tutorials/emg3d*
+__pycache__/

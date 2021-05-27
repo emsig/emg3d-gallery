@@ -21,9 +21,12 @@ to various file formats.
 
 """
 import os
-import requests
+import pooch
 import subprocess
 # sphinx_gallery_thumbnail_path = '_static/thumbs/cli.png'
+
+# Adjust this path to a folder of your choice.
+data_path = os.path.join('..', 'download', '')
 
 
 ###############################################################################
@@ -35,25 +38,34 @@ import subprocess
 
 def bash(command):
     "Prints the `command`, executes it in bash, and prints the output."""
+    # Print command
     print(f"$ {command}")
+    # Move to data_path
+    command = f"cd {data_path}; " + command
+    # Carry out command
     msg = subprocess.run(command, shell=True, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT)
+    # Print output
     print(msg.stdout.decode())
 
 
 ###############################################################################
 # We have to fetch the example files. You can also download these manually or
 # provide your own survey, model, and parameter files.
-
-fnames = ['GemPy-II-survey-A.h5', 'GemPy-II.h5', 'emg3d.cfg']
-dirs = ['surveys', 'models', 'cli']
-for fname, fdir in zip(fnames, dirs):
-    if not os.path.isfile(fname):
-        url = ("https://github.com/emsig/emg3d-gallery/blob/master/"
-               f"examples/data/{fdir}/{fname}?raw=true")
-        with open(fname, 'wb') as f:
-            t = requests.get(url)
-            f.write(t.content)
+model = "GemPy-II.h5"
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/models/'+model,
+    'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
+    fname=model,
+    path=data_path,
+)
+survey = 'GemPy-II-survey-A.h5'
+pooch.retrieve(
+    'https://raw.github.com/emsig/data/2021-05-21/emg3d/surveys/'+survey,
+    '5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7',
+    fname=survey,
+    path=data_path,
+)
 
 
 ###############################################################################
@@ -74,11 +86,29 @@ bash("emg3d --help")
 # full or relative path and filename as the first argument to ``emg3d``.
 #
 # The configuration parameters are described in the documentation, consult
-# `Manual -> CLI <https://emg3d.readthedocs.io/en/stable/cli.html>`_.
+# `Manual -> CLI <https://emg3d.emsig.xyz/en/stable/cli.html>`_.
 #
-# Let's look at the configuration file we use in this example:
+# Let's write a simple example file.
+with open(f"{data_path}emg3d.cfg", "w") as f:
+    f.write(f"""[files]
+survey = GemPy-II-survey-A.h5
+model = GemPy-II.h5
+output = emg3d_out.json
 
-bash("cat emg3d.cfg")
+[simulation]
+name = CLI Test
+gridding = single
+
+[solver_opts]
+# nothing specified
+
+[gridding_opts]
+# nothing specified
+
+[data]
+sources = TxED-1
+receivers = RxEP-08, RxEP-38
+frequencies = f-1""")
 
 
 ###############################################################################
