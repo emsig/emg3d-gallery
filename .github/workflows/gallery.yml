@@ -71,7 +71,7 @@ jobs:
           pip install emg3d==1.0.0rc2
           emg3d --report
           cd docs
-          make html -b linkcheck
+          make html
 
       - name: Artifact Upload
         # if: success() # # # # # # # #

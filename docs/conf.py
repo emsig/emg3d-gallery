@@ -115,3 +115,10 @@ html_context = {
 html_use_modindex = True
 html_file_suffix = '.html'
 htmlhelp_basename = 'emg3d-gallery'
+
+# ==== 4. linkcheck ====
+
+# Papers from academic.oup results in a 104 error
+linkcheck_ignore = [
+    'https://doi.org/10.1093/gji/ggab171',
+]
