@@ -59,7 +59,7 @@ intersphinx_mapping = {
     "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
-    "emg3d": ("https://dev1.emsig.xyz/", None),
+    "emg3d": ("https://emg3d.emsig.xyz//en/dev", None),
 }
 
 # ==== 2. General Settings ====
@@ -99,7 +99,7 @@ html_favicon = '_static/favicon.ico'
 html_theme_options = {
     "github_url": "https://github.com/emsig/emg3d",
     "external_links": [
-        {"name": "Documentation", "url": "https://dev1.emsig.xyz"},
+        {"name": "Documentation", "url": "https://emg3d.emsig.xyz"},
         {"name": "emsig", "url": "https://emsig.xyz"},
     ],
     # "use_edit_page_button": True,
