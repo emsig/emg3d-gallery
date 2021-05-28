@@ -1,15 +1,15 @@
 name: gallery
 
-# The action is currently NOT used
+# Switch-off at the moment
 on:
   # pull_request:
-  # push:
-  #   branches:
+  push:
+    branches:
   #     - main
-  #     - dev  # SWITCH OFF AFTERWARDS!
-  release:
-    types:
-      - published
+      - new-gallery
+  # release:
+  #   types:
+  #     - published
 
 # Use bash by default in all jobs
 defaults:

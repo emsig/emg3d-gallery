@@ -1,3 +1,5 @@
+.. _emg3d_gallery:
+
 =======
 Gallery
 =======

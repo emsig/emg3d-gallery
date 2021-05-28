@@ -14,9 +14,9 @@ dependencies:
   - scooby
   - sphinx
   - sphinx-gallery
-  - sphinx-panels
   - numpydoc
   - pooch
+  - sphinx_panels
   - pydata-sphinx-theme
   - mkl-service
   - tqdm

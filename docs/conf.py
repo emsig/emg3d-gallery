@@ -61,7 +61,7 @@ intersphinx_mapping = {
     "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
-    "emg3d": ("https://emg3d.emsig.xyz//en/dev", None),
+    "emg3d": ("https://emg3d.emsig.xyz/en/latest", None),
 }
 
 # ==== 2. General Settings ====
