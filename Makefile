@@ -1,20 +1,21 @@
 help:
 	@echo "Commands:"
 	@echo ""
-	@echo "  install      conda env create -f environment.yml"
-	@echo "  mamba        mamba env create -f environment.yml"
-	@echo "  flake8        style check with flake8"
-	@echo "  doc           build docs (update existing)"
-	@echo "  example FILE= build particular example"
-	@echo "  doc-clean     build docs (new, removing any existing)"
-	@echo "  preview       renders docs in Browser"
-	@echo "  linkcheck     check all links in docs"
-	@echo "  deploy        deploy gallery to gh-pages (as is; run doc before)"
-	@echo "  clean         clean up all generated files"
-	@echo "  remove        remove conda-env emg3d-gallery"
+	@echo "  install        conda env create -f environment.yml"
+	@echo "  mamba          mamba env create -f environment.yml"
+	@echo "  flake8         style check with flake8"
+	@echo "  html           build docs (update existing)"
+	@echo "  html-noplot    as above, without gallery"
+	@echo "  example FILE=  build particular example"
+	@echo "  html-clean     build docs (new, removing any existing)"
+	@echo "  preview        renders docs in Browser"
+	@echo "  linkcheck      check all links in docs"
+	@echo "  linkcheck-noplot"
+	@echo "  deploy         deploy gallery to gh-pages (as is; run doc before)"
+	@echo "  clean          clean up all generated files"
+	@echo "  remove         remove conda-env emg3d-gallery"
 	@echo ""
 
-.ONESHELL:
 install:
 	conda env create -f environment.yml
 
@@ -27,10 +28,13 @@ remove:
 flake8:
 	flake8 docs/conf.py examples/
 
-doc:
+html:
 	cd docs && make html
 
-doc-clean:
+html-noplot:
+	cd docs && make htm-noplot
+
+html-clean:
 	cd docs && rm -rf gallery/*/ && rm -rf _build/ && make html
 
 example:
@@ -40,7 +44,10 @@ preview:
 	xdg-open docs/_build/html/index.html
 
 linkcheck:
-	cd docs && make html -b linkcheck
+	cd docs && make linkcheck
+
+linkcheck-noplot:
+	cd docs && make linkcheck-noplot
 
 .ONESHELL:
 deploy:

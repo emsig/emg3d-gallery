@@ -18,7 +18,7 @@ There are two ways we can achieve that:
 ``emg3d`` solves the following equation,
 
 .. math::
-    :label: maxwell
+    :label: eq-maxwell
 
      \eta \mathbf{\hat{E}} - \nabla \times \zeta^{-1} \nabla \times
      \mathbf{\hat{E}} = -\mathbf{\hat{J}}^e_s ,
@@ -67,7 +67,7 @@ discontinuities in conductivity. However, we can still abuse the code and use
 it with the duality principle, at least for isotropic media.
 
 The actual implemented equation in ``emg3d`` is a slightly modified version of
-Equation :eq:`maxwell`, using the diffusive approximation
+Equation :eq:`eq-maxwell`, using the diffusive approximation
 :math:`\varepsilon=0`,
 
 .. math::

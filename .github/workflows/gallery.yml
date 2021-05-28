@@ -2,13 +2,14 @@ name: gallery
 
 # Switch-off at the moment
 on:
-  #pull_request:
-  #push:
-  #  branches:
-  #    - main
-  release:
-    types:
-      - published
+  # pull_request:
+  push:
+    branches:
+  #     - main
+      - new-gallery
+  # release:
+  #   types:
+  #     - published
 
 # Use bash by default in all jobs
 defaults:
@@ -71,7 +72,7 @@ jobs:
           pip install emg3d==1.0.0rc2
           emg3d --report
           cd docs
-          make html -b linkcheck
+          make html
 
       - name: Artifact Upload
         # if: success() # # # # # # # #

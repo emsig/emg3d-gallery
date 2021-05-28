@@ -8,10 +8,12 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 # Load extensions
 extensions = [
     'numpydoc',
+    'sphinx_panels',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
 ]
+panels_add_bootstrap_css = False
 
 # Numpydoc settings
 numpydoc_show_class_members = False
@@ -59,7 +61,7 @@ intersphinx_mapping = {
     "empymod": ("https://empymod.emsig.xyz/en/stable", None),
     "xarray": ("https://xarray.pydata.org/en/stable", None),
     "numba": ("https://numba.readthedocs.io/en/stable", None),
-    "emg3d": ("https://emg3d.emsig.xyz//en/dev", None),
+    "emg3d": ("https://emg3d.emsig.xyz/en/latest", None),
 }
 
 # ==== 2. General Settings ====
@@ -115,3 +117,15 @@ html_context = {
 html_use_modindex = True
 html_file_suffix = '.html'
 htmlhelp_basename = 'emg3d-gallery'
+html_css_files = [
+    "style.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/" +
+    "css/font-awesome.min.css"
+]
+
+# ==== 4. linkcheck ====
+
+# Papers from academic.oup results in a 104 error
+linkcheck_ignore = [
+    'https://doi.org/10.1093/gji/ggab171',
+]
