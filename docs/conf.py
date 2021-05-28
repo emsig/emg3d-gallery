@@ -8,10 +8,12 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 # Load extensions
 extensions = [
     'numpydoc',
+    'sphinx_panels',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
 ]
+panels_add_bootstrap_css = False
 
 # Numpydoc settings
 numpydoc_show_class_members = False
@@ -115,6 +117,11 @@ html_context = {
 html_use_modindex = True
 html_file_suffix = '.html'
 htmlhelp_basename = 'emg3d-gallery'
+html_css_files = [
+    "style.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/" +
+    "css/font-awesome.min.css"
+]
 
 # ==== 4. linkcheck ====
 

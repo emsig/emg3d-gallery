@@ -1,11 +1,12 @@
 name: gallery
 
+# The action is currently NOT used
 on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - dev  # SWITCH OFF AFTERWARDS!
+  # pull_request:
+  # push:
+  #   branches:
+  #     - main
+  #     - dev  # SWITCH OFF AFTERWARDS!
   release:
     types:
       - published
