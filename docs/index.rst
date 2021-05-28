@@ -33,7 +33,7 @@ To create the entire gallery:
 
 .. code-block:: console
 
-    make doc
+    make html
 
 To build the docs for just a particular file:
 

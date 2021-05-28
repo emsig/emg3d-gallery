@@ -25,7 +25,7 @@ To create the gallery:
 
     make install
     conda activate emg3d-gallery
-    make doc
+    make html
 
 To remove the environment:
 
