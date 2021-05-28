@@ -20,3 +20,4 @@ dependencies:
   - pydata-sphinx-theme
   - mkl-service
   - tqdm
+  - memory_profiler
