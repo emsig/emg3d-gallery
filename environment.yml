@@ -16,7 +16,7 @@ dependencies:
   - sphinx-gallery
   - numpydoc
   - pooch
-  - sphinx_panels
+  - sphinx-panels
   - pydata-sphinx-theme
   - mkl-service
   - tqdm
