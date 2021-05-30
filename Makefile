@@ -32,7 +32,7 @@ html:
 	cd docs && make html
 
 html-noplot:
-	cd docs && make htm-noplot
+	cd docs && make html-noplot
 
 html-clean:
 	cd docs && rm -rf gallery/*/ && rm -rf _build/ && make html
