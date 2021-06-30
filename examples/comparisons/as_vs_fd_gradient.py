@@ -151,6 +151,7 @@ simulation_as = emg3d.simulations.Simulation(
     model=comp_model,
     gridding='same',  # Same grid as for input model.
     max_workers=4,    # For parallel workers, adjust if you have more.
+    receiver_interpolation='linear',  # For proper adjoint-state gradient
 )
 
 simulation_as
@@ -199,7 +200,9 @@ def comp_fd_grad(ixiz):
     simulation_fd = emg3d.simulations.Simulation(
         name='FD Gradient Test',
         survey=survey, model=fd_model, gridding='same',
-        max_workers=1, solver_opts={'verb': 1})
+        max_workers=1, solver_opts={'verb': 1},
+        receiver_interpolation='linear',  # For proper adjoint-state gradient
+    )
 
     # Switch-of progress bar in this case
     simulation_fd._tqdm_opts['disable'] = True
@@ -304,14 +307,14 @@ f0 = comp_grid.plot_slice(as_grad, normal='Y', ind=iy, ax=axs[0],
                           pcolor_opts=pcolor_opts)
 axs[0].set_title("Adjoint-State Gradient")
 set_axis(axs, 0)
-plot_diff(axs[0], 10)
+plot_diff(axs[0], 1)
 
 # Finite-Difference Gradient
 f1 = comp_grid.plot_slice(fd_grad, normal='Y', ind=iy, ax=axs[1],
                           pcolor_opts=pcolor_opts)
 axs[1].set_title("Finite-Difference Gradient")
 set_axis(axs, 1)
-plot_diff(axs[1], 10)
+plot_diff(axs[1], 1)
 
 plt.tight_layout()
 fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05)
@@ -326,21 +329,11 @@ plt.show()
 #
 # There are differences, and they are highlighted:
 #
-#   - Cells surrounded by a dashed, magenta line: NRMSD is bigger than 10 %.
+#   - Cells surrounded by a dashed, magenta line: NRMSD is bigger than 1 %.
 #   - Cells surrounded by a black line: The two gradients have different signs.
 #
-# These differences only happen in three distinct regions:
-#
-#   1. Close to the source and the receiver;
-#   2. where the gradient rapidly changes (changes sign);
-#   3. where the amplitude of the gradient is very small.
-#
-# The first point is mainly because of the coarse meshing we used, using a more
-# appropriate, finer mesh would decrease this difference. The second point
-# comes mainly from the fact that both, AS and FD, are approximations, and
-# where the gradient changes rapidly this can lead to differences. Again, using
-# a finer mesh would most likely eliminate these errors. The last point is more
-# a difficulty in computing the error between two values which both go to zero,
-# and not really related to the gradients.
+# These differences only happen where the amplitude of the gradient is very
+# small, and it therefore blows the NRMSD numerically up (inherit problem of
+# the relative error when the signal approaches zero).
 
 emg3d.Report()

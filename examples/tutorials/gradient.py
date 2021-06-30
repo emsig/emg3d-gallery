@@ -124,6 +124,7 @@ simulation = emg3d.simulations.Simulation(
     max_workers=4,           # How many parallel jobs
     # solver_opts=...,       # Any parameter to pass to emg3d.solve
     gridding_opts=gridding_opts,
+    receiver_interpolation='linear',  # For proper adjoint-state gradient
 )
 
 # Let's QC our Simulation instance
