@@ -1,0 +1,28 @@
+
+:orphan:
+
+.. _sphx_glr_gallery_comparisons_sg_execution_times:
+
+Computation times
+=================
+**07:23.610** total execution time for **gallery_comparisons** files:
+
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_as_vs_fd_gradient.py` (``as_vs_fd_gradient.py``)             | 07:23.610 | 14.3 MB |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py` (``1D_VTI_empymod.py``)                   | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod_Laplace.py` (``1D_VTI_empymod_Laplace.py``)   | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_2D_triaxial_MARE2DEM.py` (``2D_triaxial_MARE2DEM.py``)       | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_3D_triaxial_SimPEG.py` (``3D_triaxial_SimPEG.py``)           | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_magnetic_field.py` (``magnetic_field.py``)                   | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_magnetic_permeability.py` (``magnetic_permeability.py``)     | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_magnetic_source_duality.py` (``magnetic_source_duality.py``) | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+
+| :ref:`sphx_glr_gallery_comparisons_magnetic_source_el_loop.py` (``magnetic_source_el_loop.py``) | 00:00.000 | 0.0 MB  |
++-------------------------------------------------------------------------------------------------+-----------+---------+

@@ -1,0 +1,975 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>7. Command-line interface &#8212; emg3d-gallery 1.1.0 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8. Ensure computation domain is big enough" href="check_calc_domain.html" />
+    <link rel="prev" title="6. Parameter tests" href="parameter_tests.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/emg3d-logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../references.html">
+  References
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">Documentation<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://emsig.xyz">emsig<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/emsig/emg3d" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Tutorials
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="minimum_example.html">
+     1. Minimum working example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="mapping.html">
+     2. Model property mapping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="simulation.html">
+     3. Simulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="gradient.html">
+     4. Gradient of the misfit function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="total_vs_ps_field.html">
+     5. Total vs primary/secondary field
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="parameter_tests.html">
+     6. Parameter tests
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     7. Command-line interface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="check_calc_domain.html">
+     8. Ensure computation domain is big enough
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="timedomain.html">
+     9. Transient CSEM
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../comparisons/index.html">
+   Comparisons
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/1D_VTI_empymod.html">
+     1. empymod: 1D VTI resistivity
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/2D_triaxial_MARE2DEM.html">
+     2. MARE2DEM: 2D with tri-axial anisotropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/3D_triaxial_SimPEG.html">
+     3. SimPEG: 3D with tri-axial anisotropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/as_vs_fd_gradient.html">
+     4. Adjoint-state vs. FD gradient
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/1D_VTI_empymod_Laplace.html">
+     5. empymod: 1D VTI Laplace-domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/magnetic_field.html">
+     6. Magnetic field due to an el. source
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/magnetic_source_el_loop.html">
+     7. Magnetic source using an electric loop
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/magnetic_source_duality.html">
+     8. Magnetic source using duality
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../comparisons/magnetic_permeability.html">
+     9. Magnetic permeability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../models/index.html">
+   Models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/GemPy-I.html">
+     GemPy-I:
+     <em>
+      Simple Fault Model
+     </em>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/GemPy-II.html">
+     GemPy-II:
+     <em>
+      Perth Basin
+     </em>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/SEG-EAGE_3D_salt_model.html">
+     SEG-EAGE 3D Salt Model
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-started-help">
+   Getting started - help
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#configuration-file">
+   Configuration file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-the-forward-responses">
+   Compute the forward responses
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generated-files">
+   Generated files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#log">
+   Log
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#result-output">
+   Result / output
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#report">
+   Report
+  </a>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-gallery-tutorials-cli-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="command-line-interface">
+<span id="sphx-glr-gallery-tutorials-cli-py"></span><h1>7. Command-line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h1>
+<p>The implemented command-line interface (CLI) can be powerful to use <cite>emg3d</cite>
+from any programming environment. It enables, for instance, to use <cite>emg3d</cite> as a
+forward modelling kernel in your inversion code running on a server. The
+capabilities of the CLI are more limited than of the Python interface, but they
+are sufficient to compute the responses of a given <cite>survey</cite> for a provided
+<cite>model</cite>, and to compute the gradient of the misfit function.</p>
+<p>The biggest difficulty to work with the CLI is, at the moment, the file
+formats, or better the lack of their documentation. Surveys, models, and grids
+can be stored with <cite>emg3d</cite> to either h5, npz, or json files. The status of the
+documentation will improve towards the v1.0.0 release of <cite>emg3d</cite>. The “easiest”
+way at the moment is to generate such a file in Python, and reproduce its
+structure in your language or program of choice. Please feel free to open an
+issue on GitHub if there are questions in this regard. The idea for the future
+is to go through <a class="reference external" href="https://github.com/softwareunderground/subsurface">https://github.com/softwareunderground/subsurface</a> to interface
+to various file formats.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="c1"># Adjust this path to a folder of your choice.</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;download&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that everything shown in this example is meant to be executed in a
+terminal, nothing is executed in Python. However, as this example gallery is
+generated in Python we have to use a work-around to show the functionality,
+the function <code class="docutils literal notranslate"><span class="pre">bash(command)</span></code>. You would execute the provided <code class="docutils literal notranslate"><span class="pre">command</span></code> in
+your terminal.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bash</span><span class="p">(</span><span class="n">command</span><span class="p">):</span>
+    <span class="s2">&quot;Prints the `command`, executes it in bash, and prints the output.&quot;&quot;&quot;</span>
+    <span class="c1"># Print command</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;$ </span><span class="si">{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="c1"># Move to data_path</span>
+    <span class="n">command</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;cd </span><span class="si">{</span><span class="n">data_path</span><span class="si">}</span><span class="s2">; &quot;</span> <span class="o">+</span> <span class="n">command</span>
+    <span class="c1"># Carry out command</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span>
+                         <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+    <span class="c1"># Print output</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>We have to fetch the example files. You can also download these manually or
+provide your own survey, model, and parameter files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;GemPy-II.h5&quot;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/models/&#39;</span><span class="o">+</span><span class="n">model</span><span class="p">,</span>
+    <span class="s1">&#39;ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">survey</span> <span class="o">=</span> <span class="s1">&#39;GemPy-II-survey-A.h5&#39;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/surveys/&#39;</span><span class="o">+</span><span class="n">survey</span><span class="p">,</span>
+    <span class="s1">&#39;5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">survey</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&#39;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5&#39;
+</pre></div>
+</div>
+<div class="section" id="getting-started-help">
+<h2>Getting started - help<a class="headerlink" href="#getting-started-help" title="Permalink to this headline">¶</a></h2>
+<p>The best way to get started is, as with any bash command, to have a look at
+its in-built help.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;emg3d --help&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ emg3d --help
+usage: emg3d [-h] [-n NPROC] [-f | -m | -g] [--path PATH] [--survey SURVEY]
+             [--model MODEL] [--output OUTPUT]
+             [--verbosity {-1,0,1,2} | -v | -q] [-d] [--report] [--version]
+             [config]
+
+Multigrid solver for 3D electromagnetic diffusion.
+
+positional arguments:
+  config                name of config file; default is &#39;emg3d.cfg&#39;; consult
+                        https://emg3d.emsig.xyz/en/stable/cli.html for its
+                        format
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NPROC, --nproc NPROC
+                        number of processors
+  -f, --forward         compute synthetic data (default)
+  -m, --misfit          compute synthetic data and their misfit
+  -g, --gradient        compute synthetic data, misfit, and its gradient
+  --path PATH           path (abs or rel); file names are relative to path
+  --survey SURVEY       input survey file name; default is &#39;survey.h5&#39;
+  --model MODEL         input model file name; default is &#39;model.h5&#39;
+  --output OUTPUT       output files base name; default is &#39;emg3d_out&#39;
+  --verbosity {-1,0,1,2}
+                        set verbosity; default is 0
+  -v, --verbose         increase verbosity; can be used multiple times
+  -q, --quiet           decrease verbosity
+  -d, --dry-run         only display what would have been done
+  --report              only display emg3d report
+  --version             only display emg3d version
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuration-file">
+<h2>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>The CLI is driven by a configuration file, that is by default named
+<code class="docutils literal notranslate"><span class="pre">emg3d.cfg</span></code> and must be in the same directory as you execute the command.
+If it has a different name or a different location you have to provide the
+full or relative path and filename as the first argument to <code class="docutils literal notranslate"><span class="pre">emg3d</span></code>.</p>
+<p>The configuration parameters are described in the documentation, consult
+<a class="reference external" href="https://emg3d.emsig.xyz/en/stable/cli.html">Manual -&gt; CLI</a>.</p>
+<p>Let’s write a simple example file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">data_path</span><span class="si">}</span><span class="s2">emg3d.cfg&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;[files]</span>
+<span class="s2">survey = GemPy-II-survey-A.h5</span>
+<span class="s2">model = GemPy-II.h5</span>
+<span class="s2">output = emg3d_out.json</span>
+
+<span class="s2">[simulation]</span>
+<span class="s2">name = CLI Test</span>
+<span class="s2">gridding = single</span>
+
+<span class="s2">[solver_opts]</span>
+<span class="s2"># nothing specified</span>
+
+<span class="s2">[gridding_opts]</span>
+<span class="s2"># nothing specified</span>
+
+<span class="s2">[data]</span>
+<span class="s2">sources = TxED-1</span>
+<span class="s2">receivers = RxEP-08, RxEP-38</span>
+<span class="s2">frequencies = f-1&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The file defines the location of the survey and model files, the name and
+format of the output file, and selects a source, two receivers, and a
+frequency to compute.</p>
+</div>
+<div class="section" id="compute-the-forward-responses">
+<h2>Compute the forward responses<a class="headerlink" href="#compute-the-forward-responses" title="Permalink to this headline">¶</a></h2>
+<p>We just compute the forward response here, but the usage for the misfit or
+the gradient is very similar. We use the most verbose version here, to see
+what it does internally.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;emg3d --forward -vv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ emg3d --forward -vv
+:: emg3d CLI forward START :: Fri May 28 23:06:46 2021 :: v1.0.0
+
+--------------------------------------------------------------------------------
+  Date: Fri May 28 23:06:46 2021 CEST
+
+                OS : Linux
+            CPU(s) : 4
+           Machine : x86_64
+      Architecture : 64bit
+               RAM : 15.5 GiB
+       Environment : Python
+
+  Python 3.9.4 | packaged by conda-forge | (default, May 10 2021, 22:13:33)
+  [GCC 9.3.0]
+
+             numpy : 1.20.3
+             scipy : 1.6.3
+             numba : 0.53.1
+             emg3d : 1.0.0
+           empymod : 2.0.6
+            xarray : 0.18.2
+        discretize : 0.7.0
+              h5py : 3.2.1
+        matplotlib : 3.4.2
+              tqdm : 4.61.0
+
+  Intel(R) oneAPI Math Kernel Library Version 2021.2-Product Build 20210312
+  for Intel(R) 64 architecture applications
+--------------------------------------------------------------------------------
+
+    :: CONFIGURATION ::
+
+/home/dtr/Codes/emg3d-gallery/examples/download/emg3d.cfg
+{
+    &quot;data&quot;: {
+        &quot;frequencies&quot;: [
+            &quot;f-1&quot;
+        ],
+        &quot;receivers&quot;: [
+            &quot;RxEP-08&quot;,
+            &quot;RxEP-38&quot;
+        ],
+        &quot;sources&quot;: [
+            &quot;TxED-1&quot;
+        ]
+    },
+    &quot;files&quot;: {
+        &quot;log&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.log&quot;,
+        &quot;model&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II.h5&quot;,
+        &quot;output&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.json&quot;,
+        &quot;store_simulation&quot;: false,
+        &quot;survey&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5&quot;
+    },
+    &quot;simulation_options&quot;: {
+        &quot;gridding&quot;: &quot;single&quot;,
+        &quot;name&quot;: &quot;CLI Test&quot;
+    }
+}
+
+    :: LOAD SURVEY AND MODEL ::
+
+Data loaded from «/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5»
+[emg3d v0.17.1.dev22+ge23c468 (format 1.0) on 2021-04-14T22:24:03.229285].
+Data loaded from «/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T18:40:16.721968].
+
+    :: SIMULATION ::
+
+:: Simulation «CLI Test» ::
+
+- Survey «GemPy-II Survey A»: 1 sources; 2 receivers; 1 frequencies
+- Model: resistivity; isotropic; 100 x 100 x 102 (1,020,000)
+- Gridding: Single grid for all sources and frequencies; 128 x 64 x 64 (524,288)
+
+    :: MESHES ::
+
+= Source: all; Frequency: all =
+
+         == GRIDDING IN X ==
+Skin depth     [m] : 390 / 7117625 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : 4000 - 16000
+Comp. dom. DC  [m] : -96000 - 116000
+Final extent   [m] : -101116 - 160572
+Cell widths    [m] : 130 / 130 / 39449  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 128 (93 / 34 / 1)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.374  [DS (seasurface) / DC]
+
+         == GRIDDING IN Y ==
+Skin depth     [m] : 390 / 7117625 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : 5500 - 9500
+Comp. dom. DC  [m] : -94500 - 109500
+Final extent   [m] : -97120 - 112120
+Cell widths    [m] : 130 / 130 / 29638  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 64 (32 / 32 / 0)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.404  [DS (seasurface) / DC]
+
+         == GRIDDING IN Z ==
+Skin depth     [m] : 390 / 2251 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : -6725 - -1722
+Comp. dom. DC  [m] : -20867 - 98278
+Final extent   [m] : -27189 - 98732
+Cell widths    [m] : 130 / 130 / 32910  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 64 (40 / 24 / 0)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.485  [DS (seasurface) / DC]
+
+  TensorMesh: 524,288 cells
+
+                      MESH EXTENT             CELL WIDTH      FACTOR
+  dir    nC        min           max         min       max      max
+  ---   ---  ---------------------------  ------------------  ------
+   x    128   -101,115.97    160,571.57    129.95 39,449.49    1.37
+   y     64    -97,119.50    112,119.50    129.95 29,637.95    1.40
+   z     64    -27,189.50     98,732.09    129.95 32,909.74    1.48
+
+
+    :: FORWARD COMPUTATION ::
+
+
+Compute efields:           0/1  [00:00]
+Compute efields: ██████████1/1  [00:36]
+Compute efields: ██████████1/1  [00:36]
+
+    - SOLVER INFO &lt;efield&gt; -
+
+= Source TxED-1; Frequency 0.5 Hz = 2.3e-03; 0(1); 0:00:08
+:: emg3d :: 1.3e-04; 0(2); 0:00:15
+:: emg3d :: 1.6e-05; 0(3); 0:00:22
+:: emg3d :: 2.9e-06; 0(4); 0:00:29
+:: emg3d :: 5.7e-07; 0(5); 0:00:37
+:: emg3d :: 5.6e-07; 1(5); 0:00:37
+:: emg3d :: 5.6e-07; 1(5); 0:00:37; CONVERGED
+
+    :: SAVE RESULTS ::
+
+Data saved to «/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.json»
+[emg3d v1.0.0 (format 1.0) on 2021-05-28T23:07:23.875413].
+
+:: emg3d CLI forward END   :: Fri May 28 23:07:23 2021 :: runtime = 0:00:37
+</pre></div>
+</div>
+</div>
+<div class="section" id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Permalink to this headline">¶</a></h2>
+<p>The run created the files <code class="docutils literal notranslate"><span class="pre">emg3d_out.json</span></code> (name and file-type can be
+changed in the config file), which contains the responses, and the file
+<code class="docutils literal notranslate"><span class="pre">emg3d_out.log</span></code> with some information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;ls emg3d* -1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ ls emg3d* -1
+emg3d.cfg
+emg3d_out.json
+emg3d_out.log
+</pre></div>
+</div>
+</div>
+<div class="section" id="log">
+<h2>Log<a class="headerlink" href="#log" title="Permalink to this headline">¶</a></h2>
+<p>Let’s have a look at the log, which is mostly the same as was printed above
+with the verbosity flag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;cat emg3d_out.log&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ cat emg3d_out.log
+:: emg3d CLI forward START :: Fri May 28 23:06:46 2021 :: v1.0.0
+
+--------------------------------------------------------------------------------
+  Date: Fri May 28 23:06:46 2021 CEST
+
+                OS : Linux
+            CPU(s) : 4
+           Machine : x86_64
+      Architecture : 64bit
+               RAM : 15.5 GiB
+       Environment : Python
+
+  Python 3.9.4 | packaged by conda-forge | (default, May 10 2021, 22:13:33)
+  [GCC 9.3.0]
+
+             numpy : 1.20.3
+             scipy : 1.6.3
+             numba : 0.53.1
+             emg3d : 1.0.0
+           empymod : 2.0.6
+            xarray : 0.18.2
+        discretize : 0.7.0
+              h5py : 3.2.1
+        matplotlib : 3.4.2
+              tqdm : 4.61.0
+
+  Intel(R) oneAPI Math Kernel Library Version 2021.2-Product Build 20210312
+  for Intel(R) 64 architecture applications
+--------------------------------------------------------------------------------
+
+    :: CONFIGURATION ::
+
+/home/dtr/Codes/emg3d-gallery/examples/download/emg3d.cfg
+{
+    &quot;data&quot;: {
+        &quot;frequencies&quot;: [
+            &quot;f-1&quot;
+        ],
+        &quot;receivers&quot;: [
+            &quot;RxEP-08&quot;,
+            &quot;RxEP-38&quot;
+        ],
+        &quot;sources&quot;: [
+            &quot;TxED-1&quot;
+        ]
+    },
+    &quot;files&quot;: {
+        &quot;log&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.log&quot;,
+        &quot;model&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II.h5&quot;,
+        &quot;output&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.json&quot;,
+        &quot;store_simulation&quot;: false,
+        &quot;survey&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5&quot;
+    },
+    &quot;simulation_options&quot;: {
+        &quot;gridding&quot;: &quot;single&quot;,
+        &quot;name&quot;: &quot;CLI Test&quot;
+    }
+}
+
+    :: LOAD SURVEY AND MODEL ::
+
+Data loaded from «/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5»
+[emg3d v0.17.1.dev22+ge23c468 (format 1.0) on 2021-04-14T22:24:03.229285].
+Data loaded from «/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T18:40:16.721968].
+
+    :: SIMULATION ::
+
+:: Simulation «CLI Test» ::
+
+- Survey «GemPy-II Survey A»: 1 sources; 2 receivers; 1 frequencies
+- Model: resistivity; isotropic; 100 x 100 x 102 (1,020,000)
+- Gridding: Single grid for all sources and frequencies; 128 x 64 x 64 (524,288)
+
+    :: MESHES ::
+
+= Source: all; Frequency: all =
+
+         == GRIDDING IN X ==
+Skin depth     [m] : 390 / 7117625 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : 4000 - 16000
+Comp. dom. DC  [m] : -96000 - 116000
+Final extent   [m] : -101116 - 160572
+Cell widths    [m] : 130 / 130 / 39449  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 128 (93 / 34 / 1)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.374  [DS (seasurface) / DC]
+
+         == GRIDDING IN Y ==
+Skin depth     [m] : 390 / 7117625 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : 5500 - 9500
+Comp. dom. DC  [m] : -94500 - 109500
+Final extent   [m] : -97120 - 112120
+Cell widths    [m] : 130 / 130 / 29638  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 64 (32 / 32 / 0)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.404  [DS (seasurface) / DC]
+
+         == GRIDDING IN Z ==
+Skin depth     [m] : 390 / 2251 / 7117625  [corr. to `properties`]
+Survey dom. DS [m] : -6725 - -1722
+Comp. dom. DC  [m] : -20867 - 98278
+Final extent   [m] : -27189 - 98732
+Cell widths    [m] : 130 / 130 / 32910  [min(DS) / max(DS) / max(DC)]
+Number of cells    : 64 (40 / 24 / 0)  [Total (DS/DC/remain)]
+Max stretching     : 1.000 (1.000) / 1.485  [DS (seasurface) / DC]
+
+  TensorMesh: 524,288 cells
+
+                      MESH EXTENT             CELL WIDTH      FACTOR
+  dir    nC        min           max         min       max      max
+  ---   ---  ---------------------------  ------------------  ------
+   x    128   -101,115.97    160,571.57    129.95 39,449.49    1.37
+   y     64    -97,119.50    112,119.50    129.95 29,637.95    1.40
+   z     64    -27,189.50     98,732.09    129.95 32,909.74    1.48
+
+
+    :: FORWARD COMPUTATION ::
+
+
+    - SOLVER INFO &lt;efield&gt; -
+
+= Source TxED-1; Frequency 0.5 Hz = 2.3e-03; 0(1); 0:00:08
+:: emg3d :: 1.3e-04; 0(2); 0:00:15
+:: emg3d :: 1.6e-05; 0(3); 0:00:22
+:: emg3d :: 2.9e-06; 0(4); 0:00:29
+:: emg3d :: 5.7e-07; 0(5); 0:00:37
+:: emg3d :: 5.6e-07; 1(5); 0:00:37
+:: emg3d :: 5.6e-07; 1(5); 0:00:37; CONVERGED
+
+    :: SAVE RESULTS ::
+
+Data saved to «/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.json»
+[emg3d v1.0.0 (format 1.0) on 2021-05-28T23:07:23.875413].
+
+:: emg3d CLI forward END   :: Fri May 28 23:07:23 2021 :: runtime = 0:00:37
+</pre></div>
+</div>
+</div>
+<div class="section" id="result-output">
+<h2>Result / output<a class="headerlink" href="#result-output" title="Permalink to this headline">¶</a></h2>
+<p>We stored the output as a json-file, just so we can easily cat it. However,
+you might want to use h5 files, as they are compressed. Note that json cannot
+store complex numbers, so the responses are stored as <code class="docutils literal notranslate"><span class="pre">[[Re],</span> <span class="pre">[Im]]</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;cat emg3d_out.json&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ cat emg3d_out.json
+{
+  &quot;configuration&quot;: {
+    &quot;files&quot;: {
+      &quot;survey&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II-survey-A.h5&quot;,
+      &quot;model&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/GemPy-II.h5&quot;,
+      &quot;output&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.json&quot;,
+      &quot;log&quot;: &quot;/home/dtr/Codes/emg3d-gallery/examples/download/emg3d_out.log&quot;,
+      &quot;store_simulation&quot;: false
+    },
+    &quot;simulation_options&quot;: {
+      &quot;gridding&quot;: &quot;single&quot;,
+      &quot;name&quot;: &quot;CLI Test&quot;
+    },
+    &quot;data&quot;: {
+      &quot;sources&quot;: [
+        &quot;TxED-1&quot;
+      ],
+      &quot;receivers&quot;: [
+        &quot;RxEP-08&quot;,
+        &quot;RxEP-38&quot;
+      ],
+      &quot;frequencies&quot;: [
+        &quot;f-1&quot;
+      ]
+    }
+  },
+  &quot;data__complex__array-float64&quot;: [
+    [
+      [
+        [
+          -2.5509913806161285e-08
+        ],
+        [
+          NaN
+        ]
+      ]
+    ],
+    [
+      [
+        [
+          -2.657994131902067e-09
+        ],
+        [
+          NaN
+        ]
+      ]
+    ]
+  ],
+  &quot;_date&quot;: &quot;2021-05-28T23:07:23.875413&quot;,
+  &quot;_version&quot;: &quot;emg3d v1.0.0&quot;,
+  &quot;_format&quot;: &quot;1.0&quot;
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="report">
+<h2>Report<a class="headerlink" href="#report" title="Permalink to this headline">¶</a></h2>
+<p>The report-command prints an extensive list of your python environment of
+components which are important for <cite>emg3d</cite>. If you report an issue it helps a
+lot if you provide this info.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span><span class="p">(</span><span class="s2">&quot;emg3d --report&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>$ emg3d --report
+
+--------------------------------------------------------------------------------
+  Date: Fri May 28 23:07:26 2021 CEST
+
+                OS : Linux
+            CPU(s) : 4
+           Machine : x86_64
+      Architecture : 64bit
+               RAM : 15.5 GiB
+       Environment : Python
+
+  Python 3.9.4 | packaged by conda-forge | (default, May 10 2021, 22:13:33)
+  [GCC 9.3.0]
+
+             numpy : 1.20.3
+             scipy : 1.6.3
+             numba : 0.53.1
+             emg3d : 1.0.0
+           empymod : 2.0.6
+            xarray : 0.18.2
+        discretize : 0.7.0
+              h5py : 3.2.1
+        matplotlib : 3.4.2
+              tqdm : 4.61.0
+
+  Intel(R) oneAPI Math Kernel Library Version 2021.2-Product Build 20210312
+  for Intel(R) 64 architecture applications
+--------------------------------------------------------------------------------
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  43.044 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  9 MB</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-tutorials-cli-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/12b873b5aeae6ab777da3537c11275f1/cli.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">cli.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/35ec3c21af5307ca5f116ee22c36e130/cli.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">cli.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="parameter_tests.html" title="previous page">6. Parameter tests</a>
+    <a class='right-next' id="next-link" href="check_calc_domain.html" title="next page">8. Ensure computation domain is big enough</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2018-2021, The emsig community.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,1525 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4. Adjoint-state vs. FD gradient &#8212; emg3d-gallery 1.1.0 documentation</title>
+    
+  <link href="../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-rendered-html.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    
+  <link rel="preload" as="script" href="../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="5. empymod: 1D VTI Laplace-domain" href="1D_VTI_empymod_Laplace.html" />
+    <link rel="prev" title="3. SimPEG: 3D with tri-axial anisotropy" href="3D_triaxial_SimPEG.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+    <nav class="navbar navbar-light navbar-expand-lg bg-light fixed-top bd-navbar" id="navbar-main"><div class="container-xl">
+
+  <div id="navbar-start">
+    
+    
+
+<a class="navbar-brand" href="../../index.html">
+  <img src="../../_static/emg3d-logo.svg" class="logo" alt="logo">
+</a>
+
+
+    
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  
+  <div id="navbar-collapsible" class="col-lg-9 collapse navbar-collapse">
+    <div id="navbar-center" class="mr-auto">
+      
+      <div class="navbar-center-item">
+        <ul id="navbar-main-elements" class="navbar-nav">
+    <li class="toctree-l1 current active nav-item">
+ <a class="reference internal nav-link" href="../index.html">
+  Gallery
+ </a>
+</li>
+
+<li class="toctree-l1 nav-item">
+ <a class="reference internal nav-link" href="../../references.html">
+  References
+ </a>
+</li>
+
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">Documentation<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+    <li class="nav-item">
+        <a class="nav-link nav-external" href="https://emsig.xyz">emsig<i class="fas fa-external-link-alt"></i></a>
+    </li>
+    
+</ul>
+      </div>
+      
+    </div>
+
+    <div id="navbar-end">
+      
+      <div class="navbar-end-item">
+        <ul id="navbar-icon-links" class="navbar-nav" aria-label="Icon Links">
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/emsig/emg3d" rel="noopener" target="_blank" title="GitHub">
+            <span><i class="fab fa-github-square"></i></span>
+            <label class="sr-only">GitHub</label>
+          </a>
+        </li>
+      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>
+    </nav>
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+            
+            <!-- Only show if we have sidebars configured, else just a small margin  -->
+            <div class="col-12 col-md-3 bd-sidebar"><form class="bd-search d-flex align-items-center" action="../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <div class="bd-toc-item active">
+    <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../tutorials/index.html">
+   Tutorials
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/minimum_example.html">
+     1. Minimum working example
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/mapping.html">
+     2. Model property mapping
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/simulation.html">
+     3. Simulation
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/gradient.html">
+     4. Gradient of the misfit function
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/total_vs_ps_field.html">
+     5. Total vs primary/secondary field
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/parameter_tests.html">
+     6. Parameter tests
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/cli.html">
+     7. Command-line interface
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/check_calc_domain.html">
+     8. Ensure computation domain is big enough
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../tutorials/timedomain.html">
+     9. Transient CSEM
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="index.html">
+   Comparisons
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="1D_VTI_empymod.html">
+     1. empymod: 1D VTI resistivity
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="2D_triaxial_MARE2DEM.html">
+     2. MARE2DEM: 2D with tri-axial anisotropy
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="3D_triaxial_SimPEG.html">
+     3. SimPEG: 3D with tri-axial anisotropy
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     4. Adjoint-state vs. FD gradient
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="1D_VTI_empymod_Laplace.html">
+     5. empymod: 1D VTI Laplace-domain
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="magnetic_field.html">
+     6. Magnetic field due to an el. source
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="magnetic_source_el_loop.html">
+     7. Magnetic source using an electric loop
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="magnetic_source_duality.html">
+     8. Magnetic source using duality
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="magnetic_permeability.html">
+     9. Magnetic permeability
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../models/index.html">
+   Models
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/GemPy-I.html">
+     GemPy-I:
+     <em>
+      Simple Fault Model
+     </em>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/GemPy-II.html">
+     GemPy-II:
+     <em>
+      Perth Basin
+     </em>
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../models/SEG-EAGE_3D_salt_model.html">
+     SEG-EAGE 3D Salt Model
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+  </div>
+</nav>
+            </div>
+            
+          
+
+          
+          <div class="d-none d-xl-block col-xl-2 bd-toc">
+            
+              
+              <div class="toc-item">
+                
+<div class="tocsection onthispage pt-5 pb-3">
+    <i class="fas fa-list"></i> On this page
+</div>
+
+<nav id="bd-toc-nav">
+    <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#create-a-survey-and-a-simple-model">
+   1. Create a survey and a simple model
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#survey">
+     Survey
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#model">
+     Model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#qc">
+     QC
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#generate-synthetic-data">
+   Generate synthetic data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#adjoint-state-gradient">
+   Adjoint-state gradient
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#finite-difference-gradient">
+   Finite-Difference gradient
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#define-a-fct-to-compute-fd-gradient-for-one-cell">
+     Define a fct to compute FD gradient for one cell
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#loop-over-all-required-cells">
+     Loop over all required cells
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#compare-the-two-gradients">
+     Compare the two gradients
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+</nav>
+              </div>
+              
+              <div class="toc-item">
+                
+              </div>
+              
+            
+          </div>
+          
+
+          
+          
+            
+          
+          <main class="col-12 col-md-9 col-xl-7 py-md-5 pl-md-5 pr-md-4 bd-content" role="main">
+              
+              <div>
+                
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-gallery-comparisons-as-vs-fd-gradient-py"><span class="std std-ref">here</span></a>
+to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="adjoint-state-vs-fd-gradient">
+<span id="sphx-glr-gallery-comparisons-as-vs-fd-gradient-py"></span><h1>4. Adjoint-state vs. FD gradient<a class="headerlink" href="#adjoint-state-vs-fd-gradient" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>gradient of the misfit function</strong>, as implemented in <cite>emg3d</cite>, uses the
+adjoint-state method following <a class="reference internal" href="../../references.html#plmu08" id="id1"><span>[PlMu08]</span></a> (see <a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.optimize.gradient.html#emg3d.optimize.gradient" title="(in emg3d v1.0.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">emg3d.optimize.gradient()</span></code></a>).
+The method has the advantage that it is very fast. However, it can be tricky to
+implement and it is always good to verify the implementation against another
+method.</p>
+<p>We compare in this example the adjoint-state gradient to a simple forward
+finite-difference gradient. (See <a class="reference internal" href="../tutorials/gradient.html#sphx-glr-gallery-tutorials-gradient-py"><span class="std std-ref">4. Gradient of the misfit function</span></a>
+for more details regarding the adjoint-state gradient.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Rectangle</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span><span class="p">,</span> <span class="n">SymLogNorm</span>
+</pre></div>
+</div>
+<div class="section" id="create-a-survey-and-a-simple-model">
+<h2>1. Create a survey and a simple model<a class="headerlink" href="#create-a-survey-and-a-simple-model" title="Permalink to this headline">¶</a></h2>
+<p>Create a simple block model and a survey for the comparison.</p>
+<div class="section" id="survey">
+<h3>Survey<a class="headerlink" href="#survey" title="Permalink to this headline">¶</a></h3>
+<p>The survey consists of one source, one receiver, both electric, x-directed
+point-dipoles, where the receiver is on the seafloor and the source 50 m
+above. Offset is 3.2 km, and acquisition frequency is 1 Hz.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">surveys</span><span class="o">.</span><span class="n">Survey</span></a><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Gradient Test-Survey&#39;</span><span class="p">,</span>
+    <span class="n">sources</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">TxElectricDipole</span></a><span class="p">((</span><span class="o">-</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1950</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+    <span class="n">receivers</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.RxElectricPoint.html#emg3d.electrodes.RxElectricPoint" title="emg3d.electrodes.RxElectricPoint" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">RxElectricPoint</span></a><span class="p">((</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+    <span class="n">frequencies</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">noise_floor</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">,</span>
+    <span class="n">relative_error</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
+<p>As <cite>emg3d</cite> internally computes with conductivities we use conductivities to
+compare the gradient in its purest implementation. Note that if we define our
+model in terms of resistivities or <span class="math notranslate nohighlight">\(\log_{\{e;10\}}(\{\sigma;\rho\})\)</span>,
+the gradient would look differently.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a simple block model.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hx</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hy</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hz</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="mf">1800.</span><span class="p">,</span> <span class="mf">200.</span><span class="p">,</span> <span class="mf">200.</span><span class="p">,</span> <span class="mf">200.</span><span class="p">,</span> <span class="mf">300.</span><span class="p">,</span> <span class="mf">300.</span><span class="p">,</span> <span class="mf">2000.</span><span class="p">,</span>  <span class="mf">500.</span><span class="p">])</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model_grid</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">TensorMesh</span></a><span class="p">(</span>
+        <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hx</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hy</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">hz</span></a><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="o">-</span><span class="mi">3000</span><span class="p">,</span> <span class="o">-</span><span class="mi">3000</span><span class="p">,</span> <span class="o">-</span><span class="mi">5000</span><span class="p">]))</span>
+
+<span class="c1"># Initiate model with conductivities of 1 S/m.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Model</span></a><span class="p">(</span>
+        <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model_grid</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="numpy.ones" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">ones</span></a><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.n_cells" title="discretize.TensorMesh.n_cells" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">model_grid</span><span class="o">.</span><span class="n">n_cells</span></a><span class="p">),</span> <span class="n">mapping</span><span class="o">=</span><span class="s1">&#39;Conductivity&#39;</span><span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-8</span>  <span class="c1"># Add air layer.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">[:,</span> <span class="p">:,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.33</span>  <span class="c1"># Add seawater layer.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model_bg</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.copy" title="emg3d.models.Model.copy" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">copy</span></a><span class="p">()</span>  <span class="c1"># Make a copy for the background model.</span>
+
+<span class="c1"># Add three blocks.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.02</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.01</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.005</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="qc">
+<h3>QC<a class="headerlink" href="#qc" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">model_grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span> <span class="n">zslice</span><span class="o">=-</span><span class="mi">2900</span><span class="p">,</span>
+                          <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">3.5</span><span class="p">)})</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Conductivity (S/m)&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.receiver_coordinates" title="emg3d.surveys.Survey.receiver_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">receiver_coordinates</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.source_coordinates" title="emg3d.surveys.Survey.source_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">source_coordinates</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="Conductivity (S/m)" class="sphx-glr-single-img" src="../../_images/sphx_glr_as_vs_fd_gradient_001.png" />
+</div>
+</div>
+<div class="section" id="generate-synthetic-data">
+<h2>Generate synthetic data<a class="headerlink" href="#generate-synthetic-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Gridding options.</span>
+<span class="n">gridding_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.frequencies" title="emg3d.surveys.Survey.frequencies" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-attribute"><span class="n">survey</span><span class="o">.</span><span class="n">frequencies</span></a><span class="p">[</span><span class="s1">&#39;f-1&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.33</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">3.33</span><span class="p">],</span>
+    <span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">),</span>
+    <span class="s1">&#39;min_width_limits&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="s1">&#39;domain&#39;</span><span class="p">:</span> <span class="p">([</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3200</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">]),</span>
+    <span class="s1">&#39;mapping&#39;</span><span class="p">:</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.maps.MapConductivity.html#emg3d.maps.MapConductivity" title="emg3d.maps.MapConductivity" class="sphx-glr-backref-module-emg3d-maps sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span><span class="o">.</span><span class="n">map</span></a><span class="p">,</span>
+<span class="p">}</span>
+
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_grid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">construct_mesh</span><span class="p">(</span><span class="o">**</span><span class="n">gridding_opts</span><span class="p">)</span>
+
+<span class="c1"># Define a simulation for the data.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation_data</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">simulations</span><span class="o">.</span><span class="n">Simulation</span></a><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Data for Gradient Test&#39;</span><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.interpolate_to_grid" title="emg3d.models.Model.interpolate_to_grid" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">model</span><span class="o">.</span><span class="n">interpolate_to_grid</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_grid</span></a><span class="p">),</span>
+    <span class="n">gridding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>  <span class="c1"># Same grid as for input model.</span>
+    <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Simulate the data and store them as observed.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.compute" title="emg3d.simulations.Simulation.compute" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-method"><span class="n">simulation_data</span><span class="o">.</span><span class="n">compute</span></a><span class="p">(</span><span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Let&#39;s print the survey to check that the observed data are now set.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute efields:           0/1  [00:00]
+Compute efields: ##########1/1  [00:25]
+Compute efields: ##########1/1  [00:25]
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<h3>Survey «Gradient Test-Survey»</h3><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt;
+Dimensions:    (freq: 1, rec: 1, src: 1)
+Coordinates:
+  * src        (src) &lt;U6 &#x27;TxED-1&#x27;
+  * rec        (rec) &lt;U6 &#x27;RxEP-1&#x27;
+  * freq       (freq) &lt;U3 &#x27;f-1&#x27;
+Data variables:
+    observed   (src, rec, freq) complex128 (-1.5277880499519306e-13+8.8535309...
+    synthetic  (src, rec, freq) complex128 (-1.4820509840973293e-13+9.9197176...
+Attributes:
+    noise_floor:     1e-15
+    relative_error:  0.05</pre><div class='xr-wrap' hidden><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-f8d80b53-1ee9-4e08-b6f2-76a0585da459' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-f8d80b53-1ee9-4e08-b6f2-76a0585da459' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>freq</span>: 1</li><li><span class='xr-has-index'>rec</span>: 1</li><li><span class='xr-has-index'>src</span>: 1</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-152d71d5-083e-4b7c-a345-d49ff189a60f' class='xr-section-summary-in' type='checkbox'  checked><label for='section-152d71d5-083e-4b7c-a345-d49ff189a60f' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>src</span></div><div class='xr-var-dims'>(src)</div><div class='xr-var-dtype'>&lt;U6</div><div class='xr-var-preview xr-preview'>&#x27;TxED-1&#x27;</div><input id='attrs-6f60ce5f-2fee-4801-a6a2-3d98893aade4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6f60ce5f-2fee-4801-a6a2-3d98893aade4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ec1b1845-4e78-4d09-aec1-90bb7d0f0c95' class='xr-var-data-in' type='checkbox'><label for='data-ec1b1845-4e78-4d09-aec1-90bb7d0f0c95' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Sources :</span></dt><dd>TxED-1: TxElectricDipole: 1.0 A;
+    center={-1,600.0; 0.0; -1,950.0} m; θ=0.0°, φ=0.0°; l=1.0 m.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;TxED-1&#x27;], dtype=&#x27;&lt;U6&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rec</span></div><div class='xr-var-dims'>(rec)</div><div class='xr-var-dtype'>&lt;U6</div><div class='xr-var-preview xr-preview'>&#x27;RxEP-1&#x27;</div><input id='attrs-d9f932f3-9857-4b33-b3b8-7c7ecd50ac15' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-d9f932f3-9857-4b33-b3b8-7c7ecd50ac15' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-f956dc1f-f3e7-43f4-a234-a99ea5cec8b5' class='xr-var-data-in' type='checkbox'><label for='data-f956dc1f-f3e7-43f4-a234-a99ea5cec8b5' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Receivers :</span></dt><dd>RxEP-1: RxElectricPoint: absolute;
+    x=1,600.0 m, y=0.0 m, z=-2,000.0 m, θ=0.0°, φ=0.0°.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RxEP-1&#x27;], dtype=&#x27;&lt;U6&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>freq</span></div><div class='xr-var-dims'>(freq)</div><div class='xr-var-dtype'>&lt;U3</div><div class='xr-var-preview xr-preview'>&#x27;f-1&#x27;</div><input id='attrs-051eab41-70e0-4153-835c-d39fc93ac2f9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-051eab41-70e0-4153-835c-d39fc93ac2f9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4897265b-d89a-46c7-a8e7-b8133f00a6e2' class='xr-var-data-in' type='checkbox'><label for='data-4897265b-d89a-46c7-a8e7-b8133f00a6e2' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Frequencies :</span></dt><dd>f-1: 1.0 Hz.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;f-1&#x27;], dtype=&#x27;&lt;U3&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-f17992ab-f785-4a40-87c0-adbc39c3dde6' class='xr-section-summary-in' type='checkbox'  checked><label for='section-f17992ab-f785-4a40-87c0-adbc39c3dde6' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>observed</span></div><div class='xr-var-dims'>(src, rec, freq)</div><div class='xr-var-dtype'>complex128</div><div class='xr-var-preview xr-preview'>(-1.5277880499519306e-13+8.85353...</div><input id='attrs-def57c63-96da-4eb4-a3eb-6914b97dcc04' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-def57c63-96da-4eb4-a3eb-6914b97dcc04' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a68103fd-042a-49a4-9cb9-43117f0e6675' class='xr-var-data-in' type='checkbox'><label for='data-a68103fd-042a-49a4-9cb9-43117f0e6675' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[-1.52778805e-13+8.85353091e-14j]]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>synthetic</span></div><div class='xr-var-dims'>(src, rec, freq)</div><div class='xr-var-dtype'>complex128</div><div class='xr-var-preview xr-preview'>(-1.4820509840973293e-13+9.91971...</div><input id='attrs-96fdd272-2cba-41af-b76c-6bbb47f46d8f' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-96fdd272-2cba-41af-b76c-6bbb47f46d8f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-11a11f31-43cc-42b2-8166-1fd649f24e2e' class='xr-var-data-in' type='checkbox'><label for='data-11a11f31-43cc-42b2-8166-1fd649f24e2e' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[-1.48205098e-13+9.91971764e-14j]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-d49c1112-9451-4a25-9051-2d741ce47584' class='xr-section-summary-in' type='checkbox'  checked><label for='section-d49c1112-9451-4a25-9051-2d741ce47584' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>noise_floor :</span></dt><dd>1e-15</dd><dt><span>relative_error :</span></dt><dd>0.05</dd></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /></div>
+<div class="section" id="adjoint-state-gradient">
+<h2>Adjoint-state gradient<a class="headerlink" href="#adjoint-state-gradient" title="Permalink to this headline">¶</a></h2>
+<p>For the actual comparison we use a very coarse mesh. The reason is that we
+have to compute an extra forward model for each cell for the forward
+finite-difference approximation, so we try to keep that number low (even
+though we only do a cross-section, not the entire cube).</p>
+<p>Our computational grid has only 16,384 cells, which should be fast enough to
+compute the FD gradient of a cross-section in a few minutes. A
+cross-section along the survey-line has <span class="math notranslate nohighlight">\(32 \times 11 = 352\)</span> cells, so
+we need to compute an extra 352 forward models. (There are 16 cells in z, but
+only 11 below the seafloor.)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Computational grid (min_width 200 instead of 100).</span>
+<span class="n">comp_grid_opts</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">gridding_opts</span><span class="p">,</span> <span class="s1">&#39;min_width_limits&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">}</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">comp_grid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">construct_mesh</span><span class="p">(</span><span class="o">**</span><span class="n">comp_grid_opts</span><span class="p">)</span>
+
+<span class="c1"># Interpolate the background model onto the computational grid.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">comp_model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.interpolate_to_grid" title="emg3d.models.Model.interpolate_to_grid" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">model_bg</span><span class="o">.</span><span class="n">interpolate_to_grid</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">comp_grid</span></a><span class="p">)</span>
+
+<span class="c1"># AS gradient simulation.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation_as</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">simulations</span><span class="o">.</span><span class="n">Simulation</span></a><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;AS Gradient Test&#39;</span><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">comp_model</span></a><span class="p">,</span>
+    <span class="n">gridding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>  <span class="c1"># Same grid as for input model.</span>
+    <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>    <span class="c1"># For parallel workers, adjust if you have more.</span>
+    <span class="n">receiver_interpolation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>  <span class="c1"># For proper adjoint-state gradient</span>
+<span class="p">)</span>
+
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation_as</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<h3>Simulation «AS Gradient Test»</h3><ul>  <li>Survey «Gradient Test-Survey»:    1 sources;    1 receivers;    1 frequencies</li>  <li>Model: conductivity; isotropic; 32 x 32 x 16 (16,384)</li>  <li>Gridding: Same grid as for model;     32 x 32 x 16 (16,384)</li></ul>
+</div>
+<br />
+<br /><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the misfit and the gradient of the misfit.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_misfit</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.misfit" title="emg3d.simulations.Simulation.misfit" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-attribute"><span class="n">simulation_as</span><span class="o">.</span><span class="n">misfit</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.gradient" title="emg3d.simulations.Simulation.gradient" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-attribute"><span class="n">simulation_as</span><span class="o">.</span><span class="n">gradient</span></a>
+
+<span class="c1"># Set water and air gradient to NaN for the plots.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="p">[:,</span> <span class="p">:,</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.cell_centers_z" title="discretize.TensorMesh.cell_centers_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">cell_centers_z</span></a> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">2000</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">nan</span></a>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute efields:           0/1  [00:00]
+Compute efields: ##########1/1  [00:01]
+Compute efields: ##########1/1  [00:01]
+
+Back-propagate :           0/1  [00:00]
+Back-propagate : ##########1/1  [00:01]
+Back-propagate : ##########1/1  [00:01]
+</pre></div>
+</div>
+</div>
+<div class="section" id="finite-difference-gradient">
+<h2>Finite-Difference gradient<a class="headerlink" href="#finite-difference-gradient" title="Permalink to this headline">¶</a></h2>
+<p>To test if the adjoint-state gradient indeed returns the gradient we can
+compare it to a one-sided finite-difference approximated gradient as given by</p>
+<div class="math notranslate nohighlight">
+\[\left(\nabla_p J \left(\textbf{p}\right)\right)_{FD} =
+\frac{J(\textbf{p}+\epsilon) - J(\textbf{p})}{\epsilon} \ .\]</div>
+<div class="section" id="define-a-fct-to-compute-fd-gradient-for-one-cell">
+<h3>Define a fct to compute FD gradient for one cell<a class="headerlink" href="#define-a-fct-to-compute-fd-gradient-for-one-cell" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define epsilon (some small conductivity value, S/m).</span>
+<span class="n">epsilon</span> <span class="o">=</span> <span class="mf">0.0001</span>
+
+<span class="c1"># Define the cross-section.</span>
+<span class="n">iy</span> <span class="o">=</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.shape_cells" title="discretize.TensorMesh.shape_cells" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">shape_cells</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
+
+
+<span class="k">def</span> <span class="nf">comp_fd_grad</span><span class="p">(</span><span class="n">ixiz</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute forward-FD gradient for one cell.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Copy the computational model.</span>
+    <span class="n">fd_model</span> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.copy" title="emg3d.models.Model.copy" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">comp_model</span><span class="o">.</span><span class="n">copy</span></a><span class="p">()</span>
+
+    <span class="c1"># Add conductivity-epsilon to this (ix, iy, iz) cell.</span>
+    <span class="n">fd_model</span><span class="o">.</span><span class="n">property_x</span><span class="p">[</span><span class="n">ixiz</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">iy</span><span class="p">,</span> <span class="n">ixiz</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="n">epsilon</span>
+
+    <span class="c1"># Create a new simulation with this model</span>
+    <span class="n">simulation_fd</span> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">simulations</span><span class="o">.</span><span class="n">Simulation</span></a><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s1">&#39;FD Gradient Test&#39;</span><span class="p">,</span>
+        <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="p">,</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><span class="n">fd_model</span><span class="p">,</span> <span class="n">gridding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>
+        <span class="n">max_workers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">solver_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;verb&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span>
+        <span class="n">receiver_interpolation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>  <span class="c1"># For proper adjoint-state gradient</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Switch-of progress bar in this case</span>
+    <span class="n">simulation_fd</span><span class="o">.</span><span class="n">_tqdm_opts</span><span class="p">[</span><span class="s1">&#39;disable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Get misfit</span>
+    <span class="n">fd_data_misfit</span> <span class="o">=</span> <span class="n">simulation_fd</span><span class="o">.</span><span class="n">misfit</span>
+
+    <span class="c1"># Return gradient</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">((</span><span class="n">fd_data_misfit</span> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data_misfit</span></a><span class="p">)</span><span class="o">/</span><span class="n">epsilon</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loop-over-all-required-cells">
+<h3>Loop over all required cells<a class="headerlink" href="#loop-over-all-required-cells" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initiate FD gradient.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.zeros_like.html#numpy.zeros_like" title="numpy.zeros_like" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="p">)</span>
+
+<span class="c1"># Get all ix-iz combinations (without air/water).</span>
+<span class="n">ixiz</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span>
+    <span class="nb">range</span><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.shape_cells" title="discretize.TensorMesh.shape_cells" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">shape_cells</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+    <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.cell_centers_z" title="discretize.TensorMesh.cell_centers_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">cell_centers_z</span></a><span class="p">[</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.cell_centers_z" title="discretize.TensorMesh.cell_centers_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">cell_centers_z</span></a> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">2000</span><span class="p">])))</span>
+<span class="p">)</span>
+
+<span class="c1"># Wrap it asynchronously</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">_process_map</span><span class="p">(</span>
+        <span class="n">comp_fd_grad</span><span class="p">,</span>
+        <span class="n">ixiz</span><span class="p">,</span>
+        <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>  <span class="c1"># Adjust max worker here!</span>
+<span class="p">)</span>
+
+<span class="c1"># Collect result</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iz</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ixiz</span><span class="p">):</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/352 [00:00&lt;?, ?it/s]
+  0%|          | 1/352 [00:04&lt;28:21,  4.85s/it]
+  1%|          | 2/352 [00:05&lt;12:15,  2.10s/it]
+  1%|1         | 5/352 [00:07&lt;07:12,  1.25s/it]
+  2%|1         | 6/352 [00:09&lt;07:18,  1.27s/it]
+  2%|1         | 7/352 [00:09&lt;05:41,  1.01it/s]
+  2%|2         | 8/352 [00:09&lt;04:29,  1.28it/s]
+  3%|2         | 9/352 [00:12&lt;07:26,  1.30s/it]
+  3%|2         | 10/352 [00:14&lt;08:37,  1.51s/it]
+  4%|3         | 13/352 [00:16&lt;05:58,  1.06s/it]
+  4%|3         | 14/352 [00:17&lt;06:00,  1.07s/it]
+  4%|4         | 15/352 [00:18&lt;05:30,  1.02it/s]
+  5%|4         | 17/352 [00:20&lt;06:12,  1.11s/it]
+  5%|5         | 18/352 [00:22&lt;06:28,  1.16s/it]
+  6%|5         | 21/352 [00:25&lt;06:05,  1.11s/it]
+  6%|6         | 22/352 [00:26&lt;05:49,  1.06s/it]
+  7%|6         | 23/352 [00:26&lt;05:24,  1.01it/s]
+  7%|7         | 25/352 [00:29&lt;05:48,  1.07s/it]
+  7%|7         | 26/352 [00:30&lt;06:14,  1.15s/it]
+  8%|7         | 28/352 [00:31&lt;04:29,  1.20it/s]
+  8%|8         | 29/352 [00:33&lt;06:14,  1.16s/it]
+  9%|8         | 30/352 [00:33&lt;05:07,  1.05it/s]
+  9%|8         | 31/352 [00:34&lt;04:25,  1.21it/s]
+  9%|9         | 32/352 [00:35&lt;04:36,  1.16it/s]
+  9%|9         | 33/352 [00:38&lt;07:20,  1.38s/it]
+ 10%|9         | 35/352 [00:38&lt;04:59,  1.06it/s]
+ 10%|#         | 36/352 [00:39&lt;04:44,  1.11it/s]
+ 11%|#         | 37/352 [00:41&lt;06:33,  1.25s/it]
+ 11%|#         | 38/352 [00:42&lt;05:06,  1.03it/s]
+ 11%|#1        | 39/352 [00:43&lt;05:18,  1.02s/it]
+ 11%|#1        | 40/352 [00:43&lt;04:37,  1.12it/s]
+ 12%|#1        | 41/352 [00:46&lt;06:46,  1.31s/it]
+ 12%|#1        | 42/352 [00:46&lt;05:09,  1.00it/s]
+ 12%|#2        | 43/352 [00:47&lt;04:52,  1.06it/s]
+ 12%|#2        | 44/352 [00:48&lt;05:46,  1.13s/it]
+ 13%|#2        | 45/352 [00:50&lt;06:17,  1.23s/it]
+ 13%|#3        | 46/352 [00:51&lt;05:45,  1.13s/it]
+ 13%|#3        | 47/352 [00:51&lt;04:36,  1.10it/s]
+ 14%|#3        | 48/352 [00:53&lt;06:18,  1.25s/it]
+ 14%|#3        | 49/352 [00:54&lt;06:05,  1.21s/it]
+ 14%|#4        | 50/352 [00:55&lt;05:04,  1.01s/it]
+ 14%|#4        | 51/352 [00:55&lt;04:18,  1.17it/s]
+ 15%|#4        | 52/352 [00:58&lt;06:36,  1.32s/it]
+ 15%|#5        | 53/352 [00:59&lt;06:45,  1.36s/it]
+ 15%|#5        | 54/352 [00:59&lt;05:11,  1.05s/it]
+ 16%|#5        | 55/352 [01:00&lt;04:35,  1.08it/s]
+ 16%|#5        | 56/352 [01:03&lt;06:56,  1.41s/it]
+ 16%|#6        | 57/352 [01:04&lt;07:06,  1.45s/it]
+ 17%|#6        | 59/352 [01:05&lt;04:46,  1.02it/s]
+ 17%|#7        | 60/352 [01:07&lt;05:33,  1.14s/it]
+ 17%|#7        | 61/352 [01:08&lt;06:00,  1.24s/it]
+ 18%|#7        | 62/352 [01:09&lt;05:34,  1.15s/it]
+ 18%|#7        | 63/352 [01:10&lt;04:56,  1.03s/it]
+ 18%|#8        | 64/352 [01:11&lt;04:40,  1.03it/s]
+ 18%|#8        | 65/352 [01:12&lt;06:00,  1.26s/it]
+ 19%|#8        | 66/352 [01:14&lt;05:54,  1.24s/it]
+ 19%|#9        | 67/352 [01:14&lt;04:47,  1.01s/it]
+ 19%|#9        | 68/352 [01:15&lt;04:41,  1.01it/s]
+ 20%|#9        | 69/352 [01:17&lt;06:19,  1.34s/it]
+ 20%|#9        | 70/352 [01:18&lt;05:40,  1.21s/it]
+ 20%|##        | 71/352 [01:19&lt;05:05,  1.09s/it]
+ 20%|##        | 72/352 [01:20&lt;05:11,  1.11s/it]
+ 21%|##        | 73/352 [01:22&lt;06:29,  1.40s/it]
+ 21%|##1       | 74/352 [01:23&lt;05:21,  1.16s/it]
+ 21%|##1       | 75/352 [01:24&lt;05:21,  1.16s/it]
+ 22%|##1       | 76/352 [01:24&lt;04:11,  1.10it/s]
+ 22%|##1       | 77/352 [01:27&lt;06:54,  1.51s/it]
+ 22%|##2       | 78/352 [01:28&lt;05:41,  1.25s/it]
+ 22%|##2       | 79/352 [01:28&lt;04:49,  1.06s/it]
+ 23%|##2       | 80/352 [01:29&lt;04:04,  1.11it/s]
+ 23%|##3       | 81/352 [01:31&lt;06:14,  1.38s/it]
+ 23%|##3       | 82/352 [01:32&lt;05:35,  1.24s/it]
+ 24%|##3       | 83/352 [01:33&lt;05:06,  1.14s/it]
+ 24%|##3       | 84/352 [01:34&lt;04:15,  1.05it/s]
+ 24%|##4       | 85/352 [01:36&lt;05:43,  1.29s/it]
+ 24%|##4       | 86/352 [01:38&lt;06:23,  1.44s/it]
+ 25%|##4       | 87/352 [01:38&lt;04:41,  1.06s/it]
+ 25%|##5       | 88/352 [01:39&lt;04:15,  1.03it/s]
+ 25%|##5       | 89/352 [01:41&lt;05:31,  1.26s/it]
+ 26%|##5       | 90/352 [01:42&lt;06:00,  1.37s/it]
+ 26%|##5       | 91/352 [01:43&lt;04:56,  1.13s/it]
+ 26%|##6       | 92/352 [01:43&lt;04:05,  1.06it/s]
+ 26%|##6       | 93/352 [01:45&lt;04:59,  1.16s/it]
+ 27%|##6       | 94/352 [01:46&lt;05:00,  1.17s/it]
+ 27%|##6       | 95/352 [01:48&lt;05:20,  1.25s/it]
+ 27%|##7       | 96/352 [01:48&lt;04:09,  1.03it/s]
+ 28%|##7       | 97/352 [01:50&lt;05:29,  1.29s/it]
+ 28%|##7       | 98/352 [01:51&lt;04:48,  1.14s/it]
+ 28%|##8       | 99/352 [01:53&lt;05:43,  1.36s/it]
+ 28%|##8       | 100/352 [01:53&lt;04:17,  1.02s/it]
+ 29%|##8       | 101/352 [01:54&lt;04:41,  1.12s/it]
+ 29%|##8       | 102/352 [01:55&lt;04:25,  1.06s/it]
+ 29%|##9       | 103/352 [01:58&lt;06:40,  1.61s/it]
+ 30%|##9       | 105/352 [01:58&lt;03:52,  1.06it/s]
+ 30%|###       | 106/352 [02:00&lt;04:27,  1.09s/it]
+ 30%|###       | 107/352 [02:02&lt;05:06,  1.25s/it]
+ 31%|###       | 108/352 [02:03&lt;04:52,  1.20s/it]
+ 31%|###       | 109/352 [02:03&lt;04:17,  1.06s/it]
+ 31%|###1      | 110/352 [02:04&lt;04:23,  1.09s/it]
+ 32%|###1      | 111/352 [02:06&lt;05:13,  1.30s/it]
+ 32%|###1      | 112/352 [02:08&lt;05:09,  1.29s/it]
+ 32%|###2      | 113/352 [02:08&lt;04:37,  1.16s/it]
+ 32%|###2      | 114/352 [02:09&lt;04:17,  1.08s/it]
+ 33%|###2      | 115/352 [02:11&lt;04:47,  1.21s/it]
+ 33%|###2      | 116/352 [02:12&lt;05:05,  1.29s/it]
+ 33%|###3      | 117/352 [02:13&lt;04:46,  1.22s/it]
+ 34%|###3      | 118/352 [02:14&lt;03:59,  1.02s/it]
+ 34%|###3      | 119/352 [02:15&lt;03:48,  1.02it/s]
+ 34%|###4      | 120/352 [02:17&lt;05:28,  1.42s/it]
+ 34%|###4      | 121/352 [02:18&lt;04:25,  1.15s/it]
+ 35%|###4      | 122/352 [02:19&lt;04:40,  1.22s/it]
+ 35%|###4      | 123/352 [02:20&lt;03:51,  1.01s/it]
+ 35%|###5      | 124/352 [02:22&lt;05:45,  1.51s/it]
+ 36%|###5      | 126/352 [02:24&lt;04:23,  1.16s/it]
+ 36%|###6      | 127/352 [02:24&lt;03:48,  1.02s/it]
+ 36%|###6      | 128/352 [02:27&lt;05:32,  1.48s/it]
+ 37%|###6      | 130/352 [02:29&lt;04:25,  1.19s/it]
+ 37%|###7      | 131/352 [02:29&lt;03:51,  1.05s/it]
+ 38%|###7      | 132/352 [02:32&lt;05:05,  1.39s/it]
+ 38%|###8      | 134/352 [02:33&lt;04:12,  1.16s/it]
+ 38%|###8      | 135/352 [02:34&lt;03:39,  1.01s/it]
+ 39%|###8      | 136/352 [02:36&lt;04:53,  1.36s/it]
+ 39%|###8      | 137/352 [02:37&lt;03:43,  1.04s/it]
+ 39%|###9      | 138/352 [02:38&lt;04:11,  1.17s/it]
+ 39%|###9      | 139/352 [02:39&lt;03:58,  1.12s/it]
+ 40%|###9      | 140/352 [02:42&lt;05:20,  1.51s/it]
+ 40%|####      | 142/352 [02:43&lt;03:51,  1.10s/it]
+ 41%|####      | 143/352 [02:43&lt;03:26,  1.01it/s]
+ 41%|####      | 144/352 [02:46&lt;04:35,  1.33s/it]
+ 41%|####1     | 145/352 [02:46&lt;03:40,  1.07s/it]
+ 41%|####1     | 146/352 [02:47&lt;03:43,  1.08s/it]
+ 42%|####1     | 147/352 [02:48&lt;03:47,  1.11s/it]
+ 42%|####2     | 148/352 [02:50&lt;04:32,  1.34s/it]
+ 42%|####2     | 149/352 [02:51&lt;03:38,  1.08s/it]
+ 43%|####2     | 150/352 [02:52&lt;04:14,  1.26s/it]
+ 43%|####2     | 151/352 [02:53&lt;03:16,  1.02it/s]
+ 43%|####3     | 152/352 [02:55&lt;04:26,  1.33s/it]
+ 44%|####3     | 154/352 [02:58&lt;04:25,  1.34s/it]
+ 44%|####4     | 155/352 [02:58&lt;03:25,  1.04s/it]
+ 44%|####4     | 156/352 [03:00&lt;04:04,  1.25s/it]
+ 45%|####4     | 158/352 [03:02&lt;04:15,  1.32s/it]
+ 45%|####5     | 159/352 [03:03&lt;03:27,  1.07s/it]
+ 45%|####5     | 160/352 [03:04&lt;03:43,  1.16s/it]
+ 46%|####6     | 162/352 [03:07&lt;04:20,  1.37s/it]
+ 47%|####6     | 164/352 [03:09&lt;03:26,  1.10s/it]
+ 47%|####7     | 166/352 [03:12&lt;03:51,  1.25s/it]
+ 47%|####7     | 167/352 [03:12&lt;03:24,  1.10s/it]
+ 48%|####7     | 168/352 [03:13&lt;03:23,  1.10s/it]
+ 48%|####8     | 170/352 [03:16&lt;03:51,  1.27s/it]
+ 49%|####8     | 172/352 [03:18&lt;03:25,  1.14s/it]
+ 49%|####9     | 174/352 [03:21&lt;03:29,  1.17s/it]
+ 50%|####9     | 175/352 [03:22&lt;03:16,  1.11s/it]
+ 50%|#####     | 176/352 [03:22&lt;03:08,  1.07s/it]
+ 50%|#####     | 177/352 [03:23&lt;02:43,  1.07it/s]
+ 51%|#####     | 178/352 [03:26&lt;03:53,  1.34s/it]
+ 51%|#####     | 179/352 [03:27&lt;03:37,  1.25s/it]
+ 51%|#####1    | 180/352 [03:27&lt;03:22,  1.18s/it]
+ 52%|#####1    | 182/352 [03:30&lt;03:38,  1.29s/it]
+ 52%|#####1    | 183/352 [03:31&lt;03:17,  1.17s/it]
+ 52%|#####2    | 184/352 [03:32&lt;02:59,  1.07s/it]
+ 53%|#####2    | 185/352 [03:32&lt;02:28,  1.13it/s]
+ 53%|#####2    | 186/352 [03:35&lt;03:40,  1.33s/it]
+ 53%|#####3    | 187/352 [03:36&lt;03:26,  1.25s/it]
+ 53%|#####3    | 188/352 [03:36&lt;02:54,  1.06s/it]
+ 54%|#####3    | 189/352 [03:37&lt;02:36,  1.04it/s]
+ 54%|#####3    | 190/352 [03:39&lt;03:23,  1.26s/it]
+ 54%|#####4    | 191/352 [03:40&lt;03:15,  1.21s/it]
+ 55%|#####4    | 192/352 [03:42&lt;03:33,  1.34s/it]
+ 55%|#####4    | 193/352 [03:42&lt;02:44,  1.03s/it]
+ 55%|#####5    | 194/352 [03:43&lt;02:49,  1.07s/it]
+ 55%|#####5    | 195/352 [03:44&lt;02:42,  1.03s/it]
+ 56%|#####5    | 196/352 [03:47&lt;03:59,  1.53s/it]
+ 56%|#####5    | 197/352 [03:47&lt;02:56,  1.14s/it]
+ 56%|#####6    | 198/352 [03:48&lt;02:19,  1.10it/s]
+ 57%|#####6    | 199/352 [03:49&lt;02:51,  1.12s/it]
+ 57%|#####6    | 200/352 [03:51&lt;03:33,  1.40s/it]
+ 57%|#####7    | 201/352 [03:52&lt;03:10,  1.26s/it]
+ 58%|#####7    | 203/352 [03:55&lt;03:15,  1.31s/it]
+ 58%|#####7    | 204/352 [03:56&lt;02:50,  1.15s/it]
+ 58%|#####8    | 205/352 [03:56&lt;02:37,  1.07s/it]
+ 59%|#####8    | 206/352 [03:57&lt;02:13,  1.10it/s]
+ 59%|#####8    | 207/352 [04:00&lt;03:43,  1.54s/it]
+ 59%|#####9    | 208/352 [04:00&lt;02:44,  1.14s/it]
+ 59%|#####9    | 209/352 [04:00&lt;02:04,  1.15it/s]
+ 60%|#####9    | 210/352 [04:02&lt;02:46,  1.17s/it]
+ 60%|#####9    | 211/352 [04:04&lt;03:26,  1.46s/it]
+ 60%|######    | 212/352 [04:05&lt;02:56,  1.26s/it]
+ 61%|######    | 214/352 [04:08&lt;02:46,  1.21s/it]
+ 61%|######1   | 215/352 [04:09&lt;03:03,  1.34s/it]
+ 61%|######1   | 216/352 [04:10&lt;02:26,  1.08s/it]
+ 62%|######1   | 217/352 [04:10&lt;02:07,  1.06it/s]
+ 62%|######1   | 218/352 [04:12&lt;02:48,  1.26s/it]
+ 62%|######2   | 219/352 [04:14&lt;03:01,  1.37s/it]
+ 62%|######2   | 220/352 [04:14&lt;02:15,  1.03s/it]
+ 63%|######2   | 221/352 [04:15&lt;02:13,  1.02s/it]
+ 63%|######3   | 222/352 [04:17&lt;02:39,  1.23s/it]
+ 63%|######3   | 223/352 [04:18&lt;02:52,  1.34s/it]
+ 64%|######3   | 224/352 [04:19&lt;02:27,  1.15s/it]
+ 64%|######3   | 225/352 [04:20&lt;02:07,  1.01s/it]
+ 64%|######4   | 226/352 [04:22&lt;02:40,  1.28s/it]
+ 64%|######4   | 227/352 [04:23&lt;02:29,  1.20s/it]
+ 65%|######4   | 228/352 [04:24&lt;02:27,  1.19s/it]
+ 65%|######5   | 229/352 [04:24&lt;01:49,  1.12it/s]
+ 65%|######5   | 230/352 [04:26&lt;02:40,  1.32s/it]
+ 66%|######5   | 231/352 [04:27&lt;02:18,  1.15s/it]
+ 66%|######5   | 232/352 [04:28&lt;02:18,  1.15s/it]
+ 66%|######6   | 233/352 [04:29&lt;01:57,  1.02it/s]
+ 66%|######6   | 234/352 [04:31&lt;02:41,  1.37s/it]
+ 67%|######6   | 235/352 [04:32&lt;02:04,  1.06s/it]
+ 67%|######7   | 236/352 [04:34&lt;02:35,  1.34s/it]
+ 68%|######7   | 238/352 [04:36&lt;02:27,  1.29s/it]
+ 68%|######8   | 240/352 [04:38&lt;02:09,  1.15s/it]
+ 68%|######8   | 241/352 [04:38&lt;01:45,  1.06it/s]
+ 69%|######8   | 242/352 [04:40&lt;02:19,  1.27s/it]
+ 69%|######9   | 243/352 [04:41&lt;01:55,  1.06s/it]
+ 69%|######9   | 244/352 [04:42&lt;02:05,  1.16s/it]
+ 70%|######9   | 245/352 [04:43&lt;01:41,  1.05it/s]
+ 70%|######9   | 246/352 [04:45&lt;02:11,  1.24s/it]
+ 70%|#######   | 247/352 [04:46&lt;02:05,  1.19s/it]
+ 70%|#######   | 248/352 [04:47&lt;02:09,  1.24s/it]
+ 71%|#######   | 249/352 [04:47&lt;01:41,  1.01it/s]
+ 71%|#######1  | 250/352 [04:49&lt;01:54,  1.12s/it]
+ 71%|#######1  | 251/352 [04:51&lt;02:07,  1.26s/it]
+ 72%|#######1  | 252/352 [04:51&lt;01:54,  1.15s/it]
+ 72%|#######1  | 253/352 [04:52&lt;01:44,  1.06s/it]
+ 72%|#######2  | 254/352 [04:54&lt;02:12,  1.35s/it]
+ 72%|#######2  | 255/352 [04:55&lt;01:46,  1.10s/it]
+ 73%|#######2  | 256/352 [04:56&lt;01:55,  1.20s/it]
+ 73%|#######3  | 257/352 [04:57&lt;01:32,  1.03it/s]
+ 73%|#######3  | 258/352 [04:59&lt;02:12,  1.41s/it]
+ 74%|#######3  | 259/352 [05:00&lt;01:44,  1.12s/it]
+ 74%|#######3  | 260/352 [05:01&lt;01:55,  1.25s/it]
+ 74%|#######4  | 261/352 [05:01&lt;01:26,  1.05it/s]
+ 74%|#######4  | 262/352 [05:03&lt;01:56,  1.30s/it]
+ 75%|#######4  | 263/352 [05:05&lt;01:49,  1.23s/it]
+ 75%|#######5  | 264/352 [05:06&lt;01:51,  1.26s/it]
+ 75%|#######5  | 265/352 [05:07&lt;01:33,  1.07s/it]
+ 76%|#######5  | 266/352 [05:08&lt;01:39,  1.16s/it]
+ 76%|#######5  | 267/352 [05:09&lt;01:49,  1.29s/it]
+ 76%|#######6  | 268/352 [05:11&lt;01:52,  1.34s/it]
+ 76%|#######6  | 269/352 [05:11&lt;01:28,  1.07s/it]
+ 77%|#######6  | 270/352 [05:12&lt;01:22,  1.00s/it]
+ 77%|#######6  | 271/352 [05:14&lt;01:49,  1.36s/it]
+ 77%|#######7  | 272/352 [05:16&lt;01:46,  1.33s/it]
+ 78%|#######7  | 273/352 [05:16&lt;01:16,  1.03it/s]
+ 78%|#######7  | 274/352 [05:16&lt;01:05,  1.19it/s]
+ 78%|#######8  | 275/352 [05:19&lt;01:55,  1.50s/it]
+ 78%|#######8  | 276/352 [05:20&lt;01:35,  1.25s/it]
+ 79%|#######8  | 277/352 [05:20&lt;01:08,  1.09it/s]
+ 79%|#######8  | 278/352 [05:21&lt;01:02,  1.19it/s]
+ 79%|#######9  | 279/352 [05:24&lt;01:55,  1.58s/it]
+ 80%|#######9  | 280/352 [05:25&lt;01:33,  1.31s/it]
+ 80%|########  | 282/352 [05:26&lt;01:03,  1.11it/s]
+ 80%|########  | 283/352 [05:29&lt;01:45,  1.53s/it]
+ 81%|########  | 284/352 [05:30&lt;01:33,  1.37s/it]
+ 81%|########1 | 286/352 [05:30&lt;00:55,  1.19it/s]
+ 82%|########1 | 287/352 [05:34&lt;01:40,  1.54s/it]
+ 82%|########2 | 289/352 [05:35&lt;01:07,  1.07s/it]
+ 83%|########2 | 291/352 [05:39&lt;01:26,  1.42s/it]
+ 83%|########2 | 292/352 [05:39&lt;01:10,  1.17s/it]
+ 84%|########3 | 294/352 [05:39&lt;00:44,  1.31it/s]
+ 84%|########3 | 295/352 [05:43&lt;01:23,  1.46s/it]
+ 84%|########4 | 296/352 [05:44&lt;01:08,  1.22s/it]
+ 84%|########4 | 297/352 [05:44&lt;00:52,  1.05it/s]
+ 85%|########4 | 299/352 [05:48&lt;01:12,  1.37s/it]
+ 85%|########5 | 300/352 [05:48&lt;00:57,  1.11s/it]
+ 86%|########5 | 301/352 [05:48&lt;00:48,  1.06it/s]
+ 86%|########6 | 303/352 [05:52&lt;01:06,  1.35s/it]
+ 86%|########6 | 304/352 [05:53&lt;00:52,  1.10s/it]
+ 87%|########6 | 305/352 [05:53&lt;00:44,  1.06it/s]
+ 87%|########6 | 306/352 [05:53&lt;00:33,  1.36it/s]
+ 87%|########7 | 307/352 [05:57&lt;01:06,  1.48s/it]
+ 88%|########7 | 308/352 [05:57&lt;00:53,  1.22s/it]
+ 88%|########7 | 309/352 [05:57&lt;00:39,  1.09it/s]
+ 88%|########8 | 310/352 [05:58&lt;00:38,  1.09it/s]
+ 88%|########8 | 311/352 [06:02&lt;01:05,  1.61s/it]
+ 89%|########8 | 313/352 [06:02&lt;00:37,  1.03it/s]
+ 89%|########9 | 314/352 [06:04&lt;00:44,  1.16s/it]
+ 89%|########9 | 315/352 [06:06&lt;00:52,  1.41s/it]
+ 90%|######### | 317/352 [06:07&lt;00:34,  1.02it/s]
+ 90%|######### | 318/352 [06:09&lt;00:41,  1.22s/it]
+ 91%|######### | 319/352 [06:10&lt;00:42,  1.30s/it]
+ 91%|######### | 320/352 [06:11&lt;00:37,  1.17s/it]
+ 91%|#########1| 321/352 [06:11&lt;00:29,  1.05it/s]
+ 91%|#########1| 322/352 [06:13&lt;00:36,  1.21s/it]
+ 92%|#########1| 323/352 [06:15&lt;00:39,  1.36s/it]
+ 92%|#########2| 324/352 [06:15&lt;00:29,  1.07s/it]
+ 92%|#########2| 325/352 [06:16&lt;00:26,  1.02it/s]
+ 93%|#########2| 326/352 [06:18&lt;00:34,  1.34s/it]
+ 93%|#########2| 327/352 [06:20&lt;00:32,  1.29s/it]
+ 93%|#########3| 328/352 [06:20&lt;00:27,  1.13s/it]
+ 93%|#########3| 329/352 [06:21&lt;00:21,  1.07it/s]
+ 94%|#########3| 330/352 [06:23&lt;00:30,  1.38s/it]
+ 94%|#########4| 331/352 [06:24&lt;00:27,  1.30s/it]
+ 94%|#########4| 332/352 [06:25&lt;00:21,  1.07s/it]
+ 95%|#########4| 333/352 [06:25&lt;00:16,  1.15it/s]
+ 95%|#########4| 334/352 [06:28&lt;00:25,  1.44s/it]
+ 95%|#########5| 335/352 [06:30&lt;00:25,  1.48s/it]
+ 96%|#########5| 337/352 [06:30&lt;00:13,  1.09it/s]
+ 96%|#########6| 338/352 [06:33&lt;00:20,  1.49s/it]
+ 96%|#########6| 339/352 [06:34&lt;00:17,  1.32s/it]
+ 97%|#########6| 340/352 [06:34&lt;00:12,  1.01s/it]
+ 97%|#########6| 341/352 [06:35&lt;00:10,  1.01it/s]
+ 97%|#########7| 342/352 [06:39&lt;00:16,  1.69s/it]
+ 98%|#########7| 344/352 [06:40&lt;00:08,  1.12s/it]
+ 98%|#########8| 345/352 [06:40&lt;00:06,  1.01it/s]
+ 98%|#########8| 346/352 [06:43&lt;00:08,  1.44s/it]
+ 99%|#########8| 347/352 [06:43&lt;00:05,  1.13s/it]
+ 99%|#########8| 348/352 [06:45&lt;00:04,  1.24s/it]
+ 99%|#########9| 349/352 [06:45&lt;00:03,  1.01s/it]
+ 99%|#########9| 350/352 [06:47&lt;00:02,  1.30s/it]
+100%|##########| 352/352 [06:48&lt;00:00,  1.15it/s]
+100%|##########| 352/352 [06:48&lt;00:00,  1.16s/it]
+</pre></div>
+</div>
+</div>
+<div class="section" id="compare-the-two-gradients">
+<h3>Compare the two gradients<a class="headerlink" href="#compare-the-two-gradients" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute NRMSD between AS and FD (%).</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nrmsd</span></a> <span class="o">=</span> <span class="mi">200</span><span class="o">*</span><span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="o">-</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="p">)</span><span class="o">+</span><span class="nb">abs</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a><span class="p">))</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nrmsd</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">nan</span></a>
+
+<span class="c1"># Compute sign.</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">diff_sign</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">sign</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="o">/</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">plot_diff</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">diff</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper routine to show cells of big NRMSD or different sign.&quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">iz</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+
+            <span class="k">if</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">diff_sign</span></a><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                        <span class="n">Rectangle</span><span class="p">(</span>
+                            <span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.nodes_x" title="discretize.TensorMesh.nodes_x" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">nodes_x</span></a><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.nodes_z" title="discretize.TensorMesh.nodes_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">nodes_z</span></a><span class="p">[</span><span class="n">iz</span><span class="p">]),</span>
+                            <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ix</span><span class="p">],</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">iz</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="k">if</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">nrmsd</span></a><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">iz</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">diff</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span>
+                        <span class="n">Rectangle</span><span class="p">(</span>
+                            <span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.nodes_x" title="discretize.TensorMesh.nodes_x" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">nodes_x</span></a><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.nodes_z" title="discretize.TensorMesh.nodes_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">nodes_z</span></a><span class="p">[</span><span class="n">iz</span><span class="p">]),</span>
+                            <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">ix</span><span class="p">],</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.h" title="discretize.TensorMesh.h" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-attribute"><span class="n">comp_grid</span><span class="o">.</span><span class="n">h</span></a><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="n">iz</span><span class="p">],</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">set_axis</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper routine to adjust subplots.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Show source and receiver.</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+
+    <span class="c1"># x-label.</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Easting&#39;</span><span class="p">)</span>
+
+    <span class="c1"># y-label depending on column.</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Depth&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_ticklabels</span><span class="p">([])</span>
+
+    <span class="c1"># Set limits.</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">3000</span><span class="p">)</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">4000</span><span class="p">,</span> <span class="o">-</span><span class="mi">1900</span><span class="p">)</span>
+
+
+<span class="c1"># Plotting options.</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e1</span>
+<span class="n">pcolor_opts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">SymLogNorm</span><span class="p">(</span><span class="n">linthresh</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                                  <span class="n">vmin</span><span class="o">=-</span><span class="n">vmax</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)}</span>
+
+<span class="n">fig</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Adjoint-State Gradient</span>
+<span class="n">f0</span> <span class="o">=</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.plot_slice" title="discretize.TensorMesh.plot_slice" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">comp_grid</span><span class="o">.</span><span class="n">plot_slice</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">as_grad</span></a><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">iy</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="n">pcolor_opts</span><span class="o">=</span><span class="n">pcolor_opts</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Adjoint-State Gradient&quot;</span><span class="p">)</span>
+<span class="n">set_axis</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">plot_diff</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Finite-Difference Gradient</span>
+<span class="n">f1</span> <span class="o">=</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.html#discretize.TensorMesh.plot_slice" title="discretize.TensorMesh.plot_slice" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">comp_grid</span><span class="o">.</span><span class="n">plot_slice</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fd_grad</span></a><span class="p">,</span> <span class="n">normal</span><span class="o">=</span><span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">iy</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="n">pcolor_opts</span><span class="o">=</span><span class="n">pcolor_opts</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Finite-Difference Gradient&quot;</span><span class="p">)</span>
+<span class="n">set_axis</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plot_diff</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">f0</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="Adjoint-State Gradient, Finite-Difference Gradient" class="sphx-glr-single-img" src="../../_images/sphx_glr_as_vs_fd_gradient_002.png" />
+<p>Visually the two gradients are almost identical. This is amazing, given that
+the adjoint-state gradient requires one (1) extra forward computation for the
+entire cube, whereas the finite-difference gradient requires one extra
+forward computation for each cell, for this cross-section 352 (!).</p>
+<p>There are differences, and they are highlighted:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Cells surrounded by a dashed, magenta line: NRMSD is bigger than 1 %.</p></li>
+<li><p>Cells surrounded by a black line: The two gradients have different signs.</p></li>
+</ul>
+</div></blockquote>
+<p>These differences only happen where the amplitude of the gradient is very
+small, and it therefore blows the NRMSD numerically up (inherit problem of
+the relative error when the signal approaches zero).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 3px solid #ddd;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 2px solid #fff;' colspan='6'>Wed Jun 30 16:35:45 2021 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>OS</td>
+    <td style='text-align: left; border: 2px solid #fff;'>Linux</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>CPU(s)</td>
+    <td style='text-align: left; border: 2px solid #fff;'>4</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>Machine</td>
+    <td style='text-align: left; border: 2px solid #fff;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>Architecture</td>
+    <td style='text-align: left; border: 2px solid #fff;'>64bit</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>RAM</td>
+    <td style='text-align: left; border: 2px solid #fff;'>15.5 GiB</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>Environment</td>
+    <td style='text-align: left; border: 2px solid #fff;'>Python</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 2px solid #fff;' colspan='6'>Python 3.9.4 | packaged by conda-forge | (default, May 10 2021, 22:13:33)
+[GCC 9.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>numpy</td>
+    <td style='text-align: left; border: 2px solid #fff;'>1.20.3</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>scipy</td>
+    <td style='text-align: left; border: 2px solid #fff;'>1.6.3</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>numba</td>
+    <td style='text-align: left; border: 2px solid #fff;'>0.53.1</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>emg3d</td>
+    <td style='text-align: left; border: 2px solid #fff;'>1.1.0</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>empymod</td>
+    <td style='text-align: left; border: 2px solid #fff;'>2.0.6</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>xarray</td>
+    <td style='text-align: left; border: 2px solid #fff;'>0.18.2</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>discretize</td>
+    <td style='text-align: left; border: 2px solid #fff;'>0.7.0</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>h5py</td>
+    <td style='text-align: left; border: 2px solid #fff;'>3.2.1</td>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>matplotlib</td>
+    <td style='text-align: left; border: 2px solid #fff;'>3.4.2</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; background-color: #ccc; border: 2px solid #fff;'>tqdm</td>
+    <td style='text-align: left; border: 2px solid #fff;'>4.61.0</td>
+    <td style= border: 2px solid #fff;'></td>
+    <td style= border: 2px solid #fff;'></td>
+    <td style= border: 2px solid #fff;'></td>
+    <td style= border: 2px solid #fff;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; background-color: #ddd;border: 2px solid #fff;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2021.2-Product Build 20210312 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 7 minutes  23.610 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  14 MB</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-comparisons-as-vs-fd-gradient-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/a375e9b9fd831c9177081704ac2718dd/as_vs_fd_gradient.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">as_vs_fd_gradient.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c61221831ce3faa5f77b450f28d9db92/as_vs_fd_gradient.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">as_vs_fd_gradient.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+              
+              <div class='prev-next-bottom'>
+                
+    <a class='left-prev' id="prev-link" href="3D_triaxial_SimPEG.html" title="previous page">3. SimPEG: 3D with tri-axial anisotropy</a>
+    <a class='right-next' id="next-link" href="1D_VTI_empymod_Laplace.html" title="next page">5. empymod: 1D VTI Laplace-domain</a>
+
+              </div>
+              
+          </main>
+          
+
+      </div>
+    </div>
+  
+  <script src="../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  <footer class="footer mt-5 mt-md-0">
+  <div class="container">
+    
+    <div class="footer-item">
+      <p class="copyright">
+    &copy; Copyright 2018-2021, The emsig community.<br/>
+</p>
+    </div>
+    
+    <div class="footer-item">
+      <p class="sphinx-version">
+Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.5.4.<br/>
+</p>
+    </div>
+    
+  </div>
+</footer>
+  </body>
+</html>
