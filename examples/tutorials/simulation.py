@@ -213,7 +213,7 @@ plt.show()
 # Consult the following docs for more information:
 #
 # - `gridding_opts` in :class:`emg3d.simulations.Simulation`;
-# - :func:`emg3d.simulations.estimate_gridding_opts`; and
+# - :func:`emg3d.meshes.estimate_gridding_opts`; and
 # - :func:`emg3d.meshes.construct_mesh`.
 
 gopts = {

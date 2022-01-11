@@ -3,10 +3,10 @@ r"""
 ================================
 
 The **gradient of the misfit function**, as implemented in `emg3d`, uses the
-adjoint-state method following [PlMu08]_ (see :func:`emg3d.optimize.gradient`).
-The method has the advantage that it is very fast. However, it can be tricky to
-implement and it is always good to verify the implementation against another
-method.
+adjoint-state method following [PlMu08]_ (see
+:attr:`emg3d.simulations.Simulation.gradient`). The method has the advantage
+that it is very fast. However, it can be tricky to implement and it is always
+good to verify the implementation against another method.
 
 We compare in this example the adjoint-state gradient to a simple forward
 finite-difference gradient. (See :ref:`sphx_glr_gallery_tutorials_gradient.py`

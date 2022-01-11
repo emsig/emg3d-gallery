@@ -2,9 +2,9 @@
 4. Gradient of the misfit function
 ==================================
 
-A basic example how to use the :func:`emg3d.optimize.gradient` routine to
-compute the adjoint-state gradient of the misfit function. Here we just show
-its usage.
+A basic example how to use the :attr:`emg3d.simulations.Simulation.gradient`
+routine to compute the adjoint-state gradient of the misfit function. Here we
+just show its usage.
 
 For this example we use the survey and data as obtained in the example
 :ref:`sphx_glr_gallery_tutorials_simulation.py`.

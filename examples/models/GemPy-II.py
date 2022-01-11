@@ -65,7 +65,7 @@ fgrid.plot_3d_slicer(
 #
 # .. note::
 #
-#     The coming sections are about how to reproduce the model. For this you
+#     The following sections are about how to reproduce the model. For this you
 #     have to install ``gempy``. The code example and the ``GemPy-II.h5``-file
 #     used in the gallery were created on 2021-05-21 with ``gempy=2.2.9`` and
 #     ``pandas=1.2.4``.
