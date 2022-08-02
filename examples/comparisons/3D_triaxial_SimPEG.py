@@ -48,6 +48,7 @@ grid = emg3d.meshes.construct_mesh(
     properties=1,
     center=(0, 0, 0),
     vector=(vx, vx, vz),
+    center_on_edge=True,
 )
 
 grid

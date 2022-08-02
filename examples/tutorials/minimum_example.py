@@ -90,6 +90,7 @@ grid = emg3d.construct_mesh(
     frequency=frequency,  # Frequency we will use the grid for
     properties=2,         # Reference resistivity
     domain=[-800, 800],   # Domain in which we want precise results
+    center_on_edge=True,
 )
 
 grid  # QC

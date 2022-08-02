@@ -103,6 +103,7 @@ gridding_opts = {
     'min_width_limits': 100,
     'domain': ([-2000, 2000], [-2000, 2000], [-3200, -2000]),
     'mapping': model.map,
+    'center_on_edge': True,
 }
 
 data_grid = emg3d.construct_mesh(**gridding_opts)
@@ -248,7 +249,8 @@ nrmsd = 200*abs(as_grad-fd_grad)/(abs(as_grad)+abs(fd_grad))
 nrmsd[fd_grad == 0] = np.nan
 
 # Compute sign.
-diff_sign = np.sign(as_grad/fd_grad)
+tiny = np.finfo(float).tiny  # Avoid division by zero.
+diff_sign = np.sign(as_grad/np.where(abs(fd_grad) < tiny, tiny, fd_grad))
 
 
 def plot_diff(ax, diff):

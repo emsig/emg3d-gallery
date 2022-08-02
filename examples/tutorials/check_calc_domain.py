@@ -57,6 +57,7 @@ grid_inp = {
     'min_width_limits': 100,
     'stretching': [1, 1.25],
     'lambda_from_center': True,
+    'center_on_edge': True,
     'verb': 1,
 }
 

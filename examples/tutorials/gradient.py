@@ -109,6 +109,7 @@ gridding_opts = {
     ),
     'min_width_limits': (100, 100, 50),
     'stretching': (None, None, [1.05, 1.5]),
+    'center_on_edge': False,
 }
 
 

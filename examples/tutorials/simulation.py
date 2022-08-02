@@ -225,6 +225,7 @@ gopts = {
         [rec_coords[1].min()-100, rec_coords[1].max()+100],
         [-5500, -2000]
     ),
+    'center_on_edge': False,
 }
 
 

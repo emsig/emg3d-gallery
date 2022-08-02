@@ -79,6 +79,7 @@ grid = emg3d.construct_mesh(
     properties=[0.3, 200, 1000],
     domain=([0, 2000], [0, 2000], [-2000, 0]),
     seasurface=0,
+    center_on_edge=False,
 )
 grid
 

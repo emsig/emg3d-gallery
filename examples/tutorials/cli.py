@@ -103,7 +103,7 @@ gridding = single
 # nothing specified
 
 [gridding_opts]
-# nothing specified
+center_on_edge = False
 
 [data]
 sources = TxED-1

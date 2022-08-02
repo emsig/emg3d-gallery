@@ -120,6 +120,7 @@ grid_opts = {
     'min_width_pps': 12,             # Many points to have small min cell width
     'stretching': [1, 1.3],          # <alpha improves result, slows down comp
     'lambda_from_center': True,      # 2 lambda from src to boundary and back
+    'center_on_edge': False,
 }
 
 # Initiate data array and log dict.
