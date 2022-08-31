@@ -1,6 +1,6 @@
 """
-7. Command-line interface
-=========================
+07. Command-line interface
+==========================
 
 The implemented command-line interface (CLI) can be powerful to use `emg3d`
 from any programming environment. It enables, for instance, to use `emg3d` as a

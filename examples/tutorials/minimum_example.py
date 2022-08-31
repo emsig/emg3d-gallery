@@ -1,6 +1,6 @@
 """
-1. Minimum working example
-==========================
+01. Minimum working example
+===========================
 
 This is a simple minimum working example to use the multigrid solver `emg3d`,
 along the lines of the one provided in the manual as `"Basic Example"

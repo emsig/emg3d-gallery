@@ -1,6 +1,6 @@
 """
-6. Parameter tests
-==================
+06. Parameter tests
+===================
 
 The modeller ``emg3d`` has quite a few parameters which can influence the speed
 of a computation. It can be difficult to estimate which is the best setting. In

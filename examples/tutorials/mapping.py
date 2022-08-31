@@ -1,6 +1,6 @@
 r"""
-2. Model property mapping
-=========================
+02. Model property mapping
+==========================
 
 
 Physical rock properties (and their units) can be a tricky thing. And `emg3d`

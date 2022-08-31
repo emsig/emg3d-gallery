@@ -180,10 +180,12 @@ plt.subplots_adjust(hspace=0.3, wspace=0.3)
 
 titles = [r'|Real|', r'|Imaginary|']
 
+
 def log10abs(inp):
     """Log10 of absolute values, avoiding zero-division."""
     tiny = np.finfo(float).tiny
     return np.log10(np.where(abs(inp) < tiny, tiny, abs(inp)))
+
 
 dat = [log10abs(data.real), log10abs(data.imag)]
 

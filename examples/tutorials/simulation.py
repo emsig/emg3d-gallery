@@ -1,6 +1,6 @@
 """
-3. Simulation
-=============
+03. Simulation
+==============
 
 The easiest way to model CSEM data for a survey is to make use of the Survey
 and Simulation classes, :class:`emg3d.surveys.Survey` and
@@ -180,7 +180,7 @@ survey.sources['TxED-1']
 # QC model and survey
 # -------------------
 
-grid.plot_3d_slicer(model.property_x, xslice=12000, yslice=7000,
+grid.plot_3d_slicer(model.property_x, xslice=12000, yslice=7500,
                     pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
 
 # Plot survey in figure above

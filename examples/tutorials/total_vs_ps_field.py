@@ -1,6 +1,6 @@
 r"""
-5. Total vs primary/secondary field
-===================================
+05. Total vs primary/secondary field
+====================================
 
 We usually use ``emg3d`` for total field computations. However, we can also use
 it in a primary-secondary field formulation, where we compute the primary

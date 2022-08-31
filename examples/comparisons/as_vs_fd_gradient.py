@@ -229,7 +229,7 @@ ixiz = list(itertools.product(
 )
 
 # Wrap it asynchronously
-out = emg3d.utils._process_map(
+out = emg3d._multiprocessing.process_map(
         comp_fd_grad,
         ixiz,
         max_workers=4,  # Adjust max worker here!

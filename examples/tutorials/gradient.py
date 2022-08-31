@@ -1,6 +1,6 @@
 """
-4. Gradient of the misfit function
-==================================
+04. Gradient of the misfit function
+===================================
 
 A basic example how to use the :attr:`emg3d.simulations.Simulation.gradient`
 routine to compute the adjoint-state gradient of the misfit function. Here we
@@ -76,7 +76,7 @@ res[subsurface] = 1.0
 model.property_x = res
 
 # QC the initial model and the survey.
-grid.plot_3d_slicer(model.property_x, xslice=12000, yslice=7000,
+grid.plot_3d_slicer(model.property_x, xslice=12000, yslice=7500,
                     pcolor_opts={'norm': LogNorm(vmin=0.3, vmax=200)})
 
 # Plot survey in figure above
@@ -150,7 +150,7 @@ grad[~subsurface] = np.nan
 
 # Plot the gradient
 grid.plot_3d_slicer(
-        grad.ravel('F'), xslice=12000, yslice=7000, zslice=-4000,
+        grad.ravel('F'), xslice=12000, yslice=7500, zslice=-4000,
         pcolor_opts={'cmap': 'RdBu_r',
                      'norm': SymLogNorm(
                          linthresh=1e-2, base=10, vmin=-1e1, vmax=1e1)}

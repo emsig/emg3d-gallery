@@ -1,6 +1,6 @@
 """
-9. Transient CSEM
-=================
+09. Transient CSEM
+==================
 
 The computation of ``emg3d`` happens in the frequency domain (or Laplace
 domain), each frequency requires a new computation. Using (inverse) Fourier
