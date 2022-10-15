@@ -17,51 +17,56 @@ Gallery
    comparisons/index
    models/index
 
-.. panels::
-    :container: container-lg pb-3
-    :column: col-lg-4 col-md-4 col-sm-6 col-xs-12 p-2
+.. grid:: 1 2 3 3
+    :gutter: 2
 
-    ---
-    :img-top: tutorials/images/sphx_glr_minimum_example_001.png
+    .. grid-item-card::
+        :img-top: tutorials/images/sphx_glr_minimum_example_001.png
 
-    Tutorials
-    ^^^^^^^^^
+        Tutorials
+        ^^^^^^^^^
 
-    How to use emg3d. A good place to get started.
+        How to use emg3d. A good place to get started.
 
-    +++
+        +++
 
-    .. link-button:: sphx_glr_gallery_tutorials
-            :type: ref
-            :text: To the tutorials
-            :classes: btn-block btn-info stretched-link
+        .. button-ref:: sphx_glr_gallery_tutorials
+            :expand:
+            :color: info
+            :click-parent:
 
-    ---
-    :img-top: comparisons/images/sphx_glr_as_vs_fd_gradient_001.png
+            To the tutorials
 
-    Comparisons
-    ^^^^^^^^^^^
+    .. grid-item-card::
+        :img-top: comparisons/images/sphx_glr_as_vs_fd_gradient_001.png
 
-    Comparing emg3d to other codes, and different methods to each other.
+        Comparisons
+        ^^^^^^^^^^^
 
-    +++
+        Comparing emg3d to other codes, and different methods to each other.
 
-    .. link-button:: sphx_glr_gallery_comparisons
-            :type: ref
-            :text: To the comparisons
-            :classes: btn-block btn-info stretched-link
+        +++
 
-    ---
-    :img-top: models/images/sphx_glr_SEG-EAGE_3D_salt_model_001.png
+        .. button-ref:: sphx_glr_gallery_comparisons
+            :expand:
+            :color: info
+            :click-parent:
 
-    Models
-    ^^^^^^
+            To the comparisons
 
-    Electrical subsurface models.
+    .. grid-item-card::
+        :img-top: models/images/sphx_glr_SEG-EAGE_3D_salt_model_001.png
 
-    +++
+        Models
+        ^^^^^^
 
-    .. link-button:: sphx_glr_gallery_models
-            :type: ref
-            :text: To the models
-            :classes: btn-block btn-info stretched-link
+        Electrical subsurface models.
+
+        +++
+
+        .. button-ref:: sphx_glr_gallery_models
+            :expand:
+            :color: info
+            :click-parent:
+
+            To the models

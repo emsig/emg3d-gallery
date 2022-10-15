@@ -8,12 +8,11 @@ from sphinx_gallery.sorting import ExampleTitleSortKey
 # Load extensions
 extensions = [
     'numpydoc',
-    'sphinx_panels',
+    'sphinx_design',
     'sphinx.ext.intersphinx',
     'sphinx.ext.mathjax',
     'sphinx_gallery.gen_gallery',
 ]
-panels_add_bootstrap_css = False
 
 # Numpydoc settings
 numpydoc_show_class_members = False
