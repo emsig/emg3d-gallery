@@ -1,3 +1,5 @@
+.. _sphx_glr_gallery_models:
+
 Models
 ======
 
