@@ -2,19 +2,17 @@ name: emg3d-gallery
 
 channels:
   - conda-forge
-  - gimli
 
 dependencies:
   - "libblas=*=*mkl"
-  - empymod
   - emg3d
   - xarray
   - discretize
   - h5py
   - matplotlib
   - scooby
-  - sphinx
-  - sphinx-gallery
+  - sphinx>=7.3
+  - sphinx-gallery>=0.16
   - numpydoc
   - pooch
   - sphinx-design
@@ -22,4 +20,3 @@ dependencies:
   - mkl-service
   - tqdm
   - memory_profiler
-  - pygimli

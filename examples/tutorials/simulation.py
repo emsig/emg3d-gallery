@@ -101,7 +101,7 @@ bathymetry = RectBivariateSpline(
 #
 # where the angles (azimuth and elevation) are in degrees. For the coordinate
 # system see `coordinate_system
-# <https://empymod.emsig.xyz/en/stable/examples/coordinate_system.html>`_.
+# <https://empymod.emsig.xyz/en/stable/gallery/educational/coordinate_system.html>`_.
 #
 # A survey can contain electric and magnetic receivers, arbitrarily rotated.
 # However, the ``Simulation`` is currently limited to electric receivers.

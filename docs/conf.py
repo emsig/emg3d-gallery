@@ -1,7 +1,6 @@
 import time
 import warnings
 from emg3d import __version__
-from sphinx_gallery.sorting import ExampleTitleSortKey
 
 # ==== 1. Extensions  ====
 
@@ -36,7 +35,7 @@ sphinx_gallery_conf = {
     # Patter to search for example files
     "filename_pattern": r"\.py",
     # Sort gallery example by file name instead of number of lines (default)
-    "within_subsection_order": ExampleTitleSortKey,
+    "within_subsection_order": "ExampleTitleSortKey",
     # Remove the settings (e.g., sphinx_gallery_thumbnail_number)
     'remove_config_comments': True,
     # Show memory
@@ -103,6 +102,7 @@ html_theme_options = {
         {"name": "Documentation", "url": "https://emg3d.emsig.xyz"},
         {"name": "emsig", "url": "https://emsig.xyz"},
     ],
+    'navigation_with_keys': True,
     # "use_edit_page_button": True,
 }
 
@@ -126,5 +126,5 @@ html_css_files = [
 
 # Papers from academic.oup results in a 104 error
 linkcheck_ignore = [
-    'https://doi.org/10.1093/gji/ggab171',
+    "https://doi.org/*",  # DOIs should be permanent (their entire purpose)
 ]

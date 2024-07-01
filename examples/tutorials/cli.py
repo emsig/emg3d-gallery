@@ -86,7 +86,7 @@ bash("emg3d --help")
 # full or relative path and filename as the first argument to ``emg3d``.
 #
 # The configuration parameters are described in the documentation, consult
-# `Manual -> CLI <https://emg3d.emsig.xyz/en/stable/cli.html>`_.
+# `Manual -> CLI <https://emg3d.emsig.xyz/en/stable/manual/cli.html>`_.
 #
 # Let's write a simple example file.
 with open(f"{data_path}emg3d.cfg", "w") as f:
