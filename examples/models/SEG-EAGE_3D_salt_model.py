@@ -209,9 +209,7 @@ cax, kw = plt.matplotlib.colorbar.make_axes(
 cb = plt.colorbar(cs, cax=cax, label=r"$\log_{10}$ Amplitude (V/m)", **kw)
 
 # Title
-fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", y=1, fontsize=16)
-
-plt.show()
+fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", y=1, fontsize=16);
 
 
 ###############################################################################

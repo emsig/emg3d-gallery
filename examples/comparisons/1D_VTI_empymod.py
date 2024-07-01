@@ -129,7 +129,7 @@ def plot(epm, e3d, title, vmin, vmax):
     a_kwargs = {'cmap': "viridis", 'vmin': vmin, 'vmax': vmax,
                 'shading': 'nearest'}
 
-    e_kwargs = {'cmap': plt.cm.get_cmap("RdBu_r", 8),
+    e_kwargs = {'cmap': plt.get_cmap("RdBu_r", 8),
                 'vmin': -2, 'vmax': 2, 'shading': 'nearest'}
 
     fig, axs = plt.subplots(2, 3, figsize=(10, 5.5), sharex=True, sharey=True,
@@ -180,8 +180,6 @@ def plot(epm, e3d, title, vmin, vmax):
     print(f"- Frequency: {frequency} Hz")
     rtype = "Electric" if "E" in title else "Magnetic"
     print(f"- {rtype} receivers: z={rz} m; θ={azimuth}°, φ={elevation}°")
-
-    fig.show()
 
 
 ###############################################################################

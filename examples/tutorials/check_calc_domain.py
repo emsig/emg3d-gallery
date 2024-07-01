@@ -140,7 +140,7 @@ emg_2 = efield_2.get_receiver(tuple(rec_coo))
 
 ###############################################################################
 
-plt.figure(figsize=(10, 7))
+plt.figure(figsize=(10, 7), constrained_layout=True)
 
 # Real, log-lin
 ax1 = plt.subplot(321)
@@ -207,10 +207,7 @@ plt.axhline(1, color='.4')
 
 plt.yscale('log')
 plt.ylim([0.008, 12])
-plt.xlabel('Offset (km)')
-
-plt.tight_layout()
-plt.show()
+plt.xlabel('Offset (km)');
 
 
 ###############################################################################

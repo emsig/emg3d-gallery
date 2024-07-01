@@ -226,7 +226,7 @@ err_egd = 100*abs((data_time-epm_time)/epm_time)
 # Plot it
 # ```````
 
-plt.figure(figsize=(9, 5))
+plt.figure(figsize=(9, 5), constrained_layout=True)
 
 # Frequency-domain, imaginary, log-log
 ax1 = plt.subplot2grid((4, 2), (0, 0), rowspan=3)
@@ -287,10 +287,7 @@ plt.ylim([8e-3, 120])
 plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
 ax4.yaxis.tick_right()
 ax4.yaxis.set_label_position("right")
-plt.grid(axis='y', c='0.9')
-
-plt.tight_layout()
-plt.show()
+plt.grid(axis='y', c='0.9');
 
 
 ###############################################################################

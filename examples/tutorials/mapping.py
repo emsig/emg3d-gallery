@@ -92,7 +92,8 @@ model_lg_con = emg3d.Model(
         grid, property_x=np.log10(1/res_x), mapping='LgConductivity')
 
 # Plot the models
-fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
+fig, axs = plt.subplots(
+        figsize=(9, 6), nrows=1, ncols=2, constrained_layout=True)
 
 # log10-res
 f0 = grid.plot_slice(model_lg_res.property_x, v_type='CC',
@@ -108,9 +109,7 @@ axs[1].set_title(r'Conductivity (S/m); $\log_{10}$-scale')
 axs[1].set_xlim([-1000, 8000])
 axs[1].set_ylim([-4000, -1500])
 
-plt.tight_layout()
-fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05)
-plt.show()
+fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05);
 
 ###############################################################################
 # Compute electric fields
@@ -134,7 +133,7 @@ rec_lg_con = efield_lg_con.get_receiver((*rec, 0, 0))
 # Compare the two results
 # -----------------------
 
-plt.figure()
+plt.figure(constrained_layout=True)
 plt.title('Comparison')
 
 # Log_10(resistivity)-model.
@@ -152,10 +151,7 @@ plt.plot(off/1e3, rec_lg_con.imag, 'C3-.',
 plt.xlabel('Offset (km)')
 plt.ylabel('$E_x$ (V/m)')
 plt.yscale('symlog', linthresh=1e-17)
-plt.legend()
-
-plt.tight_layout()
-plt.show()
+plt.legend();
 
 ###############################################################################
 

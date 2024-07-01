@@ -313,8 +313,7 @@ for i, src in enumerate(survey.sources.keys()):
 plt.yscale('log')
 plt.legend(ncol=2, framealpha=1)
 plt.xlabel('x-coordinate (m)')
-plt.ylabel('$|E_x|$ (V/m)')
-plt.show()
+plt.ylabel('$|E_x|$ (V/m)');
 
 
 ###############################################################################

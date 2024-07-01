@@ -170,8 +170,7 @@ ax.plot(offs, resp.amp(), 'C2', label='Amplitude')
 ax.set_xlabel('x (m)')
 ax.set_ylabel('Electric field (V/m)')
 ax.legend()
-ax.set_yscale('log')
-fig.show()
+ax.set_yscale('log');
 
 
 ###############################################################################
