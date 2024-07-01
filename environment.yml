@@ -2,6 +2,7 @@ name: emg3d-gallery
 
 channels:
   - conda-forge
+  - gimli
 
 dependencies:
   - "libblas=*=*mkl"
@@ -20,3 +21,4 @@ dependencies:
   - mkl-service
   - tqdm
   - memory_profiler
+  - pygimli
