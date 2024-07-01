@@ -6,7 +6,7 @@ channels:
 dependencies:
   - "libblas=*=*mkl"
   - emg3d>=1.8.3
-  - xarray
+  - xarray>2024.06
   - discretize
   - h5py
   - matplotlib

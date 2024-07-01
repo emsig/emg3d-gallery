@@ -111,6 +111,7 @@ html_context = {
     "github_repo": "emg3d-gallery",
     "github_version": "main",
     "doc_path": "docs",
+    "default_mode": "auto",
 }
 
 html_use_modindex = True

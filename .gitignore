@@ -1,5 +1,6 @@
 docs/gallery/*/
 examples/download/
+docs/sg_execution_times.rst
 
 _build/
 __pycache__/
