@@ -4,7 +4,7 @@
 
 This is a simple minimum working example to use the multigrid solver `emg3d`,
 along the lines of the one provided in the manual as `"Basic Example"
-<https://emg3d.emsig.xyz/en/stable/usage.html#basic-example>`_. To see some
+<https://emg3d.emsig.xyz/en/stable/manual/usage.html>`_. To see some
 more realistic computations have a look at the other examples in this gallery.
 In particularly at :ref:`sphx_glr_gallery_tutorials_simulation.py` to see how
 to use `emg3d` for a complex survey with many sources and frequencies.

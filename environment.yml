@@ -5,15 +5,14 @@ channels:
 
 dependencies:
   - "libblas=*=*mkl"
-  - empymod
-  - emg3d
+  - emg3d>=1.8.3
   - xarray
   - discretize
   - h5py
   - matplotlib
   - scooby
-  - sphinx
-  - sphinx-gallery
+  - sphinx>=7.3
+  - sphinx-gallery>=0.16
   - numpydoc
   - pooch
   - sphinx-design

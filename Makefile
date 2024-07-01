@@ -2,7 +2,6 @@ help:
 	@echo "Commands:"
 	@echo ""
 	@echo "  install        conda env create -f environment.yml"
-	@echo "  mamba          mamba env create -f environment.yml"
 	@echo "  flake8         style check with flake8"
 	@echo "  html           build docs (update existing)"
 	@echo "  html-noplot    as above, without gallery"
@@ -18,9 +17,6 @@ help:
 
 install:
 	conda env create -f environment.yml
-
-mamba:
-	mamba env create -f environment.yml
 
 remove:
 	conda remove --name emg3d-gallery --all

@@ -57,7 +57,7 @@ which is for a magnetic dipole. Changing it for a loop source adds a term
     \mathbf{\hat{H}} = -\mathrm{i}\omega\mu\mathbf{\hat{J}}^m_s ;
 
 see `Dipoles and Loops
-<https://empymod.emsig.xyz/en/stable/examples/educational/dipoles_and_loops.html>`_
+<https://empymod.emsig.xyz/en/stable/gallery/educational/dipoles_and_loops.html>`_
 for more information.
 
 ``emg3d`` is not ideal for the duality principle. Magnetic permeability is

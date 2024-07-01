@@ -77,16 +77,19 @@ data_path = os.path.join('..', 'download', '')
 isurvey = (
     'GemPy-II-survey-A.h5',
     '5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7',
+    'surveys',
 )
 imodel = (
     'GemPy-II.h5',
     'ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659',
+    'models',
 )
 
 # Download model and survey.
 for data in [isurvey, imodel]:
+    path = data[2]+'/'+data[0]
     pooch.retrieve(
-        'https://raw.github.com/emsig/data/2021-05-21/emg3d/surveys/'+data[0],
+        'https://raw.github.com/emsig/data/2021-05-21/emg3d/'+path,
         data[1], fname=data[0], path=data_path,
     )
 
