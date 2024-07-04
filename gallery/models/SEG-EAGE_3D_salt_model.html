@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>SEG-EAGE 3D Salt Model &#8212; emg3d-gallery 1.8.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=e38f4a5c" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=fe92956f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/models/SEG-EAGE_3D_salt_model';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="References" href="../../references.html" />
+    <link rel="prev" title="GemPy-II: Perth Basin" href="GemPy-II.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/emg3d-logo.svg" class="logo__image only-light" alt="emg3d-gallery 1.8.3 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/emg3d-logo.svg" class="logo__image only-dark" alt="emg3d-gallery 1.8.3 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/minimum_example.html">01. Minimum working example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mapping.html">02. Model property mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/simulation.html">03. Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/gradient.html">04. Gradient of the misfit function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/total_vs_ps_field.html">05. Total vs primary/secondary field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/parameter_tests.html">06. Parameter tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/cli.html">07. Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/check_calc_domain.html">08. Ensure computation domain is big enough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/timedomain.html">09. Transient CSEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/layered.html">10. Layered</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../comparisons/index.html">Comparisons</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod.html">1. empymod: 1D VTI resistivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/2D_triaxial_MARE2DEM.html">2. MARE2DEM: 2D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/3D_triaxial_SimPEG.html">3. SimPEG: 3D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/as_vs_fd_gradient.html">4. Adjoint-state vs. FD gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod_Laplace.html">5. empymod: 1D VTI Laplace-domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_field.html">6. Magnetic field due to an el. source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_el_loop.html">7. Magnetic source using an electric loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_duality.html">8. Magnetic source using duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_permeability.html">9. Magnetic permeability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Models</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="GemPy-I.html">GemPy-I: <em>Simple Fault Model</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="GemPy-II.html">GemPy-II: <em>Perth Basin</em></a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">SEG-EAGE 3D Salt Model</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Models</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">SEG-EAGE 3D...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-models-seg-eage-3d-salt-model-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="seg-eage-3d-salt-model">
+<span id="sphx-glr-gallery-models-seg-eage-3d-salt-model-py"></span><h1>SEG-EAGE 3D Salt Model<a class="headerlink" href="#seg-eage-3d-salt-model" title="Link to this heading">#</a></h1>
+<p><a class="reference internal" href="../../references.html#muld07" id="id1"><span>[Muld07]</span></a> presented electromagnetic responses for a resistivity model which he
+derived from the seismic velocities of the SEG/EAGE salt model <a class="reference internal" href="../../references.html#ambk97" id="id2"><span>[AmBK97]</span></a>.</p>
+<p>Here we reproduce and store this resistivity model, and compute electromagnetic
+responses for it.</p>
+<section id="velocity-to-resistivity-transform">
+<h2>Velocity-to-resistivity transform<a class="headerlink" href="#velocity-to-resistivity-transform" title="Link to this heading">#</a></h2>
+<p>Quoting here the description of the velocity-to-resistivity transform used by
+<a class="reference internal" href="../../references.html#muld07" id="id3"><span>[Muld07]</span></a>:</p>
+<blockquote>
+<div><p>«The SEG/EAGE salt model (Aminzadeh et al. 1997), originally designed for
+seismic simulations, served as a template for a realistic subsurface model.
+Its dimensions are 13500 by 13480 by 4680 m. The seismic velocities of the
+model were replaced by resistivity values. The water velocity of 1.5 km/s
+was replaced by a resistivity of 0.3 Ohm m. Velocities above 4 km/s,
+indicative of salt, were replaced by 30 Ohm m. Basement, beyond 3660 m
+depth, was set to 0.002 Ohm m. The resistivity of the sediments was
+determined by <span class="math notranslate nohighlight">\((v/1700)^{3.88}\)</span> Ohm m, with the velocity v in m/s
+(Meju et al. 2003). For air, the resistivity was set to <span class="math notranslate nohighlight">\(10^8\)</span> Ohm
+m.»</p>
+</div></blockquote>
+<p>Equation 1 of <a class="reference internal" href="../../references.html#megm03" id="id4"><span>[MeGM03]</span></a>, is given by</p>
+<div class="math notranslate nohighlight" id="equation-meju">
+<span class="eqno">(1)<a class="headerlink" href="#equation-meju" title="Link to this equation">#</a></span>\[\log_{10}\rho = m \log_{10}V_P + c \ ,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\rho\)</span> is resistivity, <span class="math notranslate nohighlight">\(V_P\)</span> is P-wave velocity, and for
+<span class="math notranslate nohighlight">\(m\)</span> and <span class="math notranslate nohighlight">\(c\)</span> 3.88 and -11 were used, respectively.</p>
+<p>The velocity-to-resistivity transform uses therefore a Faust model (<a class="reference internal" href="../../references.html#faus53" id="id5"><span>[Faus53]</span></a>)
+with some additional constraints for water, salt, and basement.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The SEG/EAGE Salt Model is licensed under the <a class="reference external" href="https://creativecommons.org/licenses/by/4.0">CC-BY-4.0</a>.</p>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;bmh&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Adjust this path to a folder of your choice.</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;download&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="fetch-the-model">
+<h2>Fetch the model<a class="headerlink" href="#fetch-the-model" title="Link to this heading">#</a></h2>
+<p>Retrieve and load the pre-computed resistivity model.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;SEG-EAGE-Salt-Model.h5&quot;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/models/&#39;</span><span class="o">+</span><span class="n">fname</span><span class="p">,</span>
+    <span class="s1">&#39;6ee10663de588d445332ba7cc1c0dc3d6f9c50d1965f797425cebc64f9c71de6&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span><span class="o">.</span><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/SEG-EAGE-Salt-Model.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T13:15:50.617756].
+</pre></div>
+</div>
+</section>
+<section id="qc-resistivity-model">
+<h2>QC resistivity model<a class="headerlink" href="#qc-resistivity-model" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Limit colour-range to [0.3, 50] Ohm.m</span>
+<span class="c1"># (affects only the basement and air, improves resolution in the sediments).</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">50</span>
+
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">fgrid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+        <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">fmodel</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span>
+        <span class="n">zslice</span><span class="o">=-</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_001.png" srcset="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_001.png" alt="SEG EAGE 3D salt model" class = "sphx-glr-single-img"/></section>
+<section id="compute-some-example-csem-data-with-it">
+<h2>Compute some example CSEM data with it<a class="headerlink" href="#compute-some-example-csem-data-with-it" title="Link to this heading">#</a></h2>
+<section id="survey-parameters">
+<h3>Survey parameters<a class="headerlink" href="#survey-parameters" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a source instance</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">source</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">TxElectricDipole</span></a><span class="p">(</span>
+        <span class="n">coordinates</span><span class="o">=</span><span class="p">[</span><span class="mi">6400</span><span class="p">,</span> <span class="mi">6600</span><span class="p">,</span> <span class="mi">6500</span><span class="p">,</span> <span class="mi">6500</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">],</span>
+        <span class="n">strength</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">200.</span>  <span class="c1"># Normalize for length.</span>
+<span class="p">)</span>
+
+<span class="c1"># Frequency (Hz)</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+</section>
+<section id="initialize-computation-mesh">
+<h3>Initialize computation mesh<a class="headerlink" href="#initialize-computation-mesh" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">construct_mesh</span><span class="p">(</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+    <span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mi">6500</span><span class="p">,</span> <span class="mi">6500</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">),</span>
+    <span class="n">seasurface</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13500</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13500</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="n">vector</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">])),</span>
+    <span class="n">min_width_limits</span><span class="o">=</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">20</span><span class="p">]),</span>
+    <span class="n">min_width_pps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">stretching</span><span class="o">=</span><span class="p">[</span><span class="mf">1.03</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">],</span>
+    <span class="n">lambda_from_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">center_on_edge</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table>
+  <tr>
+    <td style='font-weight: bold; font-size: 1.2em; text-align: center;' colspan='3'>TensorMesh</td>
+    <td style='font-size: 1.2em; text-align: center;'colspan='4'>2,097,152 cells</td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th colspan='2' style='padding: 5px 20px 5px 20px;'>MESH EXTENT</th>
+    <th colspan='2' style='padding: 5px 20px 5px 20px;'>CELL WIDTH</th>
+    <th style='padding: 5px 20px 5px 20px;'>FACTOR</th>
+  </tr>
+  <tr>
+    <th style='padding: 5px 20px 5px 20px;'>dir</th>
+    <th style='padding: 5px 20px 5px 20px;'>nC</th>
+    <th style='padding: 5px 20px 5px 20px;'>min</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+    <th style='padding: 5px 20px 5px 20px;'>min</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>x</td>
+    <td style='padding: 5px 20px 5px 20px;'>128</td>
+    <td style='padding: 5px 20px 5px 20px;'>-71.48</td>
+    <td style='padding: 5px 20px 5px 20px;'>13,830.69</td>
+    <td style='padding: 5px 20px 5px 20px;'>55.13</td>
+    <td style='padding: 5px 20px 5px 20px;'>195.38</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.02</td>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>y</td>
+    <td style='padding: 5px 20px 5px 20px;'>128</td>
+    <td style='padding: 5px 20px 5px 20px;'>-71.48</td>
+    <td style='padding: 5px 20px 5px 20px;'>13,830.69</td>
+    <td style='padding: 5px 20px 5px 20px;'>55.13</td>
+    <td style='padding: 5px 20px 5px 20px;'>195.38</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.02</td>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>z</td>
+    <td style='padding: 5px 20px 5px 20px;'>128</td>
+    <td style='padding: 5px 20px 5px 20px;'>-4,579.62</td>
+    <td style='padding: 5px 20px 5px 20px;'>12,968.70</td>
+    <td style='padding: 5px 20px 5px 20px;'>20.00</td>
+    <td style='padding: 5px 20px 5px 20px;'>625.54</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.05</td>
+  </tr>
+</table>
+
+</div>
+<br />
+<br /></section>
+<section id="put-the-salt-model-onto-the-modelling-mesh">
+<h3>Put the salt model onto the modelling mesh<a class="headerlink" href="#put-the-salt-model-onto-the-modelling-mesh" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate full model from full grid to grid</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.interpolate_to_grid" title="emg3d.models.Model.interpolate_to_grid" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">fmodel</span><span class="o">.</span><span class="n">interpolate_to_grid</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="p">)</span>
+
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+        <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span>
+        <span class="n">zslice</span><span class="o">=-</span><span class="mi">2000</span><span class="p">,</span>
+        <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">4180</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+        <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">)}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_002.png" srcset="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_002.png" alt="SEG EAGE 3D salt model" class = "sphx-glr-single-img"/></section>
+<section id="solve-the-system">
+<h3>Solve the system<a class="headerlink" href="#solve-the-system" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field" title="emg3d.fields.Field" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">efield</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">solve_source</span><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">,</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">source</span></a><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span>
+    <span class="n">semicoarsening</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">linerelaxation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">verb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>:: emg3d :: 4.8e-07; 5(10); 0:00:48; CONVERGED
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field.fx" title="emg3d.fields.Field.fx" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-attribute"><span class="n">efield</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span>
+    <span class="n">zslice</span><span class="o">=-</span><span class="mi">2000</span><span class="p">,</span>
+    <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">4180</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span>
+    <span class="n">view</span><span class="o">=</span><span class="s1">&#39;abs&#39;</span><span class="p">,</span>
+    <span class="n">v_type</span><span class="o">=</span><span class="s1">&#39;Ex&#39;</span><span class="p">,</span>
+    <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">1e-16</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_003.png" srcset="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_003.png" alt="SEG EAGE 3D salt model" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate for a &quot;more detailed&quot; image</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a> <span class="o">=</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.cell_centers_x.html#discretize.TensorMesh.cell_centers_x" title="discretize.TensorMesh.cell_centers_x" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-property"><span class="n">grid</span><span class="o">.</span><span class="n">cell_centers_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">y</span></a> <span class="o">=</span> <a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.cell_centers_y.html#discretize.TensorMesh.cell_centers_y" title="discretize.TensorMesh.cell_centers_y" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-property"><span class="n">grid</span><span class="o">.</span><span class="n">cell_centers_y</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.repeat.html#numpy.repeat" title="numpy.repeat" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">repeat</span></a><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.size.html#numpy.size" title="numpy.size" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">size</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ry</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<span class="n">rz</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2000</span>
+<a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field.get_receiver" title="emg3d.fields.Field.get_receiver" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-method"><span class="n">efield</span><span class="o">.</span><span class="n">get_receiver</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ry</span></a><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># Colour limits</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="o">-</span><span class="mi">16</span><span class="p">,</span> <span class="o">-</span><span class="mf">10.5</span>
+
+<span class="c1"># Create a figure</span>
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">titles</span> <span class="o">=</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;|Real|&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;|Imaginary|&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">log10abs</span><span class="p">(</span><span class="n">inp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log10 of absolute values, avoiding zero-division.&quot;&quot;&quot;</span>
+    <span class="n">tiny</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.finfo.html#numpy.finfo" title="numpy.finfo" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class"><span class="n">np</span><span class="o">.</span><span class="n">finfo</span></a><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span>
+    <span class="k">return</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.where.html#numpy.where" title="numpy.where" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">where</span></a><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tiny</span><span class="p">,</span> <span class="n">tiny</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">inp</span><span class="p">)))</span>
+
+
+<span class="n">dat</span> <span class="o">=</span> <span class="p">[</span><span class="n">log10abs</span><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span><span class="o">.</span><span class="n">real</span></a><span class="p">),</span> <span class="n">log10abs</span><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">data</span><span class="o">.</span><span class="n">imag</span></a><span class="p">)]</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">titles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vmin</span><span class="o">=</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span>
+                       <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Inline Offset (km)&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Crossline Offset (km)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot colorbar</span>
+<span class="n">cb</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">],</span> <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;horizontal&#39;</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">cb</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="s2">&quot;log10 Amplitude (V/m)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Title</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SEG/EAGE Salt Model, depth = </span><span class="si">{</span><span class="n">rz</span><span class="o">/</span><span class="mf">1e3</span><span class="si">}</span><span class="s2"> km.&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_004.png" srcset="../../_images/sphx_glr_SEG-EAGE_3D_salt_model_004.png" alt="SEG/EAGE Salt Model, depth = -2.0 km., |Real|, |Imaginary|" class = "sphx-glr-single-img"/></section>
+</section>
+<section id="qc-resistivity-model-with-pyvista">
+<h2>QC resistivity model with PyVista<a class="headerlink" href="#qc-resistivity-model-with-pyvista" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following cell is about how to plot the model in 3D using PyVista,
+for which you have to install <code class="docutils literal notranslate"><span class="pre">pyvista</span></code>.</p>
+<p>The code example was created on 2021-05-21 with <code class="docutils literal notranslate"><span class="pre">pyvista=0.30.1</span></code>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyvista</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">to_vtk</span><span class="p">({</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">fmodel</span><span class="o">.</span><span class="n">property_x</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">))})</span>
+
+<span class="c1"># Create the rendering scene and add a grid axes</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyvista</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show_grid</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+
+<span class="n">dparams</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rng&#39;</span><span class="p">:</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">([</span><span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span><span class="p">]),</span> <span class="s1">&#39;show_edges&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="c1"># Add spatially referenced data to the scene</span>
+<span class="n">xyz</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="mi">6000</span><span class="p">,</span> <span class="o">-</span><span class="mi">3200</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">xyz</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x-slice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">xyz</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;y-slice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">xyz</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;z-slice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+
+<span class="c1"># Get the salt body</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">threshold</span><span class="p">([</span><span class="mf">1.47</span><span class="p">,</span> <span class="mf">1.48</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;vol&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+
+<span class="c1"># Show the scene!</span>
+<span class="n">p</span><span class="o">.</span><span class="n">camera_position</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">27000</span><span class="p">,</span> <span class="mi">37000</span><span class="p">,</span> <span class="mi">5800</span><span class="p">),</span> <span class="p">(</span><span class="mi">6600</span><span class="p">,</span> <span class="mi">6600</span><span class="p">,</span> <span class="o">-</span><span class="mi">3300</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-center" id="salt-model">
+<a class="reference internal image-reference" href="../../_images/SEG-EAGE_3D_salt_model.png"><img alt="SEG-EAGE 3D salt model with PyVista" src="../../_images/SEG-EAGE_3D_salt_model.png" style="width: 675.84px; height: 506.88px;" /></a>
+</figure>
+</section>
+<section id="reproduce-the-resistivity-model">
+<h2>Reproduce the resistivity model<a class="headerlink" href="#reproduce-the-resistivity-model" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last cell as about how to reproduce the resistivity model. For this
+you have to download the SEG/EAGE salt model, as explained further down.</p>
+<p>The code example and the <code class="docutils literal notranslate"><span class="pre">SEG-EAGE-Salt-Model.h5</span></code>-file used in the
+gallery were created on 2021-05-21.</p>
+</div>
+<p>To reduce runtime and dependencies of the gallery build we use a pre-computed
+resistivity model, which was generated with the code provided below.</p>
+<p>In order to reproduce it yourself you have to download the data from the
+<a class="reference external" href="https://wiki.seg.org/wiki/SEG/EAGE_Salt_and_Overthrust_Models">SEG-website</a> or via this
+<a class="reference external" href="https://s3.amazonaws.com/open.source.geoscience/open_data/seg_eage_models_cd/Salt_Model_3D.tar.gz">direct link</a>.
+The zip-file is 513.1 MB big. Unzip the archive, and place the file
+<code class="docutils literal notranslate"><span class="pre">Salt_Model_3D/3-D_Salt_Model/VEL_GRIDS/SALTF.ZIP</span></code> (20.0 MB) in the same
+directory as the notebook.</p>
+<p>The following cell loads takes this <code class="docutils literal notranslate"><span class="pre">SALTF.ZIP</span></code>, carries out the
+velocity-to-resistivity transform, and stores the resistivity model for later
+use.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">zipfile</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Dimension of seismic velocities</span>
+<span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span> <span class="o">=</span> <span class="mi">676</span><span class="p">,</span> <span class="mi">676</span><span class="p">,</span> <span class="mi">210</span>
+
+<span class="c1"># Create a discretize-mesh of the correct dimension</span>
+<span class="c1"># (nz: +1, for air)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">TensorMesh</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nx</span><span class="p">)</span><span class="o">*</span><span class="mf">20.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ny</span><span class="p">)</span><span class="o">*</span><span class="mf">20.</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nz</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mf">20.</span><span class="p">],</span>
+    <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">210</span><span class="o">*</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">shape_cells</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+
+<span class="c1"># Load data</span>
+<span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s1">&#39;SALTF.ZIP&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s1">&#39;Saltf@@&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;Saltf@@&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">newbyteorder</span><span class="p">(</span><span class="s1">&#39;&gt;&#39;</span><span class="p">))</span>
+    <span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">nx</span><span class="p">,</span> <span class="n">ny</span><span class="p">,</span> <span class="n">nz</span><span class="p">),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+
+<span class="c1"># Velocity to resistivity transform for whole cube</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">res</span><span class="o">/</span><span class="mi">1700</span><span class="p">)</span><span class="o">**</span><span class="mf">3.88</span>  <span class="c1"># Sediment resistivity = 1</span>
+
+<span class="c1"># Overwrite basement resistivity from 3660 m onwards</span>
+<span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">shape_cells</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">*</span><span class="mi">20</span> <span class="o">&gt;</span> <span class="mi">3680</span><span class="p">]</span> <span class="o">=</span> <span class="mf">500.</span>
+
+<span class="c1"># Set sea-water to 0.3</span>
+<span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">16</span><span class="p">][</span><span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1500</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="c1"># Ensure at least top layer is water</span>
+<span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>
+
+<span class="c1"># Fix salt resistivity</span>
+<span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">==</span> <span class="mi">4482</span><span class="p">]</span> <span class="o">=</span> <span class="mf">30.</span>
+
+<span class="c1"># Set air resistivity</span>
+<span class="n">res</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e8</span>
+
+<span class="c1"># THE SEG/EAGE salt-model uses positive z downwards; discretize positive</span>
+<span class="c1"># upwards. Hence for res, we use np.flip(res, 2) to flip the z-direction</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Create the resistivity model</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="p">,</span> <span class="n">property_x</span><span class="o">=</span><span class="n">res</span><span class="p">)</span>
+
+<span class="c1"># Store the resistivity model</span>
+<span class="n">emg3d</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;SEG-EAGE-Salt-Model.h5&quot;</span><span class="p">,</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 1.5px solid;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 1px solid;' colspan='6'>Thu Jul 04 15:42:23 2024 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>OS</td>
+    <td style='text-align: left; border: 1px solid;'>Linux (Ubuntu 22.04)</td>
+    <td style='text-align: right; border: 1px solid;'>CPU(s)</td>
+    <td style='text-align: left; border: 1px solid;'>16</td>
+    <td style='text-align: right; border: 1px solid;'>Machine</td>
+    <td style='text-align: left; border: 1px solid;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>Architecture</td>
+    <td style='text-align: left; border: 1px solid;'>64bit</td>
+    <td style='text-align: right; border: 1px solid;'>RAM</td>
+    <td style='text-align: left; border: 1px solid;'>31.0 GiB</td>
+    <td style='text-align: right; border: 1px solid;'>Environment</td>
+    <td style='text-align: left; border: 1px solid;'>Python</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>File system</td>
+    <td style='text-align: left; border: 1px solid;'>ext4</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>numpy</td>
+    <td style='text-align: left; border: 1px solid;'>1.26.4</td>
+    <td style='text-align: right; border: 1px solid;'>scipy</td>
+    <td style='text-align: left; border: 1px solid;'>1.14.0</td>
+    <td style='text-align: right; border: 1px solid;'>numba</td>
+    <td style='text-align: left; border: 1px solid;'>0.60.0</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>emg3d</td>
+    <td style='text-align: left; border: 1px solid;'>1.8.3</td>
+    <td style='text-align: right; border: 1px solid;'>empymod</td>
+    <td style='text-align: left; border: 1px solid;'>2.3.1</td>
+    <td style='text-align: right; border: 1px solid;'>xarray</td>
+    <td style='text-align: left; border: 1px solid;'>2024.6.1.dev31+g6c2d8c33</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>discretize</td>
+    <td style='text-align: left; border: 1px solid;'>0.10.0</td>
+    <td style='text-align: right; border: 1px solid;'>h5py</td>
+    <td style='text-align: left; border: 1px solid;'>3.11.0</td>
+    <td style='text-align: right; border: 1px solid;'>matplotlib</td>
+    <td style='text-align: left; border: 1px solid;'>3.8.4</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>tqdm</td>
+    <td style='text-align: left; border: 1px solid;'>4.66.4</td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2023.2-Product Build 20230613 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 53.631 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  2873 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-models-seg-eage-3d-salt-model-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/151466f4b33e46ecfebee6c95782ddca/SEG-EAGE_3D_salt_model.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">SEG-EAGE_3D_salt_model.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/75596beb0ef5d7c58684118bea1a1d3e/SEG-EAGE_3D_salt_model.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">SEG-EAGE_3D_salt_model.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="GemPy-II.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">GemPy-II: <em>Perth Basin</em></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../references.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">References</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#velocity-to-resistivity-transform">Velocity-to-resistivity transform</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fetch-the-model">Fetch the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-resistivity-model">QC resistivity model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-some-example-csem-data-with-it">Compute some example CSEM data with it</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#survey-parameters">Survey parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#initialize-computation-mesh">Initialize computation mesh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#put-the-salt-model-onto-the-modelling-mesh">Put the salt model onto the modelling mesh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-system">Solve the system</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-resistivity-model-with-pyvista">QC resistivity model with PyVista</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-resistivity-model">Reproduce the resistivity model</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/gallery/models/SEG-EAGE_3D_salt_model.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018-2024, The emsig community.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>10. Layered &#8212; emg3d-gallery 1.8.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=e38f4a5c" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=fe92956f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/tutorials/layered';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Comparisons" href="../comparisons/index.html" />
+    <link rel="prev" title="09. Transient CSEM" href="timedomain.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/emg3d-logo.svg" class="logo__image only-light" alt="emg3d-gallery 1.8.3 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/emg3d-logo.svg" class="logo__image only-dark" alt="emg3d-gallery 1.8.3 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="minimum_example.html">01. Minimum working example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping.html">02. Model property mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">03. Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gradient.html">04. Gradient of the misfit function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="total_vs_ps_field.html">05. Total vs primary/secondary field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_tests.html">06. Parameter tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html">07. Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="check_calc_domain.html">08. Ensure computation domain is big enough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timedomain.html">09. Transient CSEM</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">10. Layered</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../comparisons/index.html">Comparisons</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod.html">1. empymod: 1D VTI resistivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/2D_triaxial_MARE2DEM.html">2. MARE2DEM: 2D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/3D_triaxial_SimPEG.html">3. SimPEG: 3D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/as_vs_fd_gradient.html">4. Adjoint-state vs. FD gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod_Laplace.html">5. empymod: 1D VTI Laplace-domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_field.html">6. Magnetic field due to an el. source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_el_loop.html">7. Magnetic source using an electric loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_duality.html">8. Magnetic source using duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_permeability.html">9. Magnetic permeability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../models/index.html">Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-I.html">GemPy-I: <em>Simple Fault Model</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-II.html">GemPy-II: <em>Perth Basin</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/SEG-EAGE_3D_salt_model.html">SEG-EAGE 3D Salt Model</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">10. Layered</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-tutorials-layered-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="layered">
+<span id="sphx-glr-gallery-tutorials-layered-py"></span><h1>10. Layered<a class="headerlink" href="#layered" title="Link to this heading">#</a></h1>
+<p>Since <code class="docutils literal notranslate"><span class="pre">v1.8.0</span></code> there exists the possibility to use locally approximated,
+layered models together with <code class="docutils literal notranslate"><span class="pre">empymod</span></code> to compute responses and the gradient
+instead of the 3D model with <code class="docutils literal notranslate"><span class="pre">emg3d</span></code>.</p>
+<p>Here we look at this possibility by reproducing the example
+<a class="reference internal" href="gradient.html#sphx-glr-gallery-tutorials-gradient-py"><span class="std std-ref">04. Gradient of the misfit function</span></a>. (Please note, however, that the
+layered option does not only work for the gradient, but also for pure forward
+modelling.)</p>
+<p>For this example we use the resistivity model created in the example
+<a class="reference internal" href="../models/GemPy-II.html#sphx-glr-gallery-models-gempy-ii-py"><span class="std std-ref">GemPy-II: Perth Basin</span></a>, together with the survey created in
+<a class="reference internal" href="simulation.html#sphx-glr-gallery-tutorials-simulation-py"><span class="std std-ref">03. Simulation</span></a>.</p>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Link to this heading">#</a></h2>
+<p>The limitations of the layered modelling are:</p>
+<ul class="simple">
+<li><p>Only point and dipole sources.</p></li>
+<li><p>Only isotropic and VTI models.</p></li>
+</ul>
+<p>Also, using the layered modelling has a few other implications, e.g.:</p>
+<ul class="simple">
+<li><p>There are no {e;h}fields, only the fields at receiver locations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gridding</span></code>, most of <code class="docutils literal notranslate"><span class="pre">gridding_opts</span></code>, <code class="docutils literal notranslate"><span class="pre">solver_opts</span></code>,
+<code class="docutils literal notranslate"><span class="pre">receiver_interpolation</span></code>, and <code class="docutils literal notranslate"><span class="pre">file_dir</span></code> have no effect.</p></li>
+<li><p>The attribute <a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.jvec" title="(in emg3d v1.8.3)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">emg3d.simulations.Simulation.jvec</span></code></a> is not implemented.</p></li>
+</ul>
+</section>
+<section id="some-considerations-about-speed">
+<h2>Some considerations about speed<a class="headerlink" href="#some-considerations-about-speed" title="Link to this heading">#</a></h2>
+<p>If you are concerned about speed take into account that using layered
+computations changes the things one has to consider.</p>
+<ul class="simple">
+<li><p>“Regular” 3D:</p>
+<ul>
+<li><p>Linear with number of source-frequency pairs; parallelized over it.</p></li>
+<li><p>Depends on gridding options; linear in number of cells.</p></li>
+<li><p>Extra receivers at almost no extra cost.</p></li>
+</ul>
+</li>
+<li><p>“Layered” 1D:</p>
+<ul>
+<li><p>Linear with number of source-receiver pairs; parallelized over sources;
+serial over receivers.</p></li>
+<li><p>Only for the gradient: depends linearly on the number of layers in the
+provided model.</p></li>
+<li><p>Extra frequencies at little extra cost.</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span><span class="p">,</span> <span class="n">SymLogNorm</span>
+
+<span class="c1"># Adjust this path to a folder of your choice.</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;download&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="load-survey-data-and-model">
+<h2>Load survey, data, and model<a class="headerlink" href="#load-survey-data-and-model" title="Link to this heading">#</a></h2>
+<p>First we load the model, survey, and accompanying data as obtained in the
+examples <a class="reference internal" href="../models/GemPy-II.html#sphx-glr-gallery-models-gempy-ii-py"><span class="std std-ref">GemPy-II: Perth Basin</span></a> and
+<a class="reference internal" href="simulation.html#sphx-glr-gallery-tutorials-simulation-py"><span class="std std-ref">03. Simulation</span></a> (check these examples for
+more information).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">isurvey</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;GemPy-II-survey-A.h5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;surveys&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">imodel</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s1">&#39;GemPy-II.h5&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;models&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Download model and survey.</span>
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="p">[</span><span class="n">isurvey</span><span class="p">,</span> <span class="n">imodel</span><span class="p">]:</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;/&#39;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+        <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/&#39;</span><span class="o">+</span><span class="n">path</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fname</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="c1"># Load them.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">isurvey</span><span class="p">[</span><span class="mi">0</span><span class="p">]))[</span><span class="s1">&#39;survey&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">true_model</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">imodel</span><span class="p">[</span><span class="mi">0</span><span class="p">]))[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">true_model</span><span class="o">.</span><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/GemPy-II-survey-A.h5»
+[emg3d v0.17.1.dev22+ge23c468 (format 1.0) on 2021-04-14T22:24:03.229285].
+Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/GemPy-II.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T18:40:16.721968].
+</pre></div>
+</div>
+</section>
+<section id="create-an-initial-model">
+<h2>Create an initial model<a class="headerlink" href="#create-an-initial-model" title="Link to this heading">#</a></h2>
+<p>To create an initial model we take the true model, but set all subsurface
+resistivities to 1 Ohm.m. So we are left with a homogeneous three-layer model
+air-seawater-subsurface, which includes the topography of the seafloor.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overwrite all subsurface resistivity values with 1.0</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.copy" title="emg3d.models.Model.copy" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">true_model</span><span class="o">.</span><span class="n">copy</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a>
+
+<span class="c1"># QC the initial model and the survey.</span>
+<span class="n">popts</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">200</span><span class="p">)}</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span> <span class="n">xslice</span><span class="o">=</span><span class="mi">12000</span><span class="p">,</span> <span class="n">yslice</span><span class="o">=</span><span class="mi">7500</span><span class="p">,</span> <span class="n">pcolor_opts</span><span class="o">=</span><span class="n">popts</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot survey in figure above</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Initial resistivity model (Ohm.m)&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.receiver_coordinates" title="emg3d.surveys.Survey.receiver_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">receiver_coordinates</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.source_coordinates" title="emg3d.surveys.Survey.source_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">source_coordinates</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_layered_001.png" srcset="../../_images/sphx_glr_layered_001.png" alt="Initial resistivity model (Ohm.m)" class = "sphx-glr-single-img"/></section>
+<section id="options-for-layered-computation">
+<h2>Options for layered computation<a class="headerlink" href="#options-for-layered-computation" title="Link to this heading">#</a></h2>
+<p>If <code class="docutils literal notranslate"><span class="pre">layered=True</span></code>, one can provide a <code class="docutils literal notranslate"><span class="pre">layered_opts</span></code>-dict to a simulation.
+For more information about this see towards the end of this example. The
+simulation uses some defaults values, if they are not provided. By default a
+local 1D model is generated by creating a right elliptic cylinder around
+source and receiver position, and average the values for each layer within
+this cylinder.</p>
+<p>You can read more about the local extraction and the ellipse options in the
+functions <a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.extract_1d" title="(in emg3d v1.8.3)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">emg3d.models.Model.extract_1d</span></code></a> and
+<a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.maps.ellipse_indices.html#emg3d.maps.ellipse_indices" title="(in emg3d v1.8.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">emg3d.maps.ellipse_indices()</span></code></a>.</p>
+<p>Note that using layered computations means that we do not have to provide any
+gridding options, as there is no gridding happening.</p>
+</section>
+<section id="create-the-simulation">
+<h2>Create the Simulation<a class="headerlink" href="#create-the-simulation" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">simulations</span><span class="o">.</span><span class="n">Simulation</span></a><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Initial Model&quot;</span><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">,</span>
+    <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">layered</span></a><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># Set layered to True!</span>
+    <span class="c1"># layered_opts=...,      # Parameters for the local 1D extractions.</span>
+<span class="p">)</span>
+
+<span class="c1"># Let&#39;s QC our Simulation instance</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<h3>Simulation «Initial Model»</h3><ul>  <li>Survey «GemPy-II Survey A»:    3 sources;    45 receivers;    2 frequencies</li>  <li>Model: resistivity; isotropic; 100 x 100 x 102 (1,020,000)</li>  <li>Gridding: layered computation using method 'cylinder'; radius: 711.76; factor: 1.20; minor: 0.80</li></ul>
+</div>
+<br />
+<br /><p>The simulation indicates that it uses layered computations with the method
+<code class="docutils literal notranslate"><span class="pre">'cylinder'</span></code> and certain ellipse-parameters.</p>
+</section>
+<section id="compute-gradient">
+<h2>Compute Gradient<a class="headerlink" href="#compute-gradient" title="Link to this heading">#</a></h2>
+<p>Let’s compute the gradient (with <code class="docutils literal notranslate"><span class="pre">layered=True</span></code>!).</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.gradient" title="emg3d.simulations.Simulation.gradient" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-attribute"><span class="n">simulation</span><span class="o">.</span><span class="n">gradient</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute empymod            0/3  [00:00]
+Compute empymod ███▎       1/3  [00:00]
+Compute empymod ██████▋    2/3  [00:00]
+Compute empymod ██████████ 3/3  [00:00]
+
+Compute empymod            0/3  [00:00]
+Compute empymod ███▎       1/3  [00:08]
+Compute empymod ██████▋    2/3  [00:12]
+Compute empymod ██████████ 3/3  [00:12]
+</pre></div>
+</div>
+<section id="qc-gradient">
+<h3>QC Gradient<a class="headerlink" href="#qc-gradient" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the gradient of air and water to NaN.</span>
+<span class="c1"># This will eventually move directly into emgd3 (active and inactive cells).</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a><span class="p">[</span><span class="o">~</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">nan</span></a>
+
+
+<span class="c1"># Plot the gradient</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span> <span class="n">xslice</span><span class="o">=</span><span class="mi">12000</span><span class="p">,</span> <span class="n">yslice</span><span class="o">=</span><span class="mi">7500</span><span class="p">,</span> <span class="n">zslice</span><span class="o">=-</span><span class="mi">4000</span><span class="p">,</span>
+    <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">SymLogNorm</span><span class="p">(</span><span class="n">linthresh</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1e1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">1e1</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="c1"># Add survey</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Gradient of the misfit function&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_layered_002.png" srcset="../../_images/sphx_glr_layered_002.png" alt="Gradient of the misfit function" class = "sphx-glr-single-img"/><p>Even though we use layered (1D) models, the gradient looks three dimensional.
+This is because each source-receiver pair has its own cylinder, from which
+it generates a 1D model. The resulting gradient is then projected back to the
+same cylinder. This yields, summing up all source-receiver pairs, a
+three-dimensional gradient.</p>
+<p>Note that this gradient is obtained using the finite-difference method, by
+perturbing each layer by a tiny bit. This is in contrast to the gradient
+obtained with <code class="docutils literal notranslate"><span class="pre">emg3d</span></code>, where the adjoint-state method is used.</p>
+<p>Compare this gradient to the adjoint-state gradient, obtained by true 3D
+computations, in example <a class="reference internal" href="gradient.html#sphx-glr-gallery-tutorials-gradient-py"><span class="std std-ref">04. Gradient of the misfit function</span></a>.</p>
+</section>
+</section>
+<section id="a-few-words-about-the-1d-model-extraction">
+<h2>A few words about the 1D model extraction<a class="headerlink" href="#a-few-words-about-the-1d-model-extraction" title="Link to this heading">#</a></h2>
+<p>There are five possible methods: cylinder, prism, midpoint, source, and
+receiver. However, in reality they reduce to really two different
+possibility:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">'midpoint'</span></code>: If midpoint is chosen, the selected 1D model is simply the
+column midway between the two provided points, usually source and receiver.
+<code class="docutils literal notranslate"><span class="pre">'source'</span></code> and <code class="docutils literal notranslate"><span class="pre">'receiver'</span></code> only differ in that both points are set to
+source or receiver, respectively, meaning that the column at source or
+receiver location is selected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">'cylinder'</span></code>: If cylinder is chosen, a right elliptic cylinder around the
+two points is selected. How the ellipse is selected depends on a few other
+parameters, see functions <a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.extract_1d" title="(in emg3d v1.8.3)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">emg3d.models.Model.extract_1d</span></code></a> and
+<a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.maps.ellipse_indices.html#emg3d.maps.ellipse_indices" title="(in emg3d v1.8.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">emg3d.maps.ellipse_indices()</span></code></a>. The only difference for <code class="docutils literal notranslate"><span class="pre">'prism'</span></code> is
+that it uses the rectangular, coordinate-system aligned envelope of the
+ellipse.</p></li>
+</ul>
+<p>The default values are: <code class="docutils literal notranslate"><span class="pre">method='cylinder'</span></code>. The corresponding default
+values of the ellipse-options are <code class="docutils literal notranslate"><span class="pre">factor=1.2</span></code>, <code class="docutils literal notranslate"><span class="pre">minor=0.8</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">radius</span></code> is set to one skin depth using the lowest frequency and the
+lowest conductivity value in the lowest layer in vertical direction.</p>
+<p>Let’s look at the default value the simulation has chosen in this case:</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">lopts</span> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation</span></a><span class="o">.</span><span class="n">layered_opts</span>
+<span class="n">lopts</span>
+</pre></div>
+</div>
+<p>So we see that it chose the default method <code class="docutils literal notranslate"><span class="pre">'cylinder'</span></code>, the default values
+<code class="docutils literal notranslate"><span class="pre">factor=1.2</span></code> and <code class="docutils literal notranslate"><span class="pre">minor=0.8</span></code>, and the <code class="docutils literal notranslate"><span class="pre">radius</span></code> is set to roughly 712 m.</p>
+<p>We select now one source and one receiver, to QC how the selected cylinder
+looks like.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.sources" title="emg3d.surveys.Survey.sources" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-attribute"><span class="n">survey</span><span class="o">.</span><span class="n">sources</span></a><span class="p">[</span><span class="s1">&#39;TxED-1&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.RxElectricPoint.html#emg3d.electrodes.RxElectricPoint" title="emg3d.electrodes.RxElectricPoint" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.receivers" title="emg3d.surveys.Survey.receivers" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-attribute"><span class="n">survey</span><span class="o">.</span><span class="n">receivers</span></a><span class="p">[</span><span class="s1">&#39;RxEP-30&#39;</span><span class="p">]</span>
+
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">layered</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imat</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.extract_1d" title="emg3d.models.Model.extract_1d" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">true_model</span><span class="o">.</span><span class="n">extract_1d</span></a><span class="p">(</span>
+    <span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;ellipse&#39;</span><span class="p">],</span>
+    <span class="n">return_imat</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">values</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">true_model</span><span class="o">.</span><span class="n">property_x</span><span class="o">.</span><span class="n">copy</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">values</span></a><span class="p">[</span><span class="o">~</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">imat</span></a><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">),</span> <span class="p">:]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">nan</span></a>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">xy</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">values</span></a><span class="p">,</span> <span class="n">xslice</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">xy</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">yslice</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">xy</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">zslice</span><span class="o">=-</span><span class="mi">4000</span><span class="p">,</span> <span class="n">pcolor_opts</span><span class="o">=</span><span class="n">popts</span>
+<span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Right elliptic cylinder for this source and receiver location&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_layered_003.png" srcset="../../_images/sphx_glr_layered_003.png" alt="Right elliptic cylinder for this source and receiver location" class = "sphx-glr-single-img"/><p>We can compare the five different methods, and see what 1D models they
+extract from the 3D model.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pdepth</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.repeat.html#numpy.repeat" title="numpy.repeat" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">repeat</span></a><span class="p">(</span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.nodes_z.html#discretize.TensorMesh.nodes_z" title="discretize.TensorMesh.nodes_z" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-property"><span class="n">true_model</span><span class="o">.</span><span class="n">grid</span><span class="o">.</span><span class="n">nodes_z</span></a><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="n">ellipse</span> <span class="o">=</span> <span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;ellipse&#39;</span><span class="p">]</span>
+<span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">,</span> <span class="s1">&#39;receiver&#39;</span><span class="p">,</span> <span class="s1">&#39;midpoint&#39;</span><span class="p">,</span> <span class="s1">&#39;cylinder&#39;</span><span class="p">,</span> <span class="s1">&#39;prism&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">methods</span><span class="p">):</span>
+
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;source&#39;</span><span class="p">:</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a>
+        <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;midpoint&#39;</span>
+    <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;receiver&#39;</span><span class="p">:</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a>
+        <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;midpoint&#39;</span>
+
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">oned</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.extract_1d" title="emg3d.models.Model.extract_1d" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">true_model</span><span class="o">.</span><span class="n">extract_1d</span></a><span class="p">(</span><span class="n">method</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="p">,</span> <span class="n">ellipse</span><span class="p">)</span>
+
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.repeat.html#numpy.repeat" title="numpy.repeat" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">repeat</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">oned</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">pdepth</span></a><span class="p">)</span>
+
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">60</span><span class="p">])</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_layered_004.png" srcset="../../_images/sphx_glr_layered_004.png" alt="source, receiver, midpoint, cylinder, prism" class = "sphx-glr-single-img"/></section>
+<section id="ellipse">
+<h2>Ellipse<a class="headerlink" href="#ellipse" title="Link to this heading">#</a></h2>
+<p>As mentioned before, the ellipse is selected using the function
+<a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.maps.ellipse_indices.html#emg3d.maps.ellipse_indices" title="(in emg3d v1.8.3)"><code class="xref py py-func docutils literal notranslate"><span class="pre">emg3d.maps.ellipse_indices()</span></code></a>. The documentation of that function
+contains a lot of useful information about it. However, here is a function
+that illustrates the ellipse with all its parameters.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_ellipse</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">minor</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">check_foci</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot annotated explanation of emg3d.maps.ellipse_ind().&quot;&quot;&quot;</span>
+
+    <span class="c1"># Cast input points to numpy arrays.</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array" title="numpy.array" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">array</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="p">)</span>
+
+    <span class="c1"># Center coordinates</span>
+    <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a> <span class="o">+</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Adjacent and opposite sides</span>
+    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a> <span class="o">-</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># c: linear eccentricity</span>
+    <span class="n">dxy</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linalg.norm.html#numpy.linalg.norm" title="numpy.linalg.norm" class="sphx-glr-backref-module-numpy-linalg sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span></a><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">])</span>
+
+    <span class="c1"># a: semi-major axis</span>
+    <span class="n">major</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dxy</span> <span class="o">*</span> <span class="n">factor</span><span class="p">,</span> <span class="n">dxy</span> <span class="o">+</span> <span class="n">radius</span><span class="p">)</span>
+
+    <span class="c1"># b: semi-minor axis</span>
+    <span class="n">minor</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">minor</span> <span class="o">*</span> <span class="n">major</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">check_foci</span><span class="p">:</span>
+        <span class="n">minor</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">minor</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">major</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">dxy</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+
+    <span class="c1"># Distance to foci</span>
+    <span class="n">df</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="n">major</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">minor</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="c1"># Take care of division by zero</span>
+    <span class="k">if</span> <span class="n">dy</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
+        <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span> <span class="o">=</span> <span class="n">dx</span><span class="o">/</span><span class="n">dxy</span><span class="p">,</span> <span class="n">dy</span><span class="o">/</span><span class="n">dxy</span>
+
+    <span class="c1"># Parametrized ellipse</span>
+    <span class="n">t</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.linspace.html#numpy.linspace" title="numpy.linspace" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">linspace</span></a><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/constants.html#numpy.pi" title="numpy.pi" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">pi</span></a><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+    <span class="n">cost</span><span class="p">,</span> <span class="n">sint</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">cos</span></a><span class="p">(</span><span class="n">t</span><span class="p">),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">sin</span></a><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">cx</span> <span class="o">+</span> <span class="n">major</span><span class="o">*</span><span class="n">cos</span><span class="o">*</span><span class="n">cost</span> <span class="o">-</span> <span class="n">minor</span><span class="o">*</span><span class="n">sin</span><span class="o">*</span><span class="n">sint</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">major</span><span class="o">*</span><span class="n">sin</span><span class="o">*</span><span class="n">cost</span> <span class="o">+</span> <span class="n">minor</span><span class="o">*</span><span class="n">cos</span><span class="o">*</span><span class="n">sint</span>
+
+    <span class="c1"># Verteces</span>
+    <span class="n">vr</span> <span class="o">=</span> <span class="p">[</span><span class="n">cx</span> <span class="o">+</span> <span class="n">major</span><span class="o">*</span><span class="n">cos</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">major</span><span class="o">*</span><span class="n">sin</span><span class="p">]</span>
+    <span class="n">vl</span> <span class="o">=</span> <span class="p">[</span><span class="n">cx</span> <span class="o">-</span> <span class="n">major</span><span class="o">*</span><span class="n">cos</span><span class="p">,</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">major</span><span class="o">*</span><span class="n">sin</span><span class="p">]</span>
+
+    <span class="c1"># Upper co-vertex</span>
+    <span class="n">vu</span> <span class="o">=</span> <span class="p">[</span><span class="n">cx</span> <span class="o">-</span> <span class="n">minor</span><span class="o">*</span><span class="n">sin</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">minor</span><span class="o">*</span><span class="n">cos</span><span class="p">]</span>
+
+    <span class="c1"># Foci</span>
+    <span class="n">fr</span> <span class="o">=</span> <span class="p">[</span><span class="n">cx</span> <span class="o">+</span> <span class="n">df</span><span class="o">*</span><span class="n">cos</span><span class="p">,</span> <span class="n">cy</span> <span class="o">+</span> <span class="n">df</span><span class="o">*</span><span class="n">sin</span><span class="p">]</span>
+    <span class="n">fl</span> <span class="o">=</span> <span class="p">[</span><span class="n">cx</span> <span class="o">-</span> <span class="n">df</span><span class="o">*</span><span class="n">cos</span><span class="p">,</span> <span class="n">cy</span> <span class="o">-</span> <span class="n">df</span><span class="o">*</span><span class="n">sin</span><span class="p">]</span>
+
+    <span class="c1"># PLOTTING</span>
+
+    <span class="c1"># Title with radius and _actual_ minor factor.</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;r=</span><span class="si">{</span><span class="n">radius</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">; &quot;</span>
+                 <span class="sa">f</span><span class="s2">&quot;f=</span><span class="si">{</span><span class="n">factor</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">; &quot;</span>
+                 <span class="sa">f</span><span class="s2">&quot;m=</span><span class="si">{</span><span class="mf">1.0</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">major</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">0.0</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">minor</span><span class="o">/</span><span class="n">major</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Draw a, b, c, and r</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">vr</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">cy</span><span class="p">,</span> <span class="n">vr</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;C4&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;a = c + r&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">cx</span><span class="p">,</span> <span class="n">vu</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">cy</span><span class="p">,</span> <span class="n">vu</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;C3&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;b = minor · a&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cx</span><span class="p">],</span> <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">cy</span><span class="p">],</span> <span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;c = off / 2&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">vl</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">vl</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;C5&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;r = radius&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Draw the two points and their circles with radius</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="p">]:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span><span class="o">*</span><span class="n">cost</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">radius</span><span class="o">*</span><span class="n">sint</span><span class="p">,</span> <span class="s1">&#39;.7&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Draw the foci</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">fr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fl</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">fr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">fl</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="s1">&#39;C2x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Foci&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Draw the envelopping square</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">x</span><span class="o">.</span><span class="n">min</span><span class="p">()],</span>
+            <span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">min</span><span class="p">()],</span> <span class="s1">&#39;.7&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Draw the ellipse</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Ensure square axes</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here the annotation for the above selection. However, you can use this
+function to test the influence of the different parameters.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plot_ellipse</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p0</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">src</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">],</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">p1</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">rec</span><span class="o">.</span><span class="n">center</span></a><span class="p">[:</span><span class="mi">2</span><span class="p">],</span>
+    <span class="n">radius</span><span class="o">=</span><span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;ellipse&#39;</span><span class="p">][</span><span class="s1">&#39;radius&#39;</span><span class="p">],</span>
+    <span class="n">factor</span><span class="o">=</span><span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;ellipse&#39;</span><span class="p">][</span><span class="s1">&#39;factor&#39;</span><span class="p">],</span>
+    <span class="n">minor</span><span class="o">=</span><span class="n">lopts</span><span class="p">[</span><span class="s1">&#39;ellipse&#39;</span><span class="p">][</span><span class="s1">&#39;minor&#39;</span><span class="p">],</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">))</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_layered_005.png" srcset="../../_images/sphx_glr_layered_005.png" alt="r=711.8; f=1.20; m=0.80" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 1.5px solid;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 1px solid;' colspan='6'>Thu Jul 04 15:38:15 2024 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>OS</td>
+    <td style='text-align: left; border: 1px solid;'>Linux (Ubuntu 22.04)</td>
+    <td style='text-align: right; border: 1px solid;'>CPU(s)</td>
+    <td style='text-align: left; border: 1px solid;'>16</td>
+    <td style='text-align: right; border: 1px solid;'>Machine</td>
+    <td style='text-align: left; border: 1px solid;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>Architecture</td>
+    <td style='text-align: left; border: 1px solid;'>64bit</td>
+    <td style='text-align: right; border: 1px solid;'>RAM</td>
+    <td style='text-align: left; border: 1px solid;'>31.0 GiB</td>
+    <td style='text-align: right; border: 1px solid;'>Environment</td>
+    <td style='text-align: left; border: 1px solid;'>Python</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>File system</td>
+    <td style='text-align: left; border: 1px solid;'>ext4</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>numpy</td>
+    <td style='text-align: left; border: 1px solid;'>1.26.4</td>
+    <td style='text-align: right; border: 1px solid;'>scipy</td>
+    <td style='text-align: left; border: 1px solid;'>1.14.0</td>
+    <td style='text-align: right; border: 1px solid;'>numba</td>
+    <td style='text-align: left; border: 1px solid;'>0.60.0</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>emg3d</td>
+    <td style='text-align: left; border: 1px solid;'>1.8.3</td>
+    <td style='text-align: right; border: 1px solid;'>empymod</td>
+    <td style='text-align: left; border: 1px solid;'>2.3.1</td>
+    <td style='text-align: right; border: 1px solid;'>xarray</td>
+    <td style='text-align: left; border: 1px solid;'>2024.6.1.dev31+g6c2d8c33</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>discretize</td>
+    <td style='text-align: left; border: 1px solid;'>0.10.0</td>
+    <td style='text-align: right; border: 1px solid;'>h5py</td>
+    <td style='text-align: left; border: 1px solid;'>3.11.0</td>
+    <td style='text-align: right; border: 1px solid;'>matplotlib</td>
+    <td style='text-align: left; border: 1px solid;'>3.8.4</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>tqdm</td>
+    <td style='text-align: left; border: 1px solid;'>4.66.4</td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2023.2-Product Build 20230613 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 15.331 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  58 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-tutorials-layered-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/fc8f09ee426c9a379783a08dbfdff769/layered.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">layered.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/ccc4a63e93c52bf236ef75756582a8fe/layered.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">layered.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="timedomain.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">09. Transient CSEM</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../comparisons/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Comparisons</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limitations">Limitations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-considerations-about-speed">Some considerations about speed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-survey-data-and-model">Load survey, data, and model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-initial-model">Create an initial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-for-layered-computation">Options for layered computation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-simulation">Create the Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-gradient">Compute Gradient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-gradient">QC Gradient</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-few-words-about-the-1d-model-extraction">A few words about the 1D model extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ellipse">Ellipse</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/gallery/tutorials/layered.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018-2024, The emsig community.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

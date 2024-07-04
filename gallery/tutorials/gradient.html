@@ -1,0 +1,1395 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>04. Gradient of the misfit function &#8212; emg3d-gallery 1.8.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=e38f4a5c" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=fe92956f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/tutorials/gradient';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="05. Total vs primary/secondary field" href="total_vs_ps_field.html" />
+    <link rel="prev" title="03. Simulation" href="simulation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/emg3d-logo.svg" class="logo__image only-light" alt="emg3d-gallery 1.8.3 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/emg3d-logo.svg" class="logo__image only-dark" alt="emg3d-gallery 1.8.3 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="minimum_example.html">01. Minimum working example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mapping.html">02. Model property mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulation.html">03. Simulation</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">04. Gradient of the misfit function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="total_vs_ps_field.html">05. Total vs primary/secondary field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parameter_tests.html">06. Parameter tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html">07. Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="check_calc_domain.html">08. Ensure computation domain is big enough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="timedomain.html">09. Transient CSEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="layered.html">10. Layered</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../comparisons/index.html">Comparisons</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod.html">1. empymod: 1D VTI resistivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/2D_triaxial_MARE2DEM.html">2. MARE2DEM: 2D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/3D_triaxial_SimPEG.html">3. SimPEG: 3D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/as_vs_fd_gradient.html">4. Adjoint-state vs. FD gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod_Laplace.html">5. empymod: 1D VTI Laplace-domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_field.html">6. Magnetic field due to an el. source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_el_loop.html">7. Magnetic source using an electric loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_duality.html">8. Magnetic source using duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_permeability.html">9. Magnetic permeability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../models/index.html">Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-I.html">GemPy-I: <em>Simple Fault Model</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-II.html">GemPy-II: <em>Perth Basin</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/SEG-EAGE_3D_salt_model.html">SEG-EAGE 3D Salt Model</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">04....</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-tutorials-gradient-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="gradient-of-the-misfit-function">
+<span id="sphx-glr-gallery-tutorials-gradient-py"></span><h1>04. Gradient of the misfit function<a class="headerlink" href="#gradient-of-the-misfit-function" title="Link to this heading">#</a></h1>
+<p>A basic example how to use the <a class="reference external" href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.gradient" title="(in emg3d v1.8.3)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">emg3d.simulations.Simulation.gradient</span></code></a>
+routine to compute the adjoint-state gradient of the misfit function. Here we
+just show its usage.</p>
+<p>For this example we use the survey and data as obtained in the example
+<a class="reference internal" href="simulation.html#sphx-glr-gallery-tutorials-simulation-py"><span class="std std-ref">03. Simulation</span></a>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span><span class="p">,</span> <span class="n">SymLogNorm</span>
+
+
+<span class="c1"># Adjust this path to a folder of your choice.</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;download&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="load-survey-and-data">
+<h2>Load survey and data<a class="headerlink" href="#load-survey-and-data" title="Link to this heading">#</a></h2>
+<p>First we load the survey and accompanying data as obtained in the example
+<a class="reference internal" href="simulation.html#sphx-glr-gallery-tutorials-simulation-py"><span class="std std-ref">03. Simulation</span></a>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span> <span class="o">=</span> <span class="s1">&#39;GemPy-II-survey-A.h5&#39;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/surveys/&#39;</span><span class="o">+</span><span class="n">fname</span><span class="p">,</span>
+    <span class="s1">&#39;5f2ed0b959a4f80f5378a071e6f729c6b7446898be7689ddc9bbd100a8f5bce7&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)[</span><span class="s1">&#39;survey&#39;</span><span class="p">]</span>
+
+<span class="c1"># Let&#39;s have a look</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/GemPy-II-survey-A.h5»
+[emg3d v0.17.1.dev22+ge23c468 (format 1.0) on 2021-04-14T22:24:03.229285].
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<h3>Survey «GemPy-II Survey A»</h3><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+html[data-theme=dark],
+body[data-theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-index-preview {
+  grid-column: 2 / 5;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data,
+.xr-index-data-in:checked ~ .xr-index-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-index-name div,
+.xr-index-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data,
+.xr-index-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2,
+.xr-no-icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.Dataset&gt; Size: 10kB
+Dimensions:    (src: 3, rec: 45, freq: 2)
+Coordinates:
+  * src        (src) &lt;U6 72B &#x27;TxED-1&#x27; &#x27;TxED-2&#x27; &#x27;TxED-3&#x27;
+  * rec        (rec) &lt;U7 1kB &#x27;RxEP-01&#x27; &#x27;RxEP-02&#x27; ... &#x27;RxEP-44&#x27; &#x27;RxEP-45&#x27;
+  * freq       (freq) &lt;U3 24B &#x27;f-1&#x27; &#x27;f-2&#x27;
+Data variables:
+    observed   (src, rec, freq) complex128 4kB (-5.965512862515066e-14-5.5221...
+    synthetic  (src, rec, freq) complex128 4kB (-1.821164983623268e-14-5.4279...
+Attributes:
+    noise_floor:     1e-15
+    relative_error:  0.05</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-a2888ced-ccd6-4263-87de-163c7261d93f' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-a2888ced-ccd6-4263-87de-163c7261d93f' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>src</span>: 3</li><li><span class='xr-has-index'>rec</span>: 45</li><li><span class='xr-has-index'>freq</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-6018f9ac-a9bf-4aef-9b47-01e4c39bcc3c' class='xr-section-summary-in' type='checkbox'  checked><label for='section-6018f9ac-a9bf-4aef-9b47-01e4c39bcc3c' class='xr-section-summary' >Coordinates: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>src</span></div><div class='xr-var-dims'>(src)</div><div class='xr-var-dtype'>&lt;U6</div><div class='xr-var-preview xr-preview'>&#x27;TxED-1&#x27; &#x27;TxED-2&#x27; &#x27;TxED-3&#x27;</div><input id='attrs-3586fe8a-4bac-4617-a477-2958751d28fe' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-3586fe8a-4bac-4617-a477-2958751d28fe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cd9d0de6-040a-4131-9b59-01f35547985b' class='xr-var-data-in' type='checkbox'><label for='data-cd9d0de6-040a-4131-9b59-01f35547985b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Sources :</span></dt><dd>TxED-1: TxElectricDipole: 1.0 A;
+    center={5,000.0; 7,500.0; -2,305.8} m; θ=0.0°, φ=0.0°; l=1.0 m;
+TxED-2: TxElectricDipole: 1.0 A;
+    center={10,000.0; 7,500.0; -2,020.7} m; θ=0.0°, φ=0.0°; l=1.0 m;
+TxED-3: TxElectricDipole: 1.0 A;
+    center={15,000.0; 7,500.0; -2,170.0} m; θ=0.0°, φ=0.0°; l=1.0 m.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;TxED-1&#x27;, &#x27;TxED-2&#x27;, &#x27;TxED-3&#x27;], dtype=&#x27;&lt;U6&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rec</span></div><div class='xr-var-dims'>(rec)</div><div class='xr-var-dtype'>&lt;U7</div><div class='xr-var-preview xr-preview'>&#x27;RxEP-01&#x27; &#x27;RxEP-02&#x27; ... &#x27;RxEP-45&#x27;</div><input id='attrs-8214b546-1309-4a1a-adde-883434d62026' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-8214b546-1309-4a1a-adde-883434d62026' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-641d6aca-6b34-4fd3-8609-49d0ebeb99b7' class='xr-var-data-in' type='checkbox'><label for='data-641d6aca-6b34-4fd3-8609-49d0ebeb99b7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Receivers :</span></dt><dd>RxEP-01: RxElectricPoint: absolute; complex;
+    x=3,000.0 m, y=6,500.0 m, z=-2,200.9 m, θ=0.0°, φ=0.0°;
+RxEP-02: RxElectricPoint: absolute; complex;
+    x=3,000.0 m, y=7,500.0 m, z=-2,220.0 m, θ=0.0°, φ=0.0°;
+RxEP-03: RxElectricPoint: absolute; complex;
+    x=3,000.0 m, y=8,500.0 m, z=-2,271.7 m, θ=0.0°, φ=0.0°;
+RxEP-04: RxElectricPoint: absolute; complex;
+    x=4,000.0 m, y=6,500.0 m, z=-2,185.2 m, θ=0.0°, φ=0.0°;
+RxEP-05: RxElectricPoint: absolute; complex;
+    x=4,000.0 m, y=7,500.0 m, z=-2,226.6 m, θ=0.0°, φ=0.0°;
+RxEP-06: RxElectricPoint: absolute; complex;
+    x=4,000.0 m, y=8,500.0 m, z=-2,207.7 m, θ=0.0°, φ=0.0°;
+RxEP-07: RxElectricPoint: absolute; complex;
+    x=5,000.0 m, y=6,500.0 m, z=-2,243.9 m, θ=0.0°, φ=0.0°;
+RxEP-08: RxElectricPoint: absolute; complex;
+    x=5,000.0 m, y=7,500.0 m, z=-2,355.8 m, θ=0.0°, φ=0.0°;
+RxEP-09: RxElectricPoint: absolute; complex;
+    x=5,000.0 m, y=8,500.0 m, z=-2,226.8 m, θ=0.0°, φ=0.0°;
+RxEP-10: RxElectricPoint: absolute; complex;
+    x=6,000.0 m, y=6,500.0 m, z=-2,181.3 m, θ=0.0°, φ=0.0°;
+RxEP-11: RxElectricPoint: absolute; complex;
+    x=6,000.0 m, y=7,500.0 m, z=-2,305.7 m, θ=0.0°, φ=0.0°;
+RxEP-12: RxElectricPoint: absolute; complex;
+    x=6,000.0 m, y=8,500.0 m, z=-2,272.6 m, θ=0.0°, φ=0.0°;
+RxEP-13: RxElectricPoint: absolute; complex;
+    x=7,000.0 m, y=6,500.0 m, z=-2,051.4 m, θ=0.0°, φ=0.0°;
+RxEP-14: RxElectricPoint: absolute; complex;
+    x=7,000.0 m, y=7,500.0 m, z=-2,108.8 m, θ=0.0°, φ=0.0°;
+RxEP-15: RxElectricPoint: absolute; complex;
+    x=7,000.0 m, y=8,500.0 m, z=-2,069.3 m, θ=0.0°, φ=0.0°;
+RxEP-16: RxElectricPoint: absolute; complex;
+    x=8,000.0 m, y=6,500.0 m, z=-2,050.1 m, θ=0.0°, φ=0.0°;
+RxEP-17: RxElectricPoint: absolute; complex;
+    x=8,000.0 m, y=7,500.0 m, z=-2,100.5 m, θ=0.0°, φ=0.0°;
+RxEP-18: RxElectricPoint: absolute; complex;
+    x=8,000.0 m, y=8,500.0 m, z=-2,025.0 m, θ=0.0°, φ=0.0°;
+RxEP-19: RxElectricPoint: absolute; complex;
+    x=9,000.0 m, y=6,500.0 m, z=-2,070.1 m, θ=0.0°, φ=0.0°;
+RxEP-20: RxElectricPoint: absolute; complex;
+    x=9,000.0 m, y=7,500.0 m, z=-2,098.6 m, θ=0.0°, φ=0.0°;
+RxEP-21: RxElectricPoint: absolute; complex;
+    x=9,000.0 m, y=8,500.0 m, z=-2,000.0 m, θ=0.0°, φ=0.0°;
+RxEP-22: RxElectricPoint: absolute; complex;
+    x=10,000.0 m, y=6,500.0 m, z=-1,997.0 m, θ=0.0°, φ=0.0°;
+RxEP-23: RxElectricPoint: absolute; complex;
+    x=10,000.0 m, y=7,500.0 m, z=-2,070.7 m, θ=0.0°, φ=0.0°;
+RxEP-24: RxElectricPoint: absolute; complex;
+    x=10,000.0 m, y=8,500.0 m, z=-2,016.3 m, θ=0.0°, φ=0.0°;
+RxEP-25: RxElectricPoint: absolute; complex;
+    x=11,000.0 m, y=6,500.0 m, z=-2,272.7 m, θ=0.0°, φ=0.0°;
+RxEP-26: RxElectricPoint: absolute; complex;
+    x=11,000.0 m, y=7,500.0 m, z=-2,300.7 m, θ=0.0°, φ=0.0°;
+RxEP-27: RxElectricPoint: absolute; complex;
+    x=11,000.0 m, y=8,500.0 m, z=-2,221.5 m, θ=0.0°, φ=0.0°;
+RxEP-28: RxElectricPoint: absolute; complex;
+    x=12,000.0 m, y=6,500.0 m, z=-2,401.2 m, θ=0.0°, φ=0.0°;
+RxEP-29: RxElectricPoint: absolute; complex;
+    x=12,000.0 m, y=7,500.0 m, z=-2,352.0 m, θ=0.0°, φ=0.0°;
+RxEP-30: RxElectricPoint: absolute; complex;
+    x=12,000.0 m, y=8,500.0 m, z=-2,345.6 m, θ=0.0°, φ=0.0°;
+RxEP-31: RxElectricPoint: absolute; complex;
+    x=13,000.0 m, y=6,500.0 m, z=-2,430.3 m, θ=0.0°, φ=0.0°;
+RxEP-32: RxElectricPoint: absolute; complex;
+    x=13,000.0 m, y=7,500.0 m, z=-2,301.3 m, θ=0.0°, φ=0.0°;
+RxEP-33: RxElectricPoint: absolute; complex;
+    x=13,000.0 m, y=8,500.0 m, z=-2,270.9 m, θ=0.0°, φ=0.0°;
+RxEP-34: RxElectricPoint: absolute; complex;
+    x=14,000.0 m, y=6,500.0 m, z=-2,295.0 m, θ=0.0°, φ=0.0°;
+RxEP-35: RxElectricPoint: absolute; complex;
+    x=14,000.0 m, y=7,500.0 m, z=-2,299.9 m, θ=0.0°, φ=0.0°;
+RxEP-36: RxElectricPoint: absolute; complex;
+    x=14,000.0 m, y=8,500.0 m, z=-2,272.3 m, θ=0.0°, φ=0.0°;
+RxEP-37: RxElectricPoint: absolute; complex;
+    x=15,000.0 m, y=6,500.0 m, z=-2,300.4 m, θ=0.0°, φ=0.0°;
+RxEP-38: RxElectricPoint: absolute; complex;
+    x=15,000.0 m, y=7,500.0 m, z=-2,220.0 m, θ=0.0°, φ=0.0°;
+RxEP-39: RxElectricPoint: absolute; complex;
+    x=15,000.0 m, y=8,500.0 m, z=-2,199.6 m, θ=0.0°, φ=0.0°;
+RxEP-40: RxElectricPoint: absolute; complex;
+    x=16,000.0 m, y=6,500.0 m, z=-2,257.7 m, θ=0.0°, φ=0.0°;
+RxEP-41: RxElectricPoint: absolute; complex;
+    x=16,000.0 m, y=7,500.0 m, z=-2,204.7 m, θ=0.0°, φ=0.0°;
+RxEP-42: RxElectricPoint: absolute; complex;
+    x=16,000.0 m, y=8,500.0 m, z=-2,199.7 m, θ=0.0°, φ=0.0°;
+RxEP-43: RxElectricPoint: absolute; complex;
+    x=17,000.0 m, y=6,500.0 m, z=-2,270.0 m, θ=0.0°, φ=0.0°;
+RxEP-44: RxElectricPoint: absolute; complex;
+    x=17,000.0 m, y=7,500.0 m, z=-2,273.8 m, θ=0.0°, φ=0.0°;
+RxEP-45: RxElectricPoint: absolute; complex;
+    x=17,000.0 m, y=8,500.0 m, z=-2,330.1 m, θ=0.0°, φ=0.0°.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;RxEP-01&#x27;, &#x27;RxEP-02&#x27;, &#x27;RxEP-03&#x27;, &#x27;RxEP-04&#x27;, &#x27;RxEP-05&#x27;, &#x27;RxEP-06&#x27;,
+       &#x27;RxEP-07&#x27;, &#x27;RxEP-08&#x27;, &#x27;RxEP-09&#x27;, &#x27;RxEP-10&#x27;, &#x27;RxEP-11&#x27;, &#x27;RxEP-12&#x27;,
+       &#x27;RxEP-13&#x27;, &#x27;RxEP-14&#x27;, &#x27;RxEP-15&#x27;, &#x27;RxEP-16&#x27;, &#x27;RxEP-17&#x27;, &#x27;RxEP-18&#x27;,
+       &#x27;RxEP-19&#x27;, &#x27;RxEP-20&#x27;, &#x27;RxEP-21&#x27;, &#x27;RxEP-22&#x27;, &#x27;RxEP-23&#x27;, &#x27;RxEP-24&#x27;,
+       &#x27;RxEP-25&#x27;, &#x27;RxEP-26&#x27;, &#x27;RxEP-27&#x27;, &#x27;RxEP-28&#x27;, &#x27;RxEP-29&#x27;, &#x27;RxEP-30&#x27;,
+       &#x27;RxEP-31&#x27;, &#x27;RxEP-32&#x27;, &#x27;RxEP-33&#x27;, &#x27;RxEP-34&#x27;, &#x27;RxEP-35&#x27;, &#x27;RxEP-36&#x27;,
+       &#x27;RxEP-37&#x27;, &#x27;RxEP-38&#x27;, &#x27;RxEP-39&#x27;, &#x27;RxEP-40&#x27;, &#x27;RxEP-41&#x27;, &#x27;RxEP-42&#x27;,
+       &#x27;RxEP-43&#x27;, &#x27;RxEP-44&#x27;, &#x27;RxEP-45&#x27;], dtype=&#x27;&lt;U7&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>freq</span></div><div class='xr-var-dims'>(freq)</div><div class='xr-var-dtype'>&lt;U3</div><div class='xr-var-preview xr-preview'>&#x27;f-1&#x27; &#x27;f-2&#x27;</div><input id='attrs-90657407-81ab-4a0f-871e-566a625619e9' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-90657407-81ab-4a0f-871e-566a625619e9' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-4c84b6b9-bb4e-41eb-b323-c0cfce0bc45c' class='xr-var-data-in' type='checkbox'><label for='data-4c84b6b9-bb4e-41eb-b323-c0cfce0bc45c' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>Frequencies :</span></dt><dd>f-1: 0.5 Hz;
+f-2: 1.0 Hz.</dd></dl></div><div class='xr-var-data'><pre>array([&#x27;f-1&#x27;, &#x27;f-2&#x27;], dtype=&#x27;&lt;U3&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-10166ed4-b015-4761-9bf6-4d9d01d45976' class='xr-section-summary-in' type='checkbox'  checked><label for='section-10166ed4-b015-4761-9bf6-4d9d01d45976' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>observed</span></div><div class='xr-var-dims'>(src, rec, freq)</div><div class='xr-var-dtype'>complex128</div><div class='xr-var-preview xr-preview'>(-5.965512862515066e-14-5.522190...</div><input id='attrs-f2ed13bb-17d7-49e2-930f-823249c05bbe' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f2ed13bb-17d7-49e2-930f-823249c05bbe' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-7b1b177d-ccd9-4fd1-9fc4-2787f138e144' class='xr-var-data-in' type='checkbox'><label for='data-7b1b177d-ccd9-4fd1-9fc4-2787f138e144' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[-5.96551286e-14-5.52219071e-13j,
+         -3.29943621e-13-5.89364132e-14j],
+        [-3.02453442e-13-1.58088780e-12j,
+         -9.20173956e-13-3.04332458e-13j],
+        [-2.58675603e-15-4.57994305e-13j,
+         -2.73767584e-13-4.49208395e-14j],
+        [-1.41901700e-12+4.87373089e-12j,
+          2.63406986e-12+1.13510659e-12j],
+        [ 1.91816002e-11-2.83119453e-11j,
+          4.74089571e-12-2.14773553e-11j],
+        [-1.01893159e-12+3.65151340e-12j,
+          2.24547683e-12+9.61297621e-13j],
+        [-4.17353570e-11+3.29863030e-11j,
+         -7.41579018e-12+3.77958298e-11j],
+        [            nan           +nanj,
+                     nan           +nanj],
+        [-3.77810656e-11+3.60955918e-11j,
+         -4.78789561e-12+4.24219034e-11j],
+        [-6.61527454e-13+4.14637548e-12j,
+          2.22017471e-12+8.31209796e-13j],
+...
+        [-1.68934028e-12+4.77112831e-12j,
+          2.21422953e-12+1.69320556e-12j],
+        [-4.85537661e-11+3.43282155e-11j,
+         -7.48597032e-12+3.91066873e-11j],
+        [            nan           +nanj,
+                     nan           +nanj],
+        [-4.76317811e-11+3.74517237e-11j,
+         -9.18117035e-12+4.28138572e-11j],
+        [-5.30872137e-13+5.61555865e-12j,
+          3.00641218e-12+1.19907328e-12j],
+        [ 2.34891277e-11-2.87461199e-11j,
+          1.06675902e-11-2.08476459e-11j],
+        [-1.02456279e-12+4.84097465e-12j,
+          2.45402447e-12+1.46032759e-12j],
+        [ 1.93127596e-14-5.90505398e-13j,
+         -3.63145693e-13-1.48366772e-13j],
+        [-7.69257237e-14-1.80887364e-12j,
+         -9.31985819e-13-6.95476552e-13j],
+        [ 1.34791603e-13-6.03533469e-13j,
+         -3.65640745e-13-2.36376034e-13j]]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>synthetic</span></div><div class='xr-var-dims'>(src, rec, freq)</div><div class='xr-var-dtype'>complex128</div><div class='xr-var-preview xr-preview'>(-1.821164983623268e-14-5.427939...</div><input id='attrs-47f73c1a-de9b-4e0b-bb65-d0d6fd9b0451' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-47f73c1a-de9b-4e0b-bb65-d0d6fd9b0451' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0eeb0b82-6115-41e3-959f-548f0540aa91' class='xr-var-data-in' type='checkbox'><label for='data-0eeb0b82-6115-41e3-959f-548f0540aa91' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([[[-1.82116498e-14-5.42793942e-13j,
+         -3.30977559e-13-4.68831885e-14j],
+        [-3.39311873e-13-1.54145633e-12j,
+         -8.78028336e-13-2.76869613e-13j],
+        [-1.55030514e-14-4.21812782e-13j,
+         -2.78095825e-13-4.44447228e-14j],
+        [-9.43761991e-13+4.90588003e-12j,
+          2.59124237e-12+1.16588063e-12j],
+        [ 1.97301438e-11-2.61428848e-11j,
+          8.18639331e-12-2.11755912e-11j],
+        [-9.96555028e-13+3.81771199e-12j,
+          2.21860630e-12+1.02208078e-12j],
+        [-4.08540826e-11+3.58128472e-11j,
+         -6.04178916e-12+4.13013476e-11j],
+        [-3.63621530e-08-2.73907667e-09j,
+         -3.70462125e-08-5.07133767e-09j],
+        [-4.10579973e-11+3.69496745e-11j,
+         -5.34194230e-12+4.19042365e-11j],
+        [-7.63760810e-13+4.08309076e-12j,
+          2.08237462e-12+8.21792506e-13j],
+...
+        [-1.60204633e-12+4.72857079e-12j,
+          2.22312293e-12+1.60636395e-12j],
+        [-4.35139957e-11+3.67098738e-11j,
+         -8.16658896e-12+4.32511200e-11j],
+        [-3.37500201e-08-2.79747012e-09j,
+         -3.45341172e-08-5.17043913e-09j],
+        [-4.33367343e-11+3.82880204e-11j,
+         -6.58612316e-12+4.37025909e-11j],
+        [-7.20087407e-13+5.19563601e-12j,
+          2.93469761e-12+1.16069403e-12j],
+        [ 2.52102302e-11-2.64417066e-11j,
+          1.41515971e-11-2.31186915e-11j],
+        [-1.12192484e-12+4.71739906e-12j,
+          2.65288396e-12+1.27418054e-12j],
+        [ 6.46222251e-14-5.76853264e-13j,
+         -3.64586262e-13-1.45334952e-13j],
+        [-6.95459816e-15-1.93466758e-12j,
+         -1.01840528e-12-6.88046976e-13j],
+        [ 1.43413165e-13-6.32760425e-13j,
+         -3.72074527e-13-2.50079690e-13j]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-323a22fc-727e-4e66-82f3-af14a57e2ad3' class='xr-section-summary-in' type='checkbox'  ><label for='section-323a22fc-727e-4e66-82f3-af14a57e2ad3' class='xr-section-summary' >Indexes: <span>(3)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>src</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-5ee37c35-1c5e-4d6e-a7a4-d959ad7b46b8' class='xr-index-data-in' type='checkbox'/><label for='index-5ee37c35-1c5e-4d6e-a7a4-d959ad7b46b8' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;TxED-1&#x27;, &#x27;TxED-2&#x27;, &#x27;TxED-3&#x27;], dtype=&#x27;object&#x27;, name=&#x27;src&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rec</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-66219dcc-3133-42db-9dee-4039c1845e44' class='xr-index-data-in' type='checkbox'/><label for='index-66219dcc-3133-42db-9dee-4039c1845e44' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;RxEP-01&#x27;, &#x27;RxEP-02&#x27;, &#x27;RxEP-03&#x27;, &#x27;RxEP-04&#x27;, &#x27;RxEP-05&#x27;, &#x27;RxEP-06&#x27;,
+       &#x27;RxEP-07&#x27;, &#x27;RxEP-08&#x27;, &#x27;RxEP-09&#x27;, &#x27;RxEP-10&#x27;, &#x27;RxEP-11&#x27;, &#x27;RxEP-12&#x27;,
+       &#x27;RxEP-13&#x27;, &#x27;RxEP-14&#x27;, &#x27;RxEP-15&#x27;, &#x27;RxEP-16&#x27;, &#x27;RxEP-17&#x27;, &#x27;RxEP-18&#x27;,
+       &#x27;RxEP-19&#x27;, &#x27;RxEP-20&#x27;, &#x27;RxEP-21&#x27;, &#x27;RxEP-22&#x27;, &#x27;RxEP-23&#x27;, &#x27;RxEP-24&#x27;,
+       &#x27;RxEP-25&#x27;, &#x27;RxEP-26&#x27;, &#x27;RxEP-27&#x27;, &#x27;RxEP-28&#x27;, &#x27;RxEP-29&#x27;, &#x27;RxEP-30&#x27;,
+       &#x27;RxEP-31&#x27;, &#x27;RxEP-32&#x27;, &#x27;RxEP-33&#x27;, &#x27;RxEP-34&#x27;, &#x27;RxEP-35&#x27;, &#x27;RxEP-36&#x27;,
+       &#x27;RxEP-37&#x27;, &#x27;RxEP-38&#x27;, &#x27;RxEP-39&#x27;, &#x27;RxEP-40&#x27;, &#x27;RxEP-41&#x27;, &#x27;RxEP-42&#x27;,
+       &#x27;RxEP-43&#x27;, &#x27;RxEP-44&#x27;, &#x27;RxEP-45&#x27;],
+      dtype=&#x27;object&#x27;, name=&#x27;rec&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>freq</div></div><div class='xr-index-preview'>PandasIndex</div><div></div><input id='index-deb81795-edc0-447a-8842-eeb021132186' class='xr-index-data-in' type='checkbox'/><label for='index-deb81795-edc0-447a-8842-eeb021132186' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;f-1&#x27;, &#x27;f-2&#x27;], dtype=&#x27;object&#x27;, name=&#x27;freq&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-843b2fb1-dcf9-41a6-9053-6ab610f91ba7' class='xr-section-summary-in' type='checkbox'  checked><label for='section-843b2fb1-dcf9-41a6-9053-6ab610f91ba7' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>noise_floor :</span></dt><dd>1e-15</dd><dt><span>relative_error :</span></dt><dd>0.05</dd></dl></div></li></ul></div></div>
+</div>
+<br />
+<br /><p>We can see that the survey consists of three sources, 45 receivers, and two
+frequencies.</p>
+</section>
+<section id="create-an-initial-model">
+<h2>Create an initial model<a class="headerlink" href="#create-an-initial-model" title="Link to this heading">#</a></h2>
+<p>To create an initial model we load the true model, but set all subsurface
+resistivities to 1 Ohm.m. So we are left with a homogeneous three-layer model
+air-seawater-subsurface, which includes the topography of the seafloor.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load true model</span>
+<span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;GemPy-II.h5&quot;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/models/&#39;</span><span class="o">+</span><span class="n">fname</span><span class="p">,</span>
+    <span class="s1">&#39;ea8c23be80522d3ca8f36742c93758370df89188816f50cb4e1b2a6a3012d659&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span><span class="o">.</span><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/GemPy-II.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T18:40:16.721968].
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overwrite all subsurface resistivity values with 1.0</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">res</span></a>
+
+<span class="c1"># QC the initial model and the survey.</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">model</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span> <span class="n">xslice</span><span class="o">=</span><span class="mi">12000</span><span class="p">,</span> <span class="n">yslice</span><span class="o">=</span><span class="mi">7500</span><span class="p">,</span>
+                    <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">200</span><span class="p">)})</span>
+
+<span class="c1"># Plot survey in figure above</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Initial resistivity model (Ohm.m)&#39;</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.receiver_coordinates" title="emg3d.surveys.Survey.receiver_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">receiver_coordinates</span></a><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey.source_coordinates" title="emg3d.surveys.Survey.source_coordinates" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-method"><span class="n">survey</span><span class="o">.</span><span class="n">source_coordinates</span></a><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_gradient_001.png" srcset="../../_images/sphx_glr_gradient_001.png" alt="Initial resistivity model (Ohm.m)" class = "sphx-glr-single-img"/></section>
+<section id="options-for-automatic-gridding">
+<h2>Options for automatic gridding<a class="headerlink" href="#options-for-automatic-gridding" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gridding_opts</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;center&#39;</span><span class="p">:</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="mi">2200</span><span class="p">),</span>
+    <span class="s1">&#39;properties&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+    <span class="s1">&#39;domain&#39;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">100</span><span class="p">],</span>
+        <span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">100</span><span class="p">],</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">5500</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">]</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;min_width_limits&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="s1">&#39;stretching&#39;</span><span class="p">:</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]),</span>
+    <span class="s1">&#39;center_on_edge&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="create-the-simulation">
+<h2>Create the Simulation<a class="headerlink" href="#create-the-simulation" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">simulations</span><span class="o">.</span><span class="n">Simulation</span></a><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Initial Model&quot;</span><span class="p">,</span>    <span class="c1"># A name for this simulation</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.surveys.Survey.html#emg3d.surveys.Survey" title="emg3d.surveys.Survey" class="sphx-glr-backref-module-emg3d-surveys sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">survey</span></a><span class="p">,</span>           <span class="c1"># Our survey instance</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">,</span>             <span class="c1"># The model</span>
+    <span class="n">gridding</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span>         <span class="c1"># Src- and freq-dependent grids</span>
+    <span class="n">max_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>           <span class="c1"># How many parallel jobs</span>
+    <span class="c1"># solver_opts=...,       # Any parameter to pass to emg3d.solve</span>
+    <span class="n">gridding_opts</span><span class="o">=</span><span class="n">gridding_opts</span><span class="p">,</span>
+    <span class="n">receiver_interpolation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">,</span>  <span class="c1"># For proper adjoint-state gradient</span>
+<span class="p">)</span>
+
+<span class="c1"># Let&#39;s QC our Simulation instance</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation" title="emg3d.simulations.Simulation" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">simulation</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<h3>Simulation «Initial Model»</h3><ul>  <li>Survey «GemPy-II Survey A»:    3 sources;    45 receivers;    2 frequencies</li>  <li>Model: resistivity; isotropic; 100 x 100 x 102 (1,020,000)</li>  <li>Gridding: Frequency- and source-dependent grids; 192 x 48 x 48 (442,368)</li></ul>
+</div>
+<br />
+<br /></section>
+<section id="compute-gradient">
+<h2>Compute Gradient<a class="headerlink" href="#compute-gradient" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.simulations.Simulation.html#emg3d.simulations.Simulation.gradient" title="emg3d.simulations.Simulation.gradient" class="sphx-glr-backref-module-emg3d-simulations sphx-glr-backref-type-py-attribute"><span class="n">simulation</span><span class="o">.</span><span class="n">gradient</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Compute efields            0/6  [00:00]
+Compute efields █▋         1/6  [00:21]
+Compute efields █████      3/6  [00:21]
+Compute efields ████████▎  5/6  [00:34]
+Compute efields ██████████ 6/6  [00:34]
+
+Back-propagate            0/6  [00:00]
+Back-propagate █▋         1/6  [00:21]
+Back-propagate ████████▎  5/6  [00:34]
+Back-propagate ██████████ 6/6  [00:34]
+</pre></div>
+</div>
+<section id="qc-gradient">
+<h3>QC Gradient<a class="headerlink" href="#qc-gradient" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the gradient of air and water to NaN.</span>
+<span class="c1"># This will eventually move directly into emgd3 (active and inactive cells).</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a><span class="p">[</span><span class="o">~</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">subsurface</span></a><span class="p">]</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/constants.html#numpy.nan" title="numpy.nan" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">nan</span></a>
+
+
+<span class="c1"># Plot the gradient</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+        <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grad</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span> <span class="n">xslice</span><span class="o">=</span><span class="mi">12000</span><span class="p">,</span> <span class="n">yslice</span><span class="o">=</span><span class="mi">7500</span><span class="p">,</span> <span class="n">zslice</span><span class="o">=-</span><span class="mi">4000</span><span class="p">,</span>
+        <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s1">&#39;RdBu_r&#39;</span><span class="p">,</span>
+                     <span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">SymLogNorm</span><span class="p">(</span>
+                         <span class="n">linthresh</span><span class="o">=</span><span class="mf">1e-2</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1e1</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">1e1</span><span class="p">)}</span>
+        <span class="p">)</span>
+
+<span class="c1"># Add survey</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Gradient of the misfit function&#39;</span><span class="p">)</span>
+<span class="n">axs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">get_children</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rec_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;bv&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">src_coords</span></a><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;r*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_gradient_002.png" srcset="../../_images/sphx_glr_gradient_002.png" alt="Gradient of the misfit function" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 1.5px solid;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 1px solid;' colspan='6'>Thu Jul 04 15:35:14 2024 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>OS</td>
+    <td style='text-align: left; border: 1px solid;'>Linux (Ubuntu 22.04)</td>
+    <td style='text-align: right; border: 1px solid;'>CPU(s)</td>
+    <td style='text-align: left; border: 1px solid;'>16</td>
+    <td style='text-align: right; border: 1px solid;'>Machine</td>
+    <td style='text-align: left; border: 1px solid;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>Architecture</td>
+    <td style='text-align: left; border: 1px solid;'>64bit</td>
+    <td style='text-align: right; border: 1px solid;'>RAM</td>
+    <td style='text-align: left; border: 1px solid;'>31.0 GiB</td>
+    <td style='text-align: right; border: 1px solid;'>Environment</td>
+    <td style='text-align: left; border: 1px solid;'>Python</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>File system</td>
+    <td style='text-align: left; border: 1px solid;'>ext4</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>numpy</td>
+    <td style='text-align: left; border: 1px solid;'>1.26.4</td>
+    <td style='text-align: right; border: 1px solid;'>scipy</td>
+    <td style='text-align: left; border: 1px solid;'>1.14.0</td>
+    <td style='text-align: right; border: 1px solid;'>numba</td>
+    <td style='text-align: left; border: 1px solid;'>0.60.0</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>emg3d</td>
+    <td style='text-align: left; border: 1px solid;'>1.8.3</td>
+    <td style='text-align: right; border: 1px solid;'>empymod</td>
+    <td style='text-align: left; border: 1px solid;'>2.3.1</td>
+    <td style='text-align: right; border: 1px solid;'>xarray</td>
+    <td style='text-align: left; border: 1px solid;'>2024.6.1.dev31+g6c2d8c33</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>discretize</td>
+    <td style='text-align: left; border: 1px solid;'>0.10.0</td>
+    <td style='text-align: right; border: 1px solid;'>h5py</td>
+    <td style='text-align: left; border: 1px solid;'>3.11.0</td>
+    <td style='text-align: right; border: 1px solid;'>matplotlib</td>
+    <td style='text-align: left; border: 1px solid;'>3.8.4</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>tqdm</td>
+    <td style='text-align: left; border: 1px solid;'>4.66.4</td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2023.2-Product Build 20230613 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (1 minutes 12.759 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  493 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-tutorials-gradient-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/af5369eaddf59da18d41860703bd2be0/gradient.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">gradient.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/7ffff3556e686e7bb9e3cfd59a78d464/gradient.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">gradient.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="simulation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">03. Simulation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="total_vs_ps_field.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">05. Total vs primary/secondary field</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-survey-and-data">Load survey and data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-initial-model">Create an initial model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#options-for-automatic-gridding">Options for automatic gridding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-simulation">Create the Simulation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-gradient">Compute Gradient</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-gradient">QC Gradient</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/gallery/tutorials/gradient.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018-2024, The emsig community.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

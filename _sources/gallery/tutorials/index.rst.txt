@@ -1,0 +1,227 @@
+:orphan:
+
+.. _sphx_glr_gallery_tutorials:
+
+Tutorials
+=========
+
+Basic examples, a good point to get started with ``emg3d``.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This is a simple minimum working example to use the multigrid solver emg3d, along the lines of ...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_minimum_example_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_minimum_example.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">01. Minimum working example</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip=" Physical rock properties (and their units) can be a tricky thing. And emg3d is no difference i...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_mapping_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_mapping.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">02. Model property mapping</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The easiest way to model CSEM data for a survey is to make use of the Survey and Simulation cla...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_simulation_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_simulation.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">03. Simulation</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="A basic example how to use the emg3d.simulations.Simulation.gradient routine to compute the adj...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_gradient_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_gradient.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">04. Gradient of the misfit function</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="We usually use emg3d for total field computations. However, we can also use it in a primary-sec...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_total_vs_ps_field_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_total_vs_ps_field.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">05. Total vs primary/secondary field</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The modeller emg3d has quite a few parameters which can influence the speed of a computation. I...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_parameter_tests_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_parameter_tests.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">06. Parameter tests</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The implemented command-line interface (CLI) can be powerful to use emg3d from any programming ...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_cli_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_cli.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">07. Command-line interface</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Ensure the boundary in \pm x, \pm y, and + z is big enough for \rho_\text{air}.">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_check_calc_domain_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_check_calc_domain.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">08. Ensure computation domain is big enough</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="The computation of emg3d happens in the frequency domain (or Laplace domain), each frequency re...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_timedomain_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_timedomain.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">09. Transient CSEM</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Since v1.8.0 there exists the possibility to use locally approximated, layered models together ...">
+
+.. only:: html
+
+  .. image:: /gallery/tutorials/images/thumb/sphx_glr_layered_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_gallery_tutorials_layered.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">10. Layered</div>
+    </div>
+
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /gallery/tutorials/minimum_example
+   /gallery/tutorials/mapping
+   /gallery/tutorials/simulation
+   /gallery/tutorials/gradient
+   /gallery/tutorials/total_vs_ps_field
+   /gallery/tutorials/parameter_tests
+   /gallery/tutorials/cli
+   /gallery/tutorials/check_calc_domain
+   /gallery/tutorials/timedomain
+   /gallery/tutorials/layered
+
+
+.. only:: html
+
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
+
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: tutorials_python.zip </gallery/tutorials/tutorials_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: tutorials_jupyter.zip </gallery/tutorials/tutorials_jupyter.zip>`
+
+
+.. only:: html
+
+ .. rst-class:: sphx-glr-signature
+
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

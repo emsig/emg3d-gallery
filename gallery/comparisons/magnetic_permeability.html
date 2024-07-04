@@ -1,0 +1,953 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>9. Magnetic permeability &#8212; emg3d-gallery 1.8.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=e38f4a5c" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=fe92956f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/comparisons/magnetic_permeability';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Models" href="../models/index.html" />
+    <link rel="prev" title="8. Magnetic source using duality" href="magnetic_source_duality.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/emg3d-logo.svg" class="logo__image only-light" alt="emg3d-gallery 1.8.3 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/emg3d-logo.svg" class="logo__image only-dark" alt="emg3d-gallery 1.8.3 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/minimum_example.html">01. Minimum working example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mapping.html">02. Model property mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/simulation.html">03. Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/gradient.html">04. Gradient of the misfit function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/total_vs_ps_field.html">05. Total vs primary/secondary field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/parameter_tests.html">06. Parameter tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/cli.html">07. Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/check_calc_domain.html">08. Ensure computation domain is big enough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/timedomain.html">09. Transient CSEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/layered.html">10. Layered</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Comparisons</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="1D_VTI_empymod.html">1. empymod: 1D VTI resistivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2D_triaxial_MARE2DEM.html">2. MARE2DEM: 2D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="3D_triaxial_SimPEG.html">3. SimPEG: 3D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="as_vs_fd_gradient.html">4. Adjoint-state vs. FD gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1D_VTI_empymod_Laplace.html">5. empymod: 1D VTI Laplace-domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="magnetic_field.html">6. Magnetic field due to an el. source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="magnetic_source_el_loop.html">7. Magnetic source using an electric loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="magnetic_source_duality.html">8. Magnetic source using duality</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">9. Magnetic permeability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../models/index.html">Models</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-I.html">GemPy-I: <em>Simple Fault Model</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/GemPy-II.html">GemPy-II: <em>Perth Basin</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../models/SEG-EAGE_3D_salt_model.html">SEG-EAGE 3D Salt Model</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Comparisons</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">9. Magnetic...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-comparisons-magnetic-permeability-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="magnetic-permeability">
+<span id="sphx-glr-gallery-comparisons-magnetic-permeability-py"></span><h1>9. Magnetic permeability<a class="headerlink" href="#magnetic-permeability" title="Link to this heading">#</a></h1>
+<p>The solver <code class="docutils literal notranslate"><span class="pre">emg3d</span></code> uses the diffusive approximation of Maxwell’s equations;
+the relative electric permittivity is therefore fixed at
+<span class="math notranslate nohighlight">\(\varepsilon_\rm{r} = 1\)</span>. The magnetic permeability <span class="math notranslate nohighlight">\(\mu_\rm{r}\)</span>,
+however, is implemented in <code class="docutils literal notranslate"><span class="pre">emg3d</span></code>, albeit only isotropically.</p>
+<p>In this example we run the same model as in the example mentioned above: A
+rotated finite length bipole in a homogeneous VTI fullspace, but here with
+isotropic magnetic permeability, and compare it to the semi-analytical solution
+of <code class="docutils literal notranslate"><span class="pre">empymod</span></code>. (The code <code class="docutils literal notranslate"><span class="pre">empymod</span></code> is an open-source code which can model
+CSEM responses for a layered medium including VTI electrical anisotropy, see
+<a class="reference external" href="https://emsig.xyz">emsig.xyz</a>.)</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">empymod</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<section id="full-space-model-for-a-finite-length-finite-strength-rotated-bipole">
+<h2>Full-space model for a finite length, finite strength, rotated bipole<a class="headerlink" href="#full-space-model-for-a-finite-length-finite-strength-rotated-bipole" title="Link to this heading">#</a></h2>
+<p>In order to shorten the build-time of the gallery we use a coarse model.
+Set <code class="docutils literal notranslate"><span class="pre">coarse_model</span> <span class="pre">=</span> <span class="pre">False</span></code> to obtain a result of higher accuracy.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">coarse_model</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<section id="survey-and-model-parameters">
+<h3>Survey and model parameters<a class="headerlink" href="#survey-and-model-parameters" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Receiver coordinates</span>
+<span class="k">if</span> <span class="n">coarse_model</span><span class="p">:</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">256</span><span class="p">))</span><span class="o">*</span><span class="mi">20</span><span class="o">-</span><span class="mi">2550</span>
+<span class="k">else</span><span class="p">:</span>
+    <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a> <span class="o">=</span> <span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.arange.html#numpy.arange" title="numpy.arange" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">arange</span></a><span class="p">(</span><span class="mi">1025</span><span class="p">))</span><span class="o">*</span><span class="mi">5</span><span class="o">-</span><span class="mi">2560</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.repeat.html#numpy.repeat" title="numpy.repeat" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">repeat</span></a><span class="p">([</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">,</span> <span class="p">],</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.size.html#numpy.size" title="numpy.size" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">size</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ry</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">frx</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fry</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ry</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">rz</span> <span class="o">=</span> <span class="o">-</span><span class="mf">400.0</span>
+<span class="n">azimuth</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="n">elevation</span> <span class="o">=</span> <span class="mi">13</span>
+
+<span class="c1"># Source coordinates, frequency, and strength</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">source</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">TxElectricDipole</span></a><span class="p">(</span>
+    <span class="n">coordinates</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="o">-</span><span class="mf">320.</span><span class="p">,</span> <span class="o">-</span><span class="mf">280.</span><span class="p">],</span>  <span class="c1"># [x1, x2, y1, y2, z1, z2]</span>
+    <span class="n">strength</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span>  <span class="c1"># A</span>
+<span class="p">)</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="mf">0.7</span>  <span class="c1"># Hz</span>
+
+<span class="c1"># Model parameters</span>
+<span class="n">h_res</span> <span class="o">=</span> <span class="mf">1.</span>              <span class="c1"># Horizontal resistivity</span>
+<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">aniso</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span></a><span class="p">(</span><span class="mf">2.</span><span class="p">)</span>     <span class="c1"># Anisotropy</span>
+<a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">v_res</span></a> <span class="o">=</span> <span class="n">h_res</span><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">aniso</span></a><span class="o">**</span><span class="mi">2</span>  <span class="c1"># Vertical resistivity</span>
+<span class="n">mperm</span> <span class="o">=</span> <span class="mf">2.5</span>             <span class="c1"># Magnetic permeability</span>
+</pre></div>
+</div>
+</section>
+<section id="empymod">
+<h3>empymod<a class="headerlink" href="#empymod" title="Link to this heading">#</a></h3>
+<p>Note: The coordinate system of empymod is positive z down, for emg3d it is
+positive z up. We have to switch therefore src_z, rec_z, and elevation.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute</span>
+<a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">epm</span></a> <span class="o">=</span> <span class="n">empymod</span><span class="o">.</span><span class="n">bipole</span><span class="p">(</span>
+    <span class="n">src</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.r_.html#numpy.r_" title="numpy.r_" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-data"><span class="n">np</span><span class="o">.</span><span class="n">r_</span></a><span class="p">[</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.coordinates" title="emg3d.electrodes.Wire.coordinates" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">source</span><span class="o">.</span><span class="n">coordinates</span></a><span class="p">[:</span><span class="mi">4</span><span class="p">],</span> <span class="o">-</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.coordinates" title="emg3d.electrodes.Wire.coordinates" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">source</span><span class="o">.</span><span class="n">coordinates</span></a><span class="p">[</span><span class="mi">4</span><span class="p">:]],</span>
+    <span class="n">rec</span><span class="o">=</span><span class="p">[</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">frx</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fry</span></a><span class="p">,</span> <span class="o">-</span><span class="n">rz</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="o">-</span><span class="n">elevation</span><span class="p">],</span>
+    <span class="n">depth</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">res</span><span class="o">=</span><span class="n">h_res</span><span class="p">,</span>
+    <a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">aniso</span></a><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">aniso</span></a><span class="p">,</span>
+    <span class="n">strength</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Source.html#emg3d.electrodes.Source.strength" title="emg3d.electrodes.Source.strength" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">source</span><span class="o">.</span><span class="n">strength</span></a><span class="p">,</span>
+    <span class="n">srcpts</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">freqtime</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">mpermH</span><span class="o">=</span><span class="n">mperm</span><span class="p">,</span>
+    <span class="n">htarg</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;pts_per_dec&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">},</span>
+    <span class="n">verb</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.shape.html#numpy.shape" title="numpy.shape" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-function"><span class="n">np</span><span class="o">.</span><span class="n">shape</span></a><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>:: empymod START  ::  v2.3.1
+
+   depth       [m] :
+   res     [Ohm.m] :  1
+   aniso       [-] :  1.41421
+   epermH      [-] :  1
+   epermV      [-] :  1
+   mpermH      [-] :  2.5
+   mpermV      [-] :  2.5
+
+&gt;  MODEL IS A FULLSPACE
+   direct field    :  Comp. in wavenumber domain
+   frequency  [Hz] :  0.7
+   Hankel          :  DLF (Fast Hankel Transform)
+     &gt; Filter      :  key_201_2009
+     &gt; DLF type    :  Lagged Convolution
+   Loop over       :  Frequencies
+   Source(s)       :  1 bipole(s)
+     &gt; intpts      :  5
+     &gt; length  [m] :  123.288
+     &gt; strength[A] :  2.8
+     &gt; x_c     [m] :  0
+     &gt; y_c     [m] :  0
+     &gt; z_c     [m] :  300
+     &gt; azimuth [°] :  30.9638
+     &gt; dip     [°] :  -18.9318
+   Receiver(s)     :  65536 dipole(s)
+     &gt; x       [m] :  -2550 - 2550 : 65536  [min-max; #]
+     &gt; y       [m] :  -2550 - 2550 : 65536  [min-max; #]
+     &gt; z       [m] :  400
+     &gt; azimuth [°] :  22
+     &gt; dip     [°] :  -13
+   Required ab&#39;s   :  11 12 13 21 22 23 31 32 33
+
+:: empymod END; runtime = 0:00:00.389484 :: 45 kernel call(s)
+</pre></div>
+</div>
+</section>
+<section id="emg3d">
+<h3>emg3d<a class="headerlink" href="#emg3d" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">coarse_model</span><span class="p">:</span>
+    <span class="n">min_width_limits</span> <span class="o">=</span> <span class="mi">40</span>
+    <span class="n">stretching</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.045</span><span class="p">,</span> <span class="mf">1.045</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">min_width_limits</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">stretching</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.03</span><span class="p">,</span> <span class="mf">1.045</span><span class="p">]</span>
+
+<span class="c1"># Create stretched grid</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">construct_mesh</span><span class="p">(</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">properties</span><span class="o">=</span><span class="n">h_res</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.Wire.html#emg3d.electrodes.Wire.center" title="emg3d.electrodes.Wire.center" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-attribute"><span class="n">source</span><span class="o">.</span><span class="n">center</span></a><span class="p">,</span>
+    <span class="n">domain</span><span class="o">=</span><span class="p">([</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2900</span><span class="p">,</span> <span class="mi">2100</span><span class="p">]),</span>
+    <span class="n">min_width_limits</span><span class="o">=</span><span class="n">min_width_limits</span><span class="p">,</span>
+    <span class="n">stretching</span><span class="o">=</span><span class="n">stretching</span><span class="p">,</span>
+    <span class="n">lambda_from_center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">lambda_factor</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">center_on_edge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table>
+  <tr>
+    <td style='font-weight: bold; font-size: 1.2em; text-align: center;' colspan='3'>TensorMesh</td>
+    <td style='font-size: 1.2em; text-align: center;'colspan='4'>737,280 cells</td>
+  </tr>
+  <tr>
+    <th></th>
+    <th></th>
+    <th colspan='2' style='padding: 5px 20px 5px 20px;'>MESH EXTENT</th>
+    <th colspan='2' style='padding: 5px 20px 5px 20px;'>CELL WIDTH</th>
+    <th style='padding: 5px 20px 5px 20px;'>FACTOR</th>
+  </tr>
+  <tr>
+    <th style='padding: 5px 20px 5px 20px;'>dir</th>
+    <th style='padding: 5px 20px 5px 20px;'>nC</th>
+    <th style='padding: 5px 20px 5px 20px;'>min</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+    <th style='padding: 5px 20px 5px 20px;'>min</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+    <th style='padding: 5px 20px 5px 20px;'>max</th>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>x</td>
+    <td style='padding: 5px 20px 5px 20px;'>96</td>
+    <td style='padding: 5px 20px 5px 20px;'>-4,274.56</td>
+    <td style='padding: 5px 20px 5px 20px;'>4,457.47</td>
+    <td style='padding: 5px 20px 5px 20px;'>40.00</td>
+    <td style='padding: 5px 20px 5px 20px;'>182.91</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.04</td>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>y</td>
+    <td style='padding: 5px 20px 5px 20px;'>96</td>
+    <td style='padding: 5px 20px 5px 20px;'>-4,274.56</td>
+    <td style='padding: 5px 20px 5px 20px;'>4,457.47</td>
+    <td style='padding: 5px 20px 5px 20px;'>40.00</td>
+    <td style='padding: 5px 20px 5px 20px;'>182.91</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.04</td>
+  </tr>
+  <tr>
+    <td style='padding: 5px 20px 5px 20px;'>z</td>
+    <td style='padding: 5px 20px 5px 20px;'>80</td>
+    <td style='padding: 5px 20px 5px 20px;'>-4,793.87</td>
+    <td style='padding: 5px 20px 5px 20px;'>3,961.21</td>
+    <td style='padding: 5px 20px 5px 20px;'>40.00</td>
+    <td style='padding: 5px 20px 5px 20px;'>232.65</td>
+    <td style='padding: 5px 20px 5px 20px;'>1.05</td>
+  </tr>
+</table>
+
+</div>
+<br />
+<br /><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the model, with magnetic permeability</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Model</span></a><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="p">,</span> <span class="n">property_x</span><span class="o">=</span><span class="n">h_res</span><span class="p">,</span> <span class="n">property_z</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.float64" title="numpy.float64" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-attribute"><span class="n">v_res</span></a><span class="p">,</span>
+    <span class="n">mu_r</span><span class="o">=</span><span class="n">mperm</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="s1">&#39;Resistivity&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Compute the electric field</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field" title="emg3d.fields.Field" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">efield</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">solve_source</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">,</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">source</span></a><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">verb</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">plain</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Get responses at receivers</span>
+<a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">e3d</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field.get_receiver" title="emg3d.fields.Field.get_receiver" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-method"><span class="n">efield</span><span class="o">.</span><span class="n">get_receiver</span></a><span class="p">((</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rx</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">ry</span></a><span class="p">,</span> <span class="n">rz</span><span class="p">,</span> <span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>:: emg3d START :: 15:41:03 :: v1.8.3
+
+   MG-cycle       : &#39;F&#39;                 sslsolver : False
+   semicoarsening : False [0]           tol       : 1e-06
+   linerelaxation : False [0]           maxit     : 50
+   nu_{i,1,c,2}   : 0, 2, 1, 2          verb      : 4
+   Original grid  :  96 x  96 x  80     =&gt; 737,280 cells
+   Coarsest grid  :   3 x   3 x   5     =&gt; 45 cells
+   Coarsest level :   5 ;   5 ;   4
+
+   [hh:mm:ss]  rel. error                  [abs. error, last/prev]   l s
+
+       h_
+      2h_ \                            /
+      4h_  \                  /\      /
+      8h_   \          /\    /  \    /
+     16h_    \    /\  /  \  /    \  /
+     32h_     \/\/  \/    \/      \/
+
+   [15:41:05]   3.578e-02  after   1 F-cycles   [2.608e-05, 0.036]   0 0
+   [15:41:07]   3.810e-03  after   2 F-cycles   [2.777e-06, 0.106]   0 0
+   [15:41:08]   5.278e-04  after   3 F-cycles   [3.847e-07, 0.139]   0 0
+   [15:41:10]   8.297e-05  after   4 F-cycles   [6.048e-08, 0.157]   0 0
+   [15:41:11]   1.414e-05  after   5 F-cycles   [1.031e-08, 0.170]   0 0
+   [15:41:13]   2.595e-06  after   6 F-cycles   [1.892e-09, 0.184]   0 0
+   [15:41:14]   5.524e-07  after   7 F-cycles   [4.027e-10, 0.213]   0 0
+
+   &gt; CONVERGED
+   &gt; MG cycles        : 7
+   &gt; Final rel. error : 5.524e-07
+
+:: emg3d END   :: 15:41:14 :: runtime = 0:00:11
+</pre></div>
+</div>
+</section>
+<section id="plot">
+<h3>Plot<a class="headerlink" href="#plot" title="Link to this heading">#</a></h3>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start figure.</span>
+<span class="n">a_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="s2">&quot;viridis&quot;</span><span class="p">,</span> <span class="s1">&#39;vmin&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;shading&#39;</span><span class="p">:</span> <span class="s1">&#39;nearest&#39;</span><span class="p">}</span>
+
+<span class="n">e_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cmap&#39;</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s1">&#39;vmin&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;vmax&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;shading&#39;</span><span class="p">:</span> <span class="s1">&#39;nearest&#39;</span><span class="p">}</span>
+
+<span class="n">fig</span><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;box_aspect&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+<span class="p">((</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">),</span> <span class="p">(</span><span class="n">ax4</span><span class="p">,</span> <span class="n">ax5</span><span class="p">,</span> <span class="n">ax6</span><span class="p">))</span> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a> <span class="o">=</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x</span></a><span class="o">/</span><span class="mi">1000</span>  <span class="c1"># km</span>
+
+<span class="c1"># Plot Re(data)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(a) |Re(empymod)|&quot;</span><span class="p">)</span>
+<span class="n">cf0</span> <span class="o">=</span> <span class="n">ax1</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray.amp" title="empymod.utils.EMArray.amp" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-method"><span class="n">epm</span><span class="o">.</span><span class="n">real</span><span class="o">.</span><span class="n">amp</span></a><span class="p">()),</span> <span class="o">**</span><span class="n">a_kwargs</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(b) |Re(emg3d)|&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray.amp" title="empymod.utils.EMArray.amp" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-method"><span class="n">e3d</span><span class="o">.</span><span class="n">real</span><span class="o">.</span><span class="n">amp</span></a><span class="p">()),</span> <span class="o">**</span><span class="n">a_kwargs</span><span class="p">)</span>
+
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(c) Error real part&quot;</span><span class="p">)</span>
+<a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rel_error</span></a> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">((</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">epm</span><span class="o">.</span><span class="n">real</span></a> <span class="o">-</span> <a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">e3d</span><span class="o">.</span><span class="n">real</span></a><span class="p">)</span> <span class="o">/</span> <a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">epm</span><span class="o">.</span><span class="n">real</span></a><span class="p">)</span>
+<span class="n">cf2</span> <span class="o">=</span> <span class="n">ax3</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rel_error</span></a><span class="p">),</span> <span class="o">**</span><span class="n">e_kwargs</span><span class="p">)</span>
+
+<span class="c1"># Plot Im(data)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(d) |Im(empymod)|&quot;</span><span class="p">)</span>
+<span class="n">ax4</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray.amp" title="empymod.utils.EMArray.amp" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-method"><span class="n">epm</span><span class="o">.</span><span class="n">imag</span><span class="o">.</span><span class="n">amp</span></a><span class="p">()),</span> <span class="o">**</span><span class="n">a_kwargs</span><span class="p">)</span>
+
+<span class="n">ax5</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(e) |Im(emg3d)|&quot;</span><span class="p">)</span>
+<span class="n">ax5</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray.amp" title="empymod.utils.EMArray.amp" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-method"><span class="n">e3d</span><span class="o">.</span><span class="n">imag</span><span class="o">.</span><span class="n">amp</span></a><span class="p">()),</span> <span class="o">**</span><span class="n">a_kwargs</span><span class="p">)</span>
+
+<span class="n">ax6</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(f) Error imaginary part&quot;</span><span class="p">)</span>
+<a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rel_error</span></a> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">abs</span></a><span class="p">((</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">epm</span><span class="o">.</span><span class="n">imag</span></a> <span class="o">-</span> <a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">e3d</span><span class="o">.</span><span class="n">imag</span></a><span class="p">)</span> <span class="o">/</span> <a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">epm</span><span class="o">.</span><span class="n">imag</span></a><span class="p">)</span>
+<span class="n">ax6</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">,</span> <a href="https://numpy.org/doc/stable/reference/generated/numpy.ufunc.html#numpy.ufunc" title="numpy.ufunc" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">np</span><span class="o">.</span><span class="n">log10</span></a><span class="p">(</span><a href="https://empymod.emsig.xyz/en/stable/api/empymod.utils.EMArray.html#empymod.utils.EMArray" title="empymod.utils.EMArray" class="sphx-glr-backref-module-empymod-utils sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">rel_error</span></a><span class="p">),</span> <span class="o">**</span><span class="n">e_kwargs</span><span class="p">)</span>
+
+<span class="c1"># Colorbars</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf0</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\log_</span><span class="si">{10}</span><span class="s2">$ Amplitude (V/m)&quot;</span><span class="p">)</span>
+<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cf2</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">axs</span></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Relative Error&quot;</span><span class="p">)</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([</span><span class="sa">r</span><span class="s2">&quot;$0.01\,\%$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$0.1\,\%$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$1\,\%$&quot;</span><span class="p">,</span>
+                         <span class="sa">r</span><span class="s2">&quot;$10\,\%$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;$100\,\%$&quot;</span><span class="p">])</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">))</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">x3</span></a><span class="p">))</span>
+
+<span class="c1"># Axis label</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="s2">&quot;Inline Offset (km)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="s2">&quot;Crossline Offset (km)&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Diffusive Fullspace, $E$-field&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Source: </span><span class="si">{</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">source</span></a><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Frequency: </span><span class="si">{</span><span class="n">frequency</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Electric receivers: z=</span><span class="si">{</span><span class="n">rz</span><span class="si">}</span><span class="s2"> m; θ=</span><span class="si">{</span><span class="n">azimuth</span><span class="si">}</span><span class="s2">°, φ=</span><span class="si">{</span><span class="n">elevation</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_magnetic_permeability_001.png" srcset="../../_images/sphx_glr_magnetic_permeability_001.png" alt="Diffusive Fullspace, $E$-field, (a) |Re(empymod)|, (b) |Re(emg3d)|, (c) Error real part, (d) |Im(empymod)|, (e) |Im(emg3d)|, (f) Error imaginary part" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>- Source: TxElectricDipole: 2.8 A;
+    e1={-50.0; -30.0; -320.0} m; e2={50.0; 30.0; -280.0} m
+- Frequency: 0.7 Hz
+- Electric receivers: z=-400.0 m; θ=22°, φ=13°
+</pre></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 1.5px solid;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 1px solid;' colspan='6'>Thu Jul 04 15:41:15 2024 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>OS</td>
+    <td style='text-align: left; border: 1px solid;'>Linux (Ubuntu 22.04)</td>
+    <td style='text-align: right; border: 1px solid;'>CPU(s)</td>
+    <td style='text-align: left; border: 1px solid;'>16</td>
+    <td style='text-align: right; border: 1px solid;'>Machine</td>
+    <td style='text-align: left; border: 1px solid;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>Architecture</td>
+    <td style='text-align: left; border: 1px solid;'>64bit</td>
+    <td style='text-align: right; border: 1px solid;'>RAM</td>
+    <td style='text-align: left; border: 1px solid;'>31.0 GiB</td>
+    <td style='text-align: right; border: 1px solid;'>Environment</td>
+    <td style='text-align: left; border: 1px solid;'>Python</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>File system</td>
+    <td style='text-align: left; border: 1px solid;'>ext4</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>numpy</td>
+    <td style='text-align: left; border: 1px solid;'>1.26.4</td>
+    <td style='text-align: right; border: 1px solid;'>scipy</td>
+    <td style='text-align: left; border: 1px solid;'>1.14.0</td>
+    <td style='text-align: right; border: 1px solid;'>numba</td>
+    <td style='text-align: left; border: 1px solid;'>0.60.0</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>emg3d</td>
+    <td style='text-align: left; border: 1px solid;'>1.8.3</td>
+    <td style='text-align: right; border: 1px solid;'>empymod</td>
+    <td style='text-align: left; border: 1px solid;'>2.3.1</td>
+    <td style='text-align: right; border: 1px solid;'>xarray</td>
+    <td style='text-align: left; border: 1px solid;'>2024.6.1.dev31+g6c2d8c33</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>discretize</td>
+    <td style='text-align: left; border: 1px solid;'>0.10.0</td>
+    <td style='text-align: right; border: 1px solid;'>h5py</td>
+    <td style='text-align: left; border: 1px solid;'>3.11.0</td>
+    <td style='text-align: right; border: 1px solid;'>matplotlib</td>
+    <td style='text-align: left; border: 1px solid;'>3.8.4</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>tqdm</td>
+    <td style='text-align: left; border: 1px solid;'>4.66.4</td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2023.2-Product Build 20230613 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.498 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  151 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-comparisons-magnetic-permeability-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/13214a6162ecf298c85e0578aa442033/magnetic_permeability.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">magnetic_permeability.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/f6319fd9a3e9ae5c3913fd25a0aa2d10/magnetic_permeability.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">magnetic_permeability.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="magnetic_source_duality.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8. Magnetic source using duality</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../models/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Models</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#full-space-model-for-a-finite-length-finite-strength-rotated-bipole">Full-space model for a finite length, finite strength, rotated bipole</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#survey-and-model-parameters">Survey and model parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#empymod">empymod</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#emg3d">emg3d</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot">Plot</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/gallery/comparisons/magnetic_permeability.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018-2024, The emsig community.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

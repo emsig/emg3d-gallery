@@ -1,0 +1,923 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GemPy-I: Simple Fault Model &#8212; emg3d-gallery 1.8.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=649a27d8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css?v=e38f4a5c" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=fe92956f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'gallery/models/GemPy-I';</script>
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="GemPy-II: Perth Basin" href="GemPy-II.html" />
+    <link rel="prev" title="Models" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/emg3d-logo.svg" class="logo__image only-light" alt="emg3d-gallery 1.8.3 documentation - Home"/>
+    <script>document.write(`<img src="../../_static/emg3d-logo.svg" class="logo__image only-dark" alt="emg3d-gallery 1.8.3 documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../references.html">
+    References
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emg3d.emsig.xyz">
+    Documentation
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://emsig.xyz">
+    emsig
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/emsig/emg3d" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/minimum_example.html">01. Minimum working example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/mapping.html">02. Model property mapping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/simulation.html">03. Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/gradient.html">04. Gradient of the misfit function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/total_vs_ps_field.html">05. Total vs primary/secondary field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/parameter_tests.html">06. Parameter tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/cli.html">07. Command-line interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/check_calc_domain.html">08. Ensure computation domain is big enough</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/timedomain.html">09. Transient CSEM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/layered.html">10. Layered</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../comparisons/index.html">Comparisons</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod.html">1. empymod: 1D VTI resistivity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/2D_triaxial_MARE2DEM.html">2. MARE2DEM: 2D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/3D_triaxial_SimPEG.html">3. SimPEG: 3D with tri-axial anisotropy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/as_vs_fd_gradient.html">4. Adjoint-state vs. FD gradient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/1D_VTI_empymod_Laplace.html">5. empymod: 1D VTI Laplace-domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_field.html">6. Magnetic field due to an el. source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_el_loop.html">7. Magnetic source using an electric loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_source_duality.html">8. Magnetic source using duality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../comparisons/magnetic_permeability.html">9. Magnetic permeability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Models</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">GemPy-I: <em>Simple Fault Model</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="GemPy-II.html">GemPy-II: <em>Perth Basin</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="SEG-EAGE_3D_salt_model.html">SEG-EAGE 3D Salt Model</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Gallery</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Models</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">GemPy-I:...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-gallery-models-gempy-i-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="gempy-i-simple-fault-model">
+<span id="sphx-glr-gallery-models-gempy-i-py"></span><h1>GemPy-I: <em>Simple Fault Model</em><a class="headerlink" href="#gempy-i-simple-fault-model" title="Link to this heading">#</a></h1>
+<p>This example uses <a class="reference external" href="https://www.gempy.org">GemPy</a> to create a geological model
+as input to emg3d, utilizing <a class="reference external" href="http://discretize.simpeg.xyz">discretize</a>.
+Having it in discretize allows us also to plot it with <a class="reference external" href="https://github.com/pyvista">PyVista</a>.</p>
+<p>The starting point is the <em>simple_fault_model</em> as used in <a class="reference external" href="https://docs.gempy.org/tutorials/ch1_fundamentals/ch1_1_basics.html">Chapter 1.1</a> of the
+GemPy documentation. It is a nice, made-up model of a folded structure with a
+fault. Here we slightly modify it (convert it into a shallow marine setting),
+and create a resisistivity model out of the lithological model.</p>
+<p>The result is what is referred to in other examples as model <cite>GemPy-I</cite>, a
+synthetic, shallow-marine resistivity model consisting of a folded structure
+with a fault. It is one of a few models created to be used in other examples.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original model (<em>simple_fault_model</em>) hosted on
+<a class="github reference external" href="https://github.com/cgre-aachen/gempy_data">cgre-aachen/gempy_data</a> is released under the <a class="reference external" href="https://www.gnu.org/licenses/lgpl-3.0.en.html">LGPL-3.0
+License</a>.</p>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pooch</span>
+<span class="kn">import</span> <span class="nn">emg3d</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;bmh&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Adjust this path to a folder of your choice.</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;download&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<section id="fetch-the-model">
+<h2>Fetch the model<a class="headerlink" href="#fetch-the-model" title="Link to this heading">#</a></h2>
+<p>Retrieve and load the pre-computed resistivity model.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;GemPy-I.h5&quot;</span>
+<span class="n">pooch</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span>
+    <span class="s1">&#39;https://raw.github.com/emsig/data/2021-05-21/emg3d/models/&#39;</span><span class="o">+</span><span class="n">fname</span><span class="p">,</span>
+    <span class="s1">&#39;06f522a69c94dc02ca3da0ea4ca7b60f7a9c764cdcbf6699ef4155621d70b3bb&#39;</span><span class="p">,</span>
+    <span class="n">fname</span><span class="o">=</span><span class="n">fname</span><span class="p">,</span>
+    <span class="n">path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">data_path</span> <span class="o">+</span> <span class="n">fname</span><span class="p">)[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span><span class="o">.</span><span class="n">grid</span></a>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Data loaded from «/home/dtr/Codes/emsig/emg3d-gallery/examples/download/GemPy-I.h5»
+[emg3d v1.0.0rc3.dev5+g0cd9e09 (format 1.0) on 2021-05-21T14:06:32.551618].
+</pre></div>
+</div>
+</section>
+<section id="qc-resistivity-model">
+<h2>QC resistivity model<a class="headerlink" href="#qc-resistivity-model" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">fgrid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">fmodel</span><span class="o">.</span><span class="n">property_x</span></a><span class="p">,</span> <span class="n">zslice</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">500</span><span class="p">)}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GemPy-I_001.png" srcset="../../_images/sphx_glr_GemPy-I_001.png" alt="GemPy I" class = "sphx-glr-single-img"/></section>
+<section id="compute-some-example-csem-data-with-it">
+<h2>Compute some example CSEM data with it<a class="headerlink" href="#compute-some-example-csem-data-with-it" title="Link to this heading">#</a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:  x-directed electric-source at (1000, 1000, -500)</span>
+<span class="n">src_coo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># Hz</span>
+
+<span class="c1"># Computational grid</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">construct_mesh</span><span class="p">(</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">center</span><span class="o">=</span><span class="n">src_coo</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">],</span>
+    <span class="n">domain</span><span class="o">=</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2000</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+    <span class="n">seasurface</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">center_on_edge</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a>
+
+<span class="c1"># Get the computational model</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.interpolate_to_grid" title="emg3d.models.Model.interpolate_to_grid" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-method"><span class="n">fmodel</span><span class="o">.</span><span class="n">interpolate_to_grid</span></a><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">grid</span></a><span class="p">)</span>
+
+<span class="c1"># Compute the response</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field" title="emg3d.fields.Field" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">efield</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">solve_source</span><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="p">,</span>
+    <span class="n">source</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.electrodes.TxElectricDipole.html#emg3d.electrodes.TxElectricDipole" title="emg3d.electrodes.TxElectricDipole" class="sphx-glr-backref-module-emg3d-electrodes sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">TxElectricDipole</span></a><span class="p">(</span><span class="n">src_coo</span><span class="p">),</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">verb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot the response</span>
+<a href="https://discretize.simpeg.xyz/en/main/api/generated/discretize.TensorMesh.plot_3d_slicer.html#discretize.TensorMesh.plot_3d_slicer" title="discretize.TensorMesh.plot_3d_slicer" class="sphx-glr-backref-module-discretize sphx-glr-backref-type-py-method"><span class="n">grid</span><span class="o">.</span><span class="n">plot_3d_slicer</span></a><span class="p">(</span>
+    <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.fields.Field.html#emg3d.fields.Field.fx" title="emg3d.fields.Field.fx" class="sphx-glr-backref-module-emg3d-fields sphx-glr-backref-type-py-attribute"><span class="n">efield</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">),</span>
+    <span class="n">view</span><span class="o">=</span><span class="s1">&#39;abs&#39;</span><span class="p">,</span> <span class="n">v_type</span><span class="o">=</span><span class="s1">&#39;Ex&#39;</span><span class="p">,</span>
+    <span class="n">zslice</span><span class="o">=-</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span> <span class="mi">2500</span><span class="p">),</span> <span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+    <span class="n">pcolor_opts</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;norm&#39;</span><span class="p">:</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="mf">5e-12</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">5e-9</span><span class="p">)},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_GemPy-I_002.png" srcset="../../_images/sphx_glr_GemPy-I_002.png" alt="GemPy I" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>:: emg3d :: 7.9e-07; 2(9); 0:00:12; CONVERGED
+</pre></div>
+</div>
+</section>
+<section id="reproduce-the-model">
+<h2>Reproduce the model<a class="headerlink" href="#reproduce-the-model" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following sections are about how to reproduce the model. For this you
+have to install <code class="docutils literal notranslate"><span class="pre">gempy</span></code>. The code example and the <code class="docutils literal notranslate"><span class="pre">GemPy-I.h5</span></code>-file
+used in the gallery were created on 2021-05-21 with <code class="docutils literal notranslate"><span class="pre">gempy=2.2.9</span></code> and
+<code class="docutils literal notranslate"><span class="pre">pandas=1.2.4</span></code>.</p>
+</div>
+</section>
+<section id="get-and-initiate-the-simple-fault-model">
+<h2>Get and initiate the <em>simple_fault_model</em><a class="headerlink" href="#get-and-initiate-the-simple-fault-model" title="Link to this heading">#</a></h2>
+<p><strong>Changes made to the original model</strong> (differences between the files
+<cite>simple_fault_model_*.csv</cite> and <cite>simple_fault_model_*_geophy.csv</cite>): Changed
+the stratigraphic unit names, and moved the model 2 km down.</p>
+<p>Instead of reading a csv-file we could also initiate an empty instance and
+then add points and orientations after that by, e.g., providing numpy arrays.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gempy</span> <span class="k">as</span> <span class="nn">gempy</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Initiate a model</span>
+<span class="n">geo_model</span> <span class="o">=</span> <span class="n">gempy</span><span class="o">.</span><span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;GemPy-I&#39;</span><span class="p">)</span>
+
+<span class="c1"># Location of data files.</span>
+<span class="n">data_url</span> <span class="o">=</span> <span class="s1">&#39;https://raw.githubusercontent.com/cgre-aachen/gempy_data/&#39;</span>
+<span class="n">data_url</span> <span class="o">+=</span> <span class="s1">&#39;master/data/input_data/tut_chapter1/&#39;</span>
+
+<span class="c1"># Importing the data from CSV-files and setting extent and resolution</span>
+<span class="c1"># This is a regular grid, mainly for plotting purposes</span>
+<span class="n">gempy</span><span class="o">.</span><span class="n">init_data</span><span class="p">(</span>
+    <span class="n">geo_model</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">2000.</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">2000.</span><span class="p">,</span> <span class="o">-</span><span class="mi">2000</span><span class="p">,</span> <span class="mf">40.</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">],</span>
+    <span class="n">path_o</span><span class="o">=</span><span class="n">data_url</span><span class="o">+</span><span class="s2">&quot;simple_fault_model_orientations_geophy.csv&quot;</span><span class="p">,</span>
+    <span class="n">path_i</span><span class="o">=</span><span class="n">data_url</span><span class="o">+</span><span class="s2">&quot;simple_fault_model_points_geophy.csv&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="initiate-the-stratigraphies-and-faults-and-add-an-air-layer">
+<h2>Initiate the stratigraphies and faults, and add an air layer<a class="headerlink" href="#initiate-the-stratigraphies-and-faults-and-add-an-air-layer" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add an air-layer: Horizontal layer at z=0m</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">add_surfaces</span><span class="p">(</span><span class="s1">&#39;air&#39;</span><span class="p">)</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">add_surface_points</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;air&#39;</span><span class="p">)</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">add_surface_points</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;air&#39;</span><span class="p">)</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">add_orientations</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;air&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Add Series for the air layer; this series will not be cut by the fault</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">add_series</span><span class="p">(</span><span class="s1">&#39;Air_Series&#39;</span><span class="p">)</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">modify_order_series</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Air_Series&#39;</span><span class="p">)</span>
+<span class="n">gempy</span><span class="o">.</span><span class="n">map_series_to_surfaces</span><span class="p">(</span><span class="n">geo_model</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Air_Series&#39;</span><span class="p">:</span> <span class="s1">&#39;air&#39;</span><span class="p">})</span>
+
+<span class="c1"># Map the different series</span>
+<span class="n">gempy</span><span class="o">.</span><span class="n">map_series_to_surfaces</span><span class="p">(</span>
+    <span class="n">geo_model</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;Fault_Series&quot;</span><span class="p">:</span> <span class="s1">&#39;fault&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;Air_Series&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;air&#39;</span><span class="p">),</span>
+        <span class="s2">&quot;Strat_Series&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;seawater&#39;</span><span class="p">,</span> <span class="s1">&#39;overburden&#39;</span><span class="p">,</span> <span class="s1">&#39;target&#39;</span><span class="p">,</span>
+                         <span class="s1">&#39;underburden&#39;</span><span class="p">,</span> <span class="s1">&#39;basement&#39;</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="n">remove_unused_series</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">geo_model</span><span class="o">.</span><span class="n">rename_series</span><span class="p">({</span><span class="s1">&#39;Main_Fault&#39;</span><span class="p">:</span> <span class="s1">&#39;Fault_Series&#39;</span><span class="p">})</span>
+
+<span class="c1"># Set which series the fault series is cutting</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">set_is_fault</span><span class="p">(</span><span class="s1">&#39;Fault_Series&#39;</span><span class="p">)</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">faults</span><span class="o">.</span><span class="n">faults_relations_df</span>
+</pre></div>
+</div>
+</section>
+<section id="compute-the-model-with-gempy">
+<h2>Compute the model with GemPy<a class="headerlink" href="#compute-the-model-with-gempy" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the interpolator.</span>
+<span class="n">gempy</span><span class="o">.</span><span class="n">set_interpolator</span><span class="p">(</span>
+    <span class="n">geo_model</span><span class="p">,</span>
+    <span class="n">compile_theano</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">theano_optimizer</span><span class="o">=</span><span class="s1">&#39;fast_compile&#39;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="p">[]</span>
+<span class="p">)</span>
+
+<span class="c1"># Compute it.</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">gempy</span><span class="o">.</span><span class="n">compute_model</span><span class="p">(</span><span class="n">geo_model</span><span class="p">,</span> <span class="n">compute_mesh</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Plot lithologies (colour-code corresponds to lithologies)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">gempy</span><span class="o">.</span><span class="n">plot_2d</span><span class="p">(</span><span class="n">geo_model</span><span class="p">,</span> <span class="n">cell_number</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+                  <span class="n">show_data</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="get-id-s-for-a-discretize-mesh">
+<h2>Get id’s for a discretize mesh<a class="headerlink" href="#get-id-s-for-a-discretize-mesh" title="Link to this heading">#</a></h2>
+<p>We could define the resistivities before, but currently it is difficult for
+GemPy to interpolate for something like resistivities with a very wide range
+of values (several orders of magnitudes). So we can simply map it here to the
+<code class="docutils literal notranslate"><span class="pre">id</span></code> (Note: GemPy does not do interpolation for cells which lie in
+different stratigraphies, so the id is always in integer).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># First we create a detailed discretize-mesh to store the resistivity</span>
+<span class="c1"># model and use it in other examples as well.</span>
+<span class="n">hxy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+<span class="n">hz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">*</span><span class="mi">25</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">TensorMesh</span><span class="p">([</span><span class="n">hxy</span><span class="p">,</span> <span class="n">hxy</span><span class="p">,</span> <span class="n">hz</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">4000</span><span class="p">,</span> <span class="o">-</span><span class="mi">4000</span><span class="p">,</span> <span class="o">-</span><span class="mi">2400</span><span class="p">))</span>
+
+<span class="c1"># Get the solution at cell centers of our grid.</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">gempy</span><span class="o">.</span><span class="n">compute_model</span><span class="p">(</span><span class="n">geo_model</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">gridCC</span><span class="p">)</span>
+
+<span class="c1"># Show the surfaces.</span>
+<span class="n">geo_model</span><span class="o">.</span><span class="n">surfaces</span>
+</pre></div>
+</div>
+</section>
+<section id="replace-id-s-by-resistivities">
+<h2>Replace id’s by resistivities<a class="headerlink" href="#replace-id-s-by-resistivities" title="Link to this heading">#</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now, we convert the id&#39;s to resistivities</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">custom</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">n_cells</span><span class="p">]</span>
+
+<span class="n">res</span><span class="p">[</span><span class="n">res</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e8</span>  <span class="c1"># air</span>
+<span class="c1"># id=2 is the fault</span>
+<span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>  <span class="c1"># sea water</span>
+<span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># overburden</span>
+<span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>   <span class="c1"># resistive layer</span>
+<span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.5</span>  <span class="c1"># underburden</span>
+<span class="n">res</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="o">==</span> <span class="mi">7</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>  <span class="c1"># resistive basement</span>
+
+<span class="c1"># Create an emg3d-model.</span>
+<a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span></a> <span class="o">=</span> <span class="n">emg3d</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="p">,</span> <span class="n">property_x</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="s1">&#39;Resistivity&#39;</span><span class="p">)</span>
+
+<span class="c1"># Store model.</span>
+<span class="n">emg3d</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;GemPy-I.h5&#39;</span><span class="p">,</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">model</span></a><span class="o">=</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model" title="emg3d.models.Model" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fmodel</span></a><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="pyvista-plot">
+<h2>PyVista plot<a class="headerlink" href="#pyvista-plot" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The final cell is about how to plot the model in 3D using PyVista,
+for which you have to install <code class="docutils literal notranslate"><span class="pre">pyvista</span></code>.</p>
+<p>The code example was created on 2021-05-21 with <code class="docutils literal notranslate"><span class="pre">pyvista=0.30.1</span></code>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyvista</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.meshes.TensorMesh.html#emg3d.meshes.TensorMesh" title="emg3d.meshes.TensorMesh" class="sphx-glr-backref-module-emg3d-meshes sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">fgrid</span></a><span class="o">.</span><span class="n">toVTK</span><span class="p">({</span><span class="s1">&#39;res&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.models.Model.html#emg3d.models.Model.property_x" title="emg3d.models.Model.property_x" class="sphx-glr-backref-module-emg3d-models sphx-glr-backref-type-py-attribute"><span class="n">fmodel</span><span class="o">.</span><span class="n">property_x</span></a><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">))})</span>
+
+<span class="c1"># Create the rendering scene and add a grid axes</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">pyvista</span><span class="o">.</span><span class="n">Plotter</span><span class="p">(</span><span class="n">notebook</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show_grid</span><span class="p">(</span><span class="n">location</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+
+<span class="c1"># Add spatially referenced data to the scene</span>
+<span class="n">dparams</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rng&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">([</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">500</span><span class="p">]),</span> <span class="s1">&#39;show_edges&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="n">xyz</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="o">-</span><span class="mi">1500</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">xyz</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;x-slice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">xyz</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;y-slice&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+
+<span class="c1"># Add a layer as 3D</span>
+<span class="n">p</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">threshold</span><span class="p">([</span><span class="mf">1.69</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">]),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;vol&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">dparams</span><span class="p">)</span>
+
+<span class="c1"># Show the scene!</span>
+<span class="n">p</span><span class="o">.</span><span class="n">camera_position</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="mi">4000</span><span class="p">),</span> <span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="o">-</span><span class="mi">1000</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">p</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-center" id="gempy-i">
+<a class="reference internal image-reference" href="../../_images/GemPy-I.png"><img alt="GemPy-I model with PyVista" src="../../_images/GemPy-I.png" style="width: 675.84px; height: 506.88px;" /></a>
+</figure>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><a href="https://emg3d.emsig.xyz/en/stable/api/emg3d.utils.Report.html#emg3d.utils.Report" title="emg3d.utils.Report" class="sphx-glr-backref-module-emg3d-utils sphx-glr-backref-type-py-class"><span class="n">emg3d</span><span class="o">.</span><span class="n">Report</span></a><span class="p">()</span>
+</pre></div>
+</div>
+<div class="output_subarea output_html rendered_html output_result">
+<table style='border: 1.5px solid;'>
+  <tr>
+     <td style='text-align: center; font-weight: bold; font-size: 1.2em; border: 1px solid;' colspan='6'>Thu Jul 04 15:41:28 2024 CEST</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>OS</td>
+    <td style='text-align: left; border: 1px solid;'>Linux (Ubuntu 22.04)</td>
+    <td style='text-align: right; border: 1px solid;'>CPU(s)</td>
+    <td style='text-align: left; border: 1px solid;'>16</td>
+    <td style='text-align: right; border: 1px solid;'>Machine</td>
+    <td style='text-align: left; border: 1px solid;'>x86_64</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>Architecture</td>
+    <td style='text-align: left; border: 1px solid;'>64bit</td>
+    <td style='text-align: right; border: 1px solid;'>RAM</td>
+    <td style='text-align: left; border: 1px solid;'>31.0 GiB</td>
+    <td style='text-align: right; border: 1px solid;'>Environment</td>
+    <td style='text-align: left; border: 1px solid;'>Python</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>File system</td>
+    <td style='text-align: left; border: 1px solid;'>ext4</td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Python 3.12.4 | packaged by conda-forge | (main, Jun 17 2024, 10:23:07) [GCC 12.3.0]</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>numpy</td>
+    <td style='text-align: left; border: 1px solid;'>1.26.4</td>
+    <td style='text-align: right; border: 1px solid;'>scipy</td>
+    <td style='text-align: left; border: 1px solid;'>1.14.0</td>
+    <td style='text-align: right; border: 1px solid;'>numba</td>
+    <td style='text-align: left; border: 1px solid;'>0.60.0</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>emg3d</td>
+    <td style='text-align: left; border: 1px solid;'>1.8.3</td>
+    <td style='text-align: right; border: 1px solid;'>empymod</td>
+    <td style='text-align: left; border: 1px solid;'>2.3.1</td>
+    <td style='text-align: right; border: 1px solid;'>xarray</td>
+    <td style='text-align: left; border: 1px solid;'>2024.6.1.dev31+g6c2d8c33</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>discretize</td>
+    <td style='text-align: left; border: 1px solid;'>0.10.0</td>
+    <td style='text-align: right; border: 1px solid;'>h5py</td>
+    <td style='text-align: left; border: 1px solid;'>3.11.0</td>
+    <td style='text-align: right; border: 1px solid;'>matplotlib</td>
+    <td style='text-align: left; border: 1px solid;'>3.8.4</td>
+  </tr>
+  <tr>
+    <td style='text-align: right; border: 1px solid;'>tqdm</td>
+    <td style='text-align: left; border: 1px solid;'>4.66.4</td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+    <td style= border: 1px solid;'></td>
+  </tr>
+  <tr>
+     <td style='text-align: center; border: 1px solid;' colspan='6'>Intel(R) oneAPI Math Kernel Library Version 2023.2-Product Build 20230613 for Intel(R) 64 architecture applications</td>
+  </tr>
+</table>
+</div>
+<br />
+<br /><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.674 seconds)</p>
+<p><strong>Estimated memory usage:</strong>  97 MB</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-gallery-models-gempy-i-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/951dfa8df22e9074ee4f6cd4f6c09521/GemPy-I.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">GemPy-I.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/492ca3a1f1e6eb38b2df241f73dd9dff/GemPy-I.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">GemPy-I.py</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="GemPy-II.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">GemPy-II: <em>Perth Basin</em></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fetch-the-model">Fetch the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qc-resistivity-model">QC resistivity model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-some-example-csem-data-with-it">Compute some example CSEM data with it</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reproduce-the-model">Reproduce the model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-and-initiate-the-simple-fault-model">Get and initiate the <em>simple_fault_model</em></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#initiate-the-stratigraphies-and-faults-and-add-an-air-layer">Initiate the stratigraphies and faults, and add an air layer</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-the-model-with-gempy">Compute the model with GemPy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#get-id-s-for-a-discretize-mesh">Get id’s for a discretize mesh</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-id-s-by-resistivities">Replace id’s by resistivities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyvista-plot">PyVista plot</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/gallery/models/GemPy-I.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2018-2024, The emsig community.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

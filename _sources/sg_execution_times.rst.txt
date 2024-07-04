@@ -1,0 +1,100 @@
+
+:orphan:
+
+.. _sphx_glr_sg_execution_times:
+
+
+Computation times
+=================
+**09:03.691** total execution time for 22 files **from all galleries**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_gallery_tutorials_gradient.py` (``../examples/tutorials/gradient.py``)
+     - 01:12.759
+     - 493.3
+   * - :ref:`sphx_glr_gallery_comparisons_as_vs_fd_gradient.py` (``../examples/comparisons/as_vs_fd_gradient.py``)
+     - 00:53.776
+     - 10.2
+   * - :ref:`sphx_glr_gallery_models_SEG-EAGE_3D_salt_model.py` (``../examples/models/SEG-EAGE_3D_salt_model.py``)
+     - 00:53.631
+     - 2872.7
+   * - :ref:`sphx_glr_gallery_tutorials_timedomain.py` (``../examples/tutorials/timedomain.py``)
+     - 00:47.971
+     - 41.8
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py` (``../examples/comparisons/1D_VTI_empymod.py``)
+     - 00:44.267
+     - 453.3
+   * - :ref:`sphx_glr_gallery_tutorials_parameter_tests.py` (``../examples/tutorials/parameter_tests.py``)
+     - 00:43.868
+     - 13.5
+   * - :ref:`sphx_glr_gallery_tutorials_simulation.py` (``../examples/tutorials/simulation.py``)
+     - 00:39.435
+     - 258.9
+   * - :ref:`sphx_glr_gallery_tutorials_check_calc_domain.py` (``../examples/tutorials/check_calc_domain.py``)
+     - 00:27.346
+     - 198.2
+   * - :ref:`sphx_glr_gallery_tutorials_total_vs_ps_field.py` (``../examples/tutorials/total_vs_ps_field.py``)
+     - 00:25.529
+     - 240.8
+   * - :ref:`sphx_glr_gallery_comparisons_2D_triaxial_MARE2DEM.py` (``../examples/comparisons/2D_triaxial_MARE2DEM.py``)
+     - 00:20.936
+     - 99.4
+   * - :ref:`sphx_glr_gallery_tutorials_cli.py` (``../examples/tutorials/cli.py``)
+     - 00:19.703
+     - 10.1
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_duality.py` (``../examples/comparisons/magnetic_source_duality.py``)
+     - 00:15.390
+     - 175.1
+   * - :ref:`sphx_glr_gallery_tutorials_layered.py` (``../examples/tutorials/layered.py``)
+     - 00:15.331
+     - 58.4
+   * - :ref:`sphx_glr_gallery_models_GemPy-I.py` (``../examples/models/GemPy-I.py``)
+     - 00:12.674
+     - 97.1
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_permeability.py` (``../examples/comparisons/magnetic_permeability.py``)
+     - 00:12.498
+     - 151.0
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_field.py` (``../examples/comparisons/magnetic_field.py``)
+     - 00:09.512
+     - 70.2
+   * - :ref:`sphx_glr_gallery_comparisons_3D_triaxial_SimPEG.py` (``../examples/comparisons/3D_triaxial_SimPEG.py``)
+     - 00:08.597
+     - 33.4
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_el_loop.py` (``../examples/comparisons/magnetic_source_el_loop.py``)
+     - 00:07.328
+     - 85.9
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod_Laplace.py` (``../examples/comparisons/1D_VTI_empymod_Laplace.py``)
+     - 00:05.906
+     - 10.2
+   * - :ref:`sphx_glr_gallery_tutorials_mapping.py` (``../examples/tutorials/mapping.py``)
+     - 00:04.302
+     - 44.2
+   * - :ref:`sphx_glr_gallery_tutorials_minimum_example.py` (``../examples/tutorials/minimum_example.py``)
+     - 00:02.189
+     - 90.8
+   * - :ref:`sphx_glr_gallery_models_GemPy-II.py` (``../examples/models/GemPy-II.py``)
+     - 00:00.742
+     - 10.1

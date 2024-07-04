@@ -1,0 +1,61 @@
+
+:orphan:
+
+.. _sphx_glr_gallery_comparisons_sg_execution_times:
+
+
+Computation times
+=================
+**02:58.211** total execution time for 9 files **from gallery/comparisons**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_gallery_comparisons_as_vs_fd_gradient.py` (``as_vs_fd_gradient.py``)
+     - 00:53.776
+     - 10.2
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py` (``1D_VTI_empymod.py``)
+     - 00:44.267
+     - 453.3
+   * - :ref:`sphx_glr_gallery_comparisons_2D_triaxial_MARE2DEM.py` (``2D_triaxial_MARE2DEM.py``)
+     - 00:20.936
+     - 99.4
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_duality.py` (``magnetic_source_duality.py``)
+     - 00:15.390
+     - 175.1
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_permeability.py` (``magnetic_permeability.py``)
+     - 00:12.498
+     - 151.0
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_field.py` (``magnetic_field.py``)
+     - 00:09.512
+     - 70.2
+   * - :ref:`sphx_glr_gallery_comparisons_3D_triaxial_SimPEG.py` (``3D_triaxial_SimPEG.py``)
+     - 00:08.597
+     - 33.4
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_el_loop.py` (``magnetic_source_el_loop.py``)
+     - 00:07.328
+     - 85.9
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod_Laplace.py` (``1D_VTI_empymod_Laplace.py``)
+     - 00:05.906
+     - 10.2
