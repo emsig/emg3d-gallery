@@ -91,7 +91,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################
@@ -166,7 +165,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################

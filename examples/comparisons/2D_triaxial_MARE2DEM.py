@@ -154,7 +154,9 @@ def nrmsd(a, b):
     return 200 * abs(a - b) / (abs(a) + abs(b))
 
 
-fig, axs = plt.subplots(2, 2, figsize=(9, 5), sharex=True, sharey='row')
+fig, axs = plt.subplots(
+        2, 2, figsize=(9, 5), sharex=True, sharey='row',
+        constrained_layout=True)
 ((ax1, ax3), (ax2, ax4)) = axs
 
 # Real part
@@ -189,9 +191,6 @@ ax4.set_yscale('log')
 ax4.set_ylim([8e-3, 120])
 ax4.set_yticks([0.01, 0.1, 1, 10, 100])
 ax4.set_yticklabels(('0.01', '0.1', '1', '10', '100'))
-
-fig.tight_layout()
-fig.show()
 
 ###############################################################################
 

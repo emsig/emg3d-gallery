@@ -39,8 +39,6 @@ def plotit(infos, labels):
     plt.ylabel('Rel. Error $(-)$')
     plt.yscale('log')
 
-    plt.show()
-
 
 ###############################################################################
 

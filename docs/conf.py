@@ -31,7 +31,7 @@ sphinx_gallery_conf = {
         'gallery/comparisons',
         'gallery/models',
     ],
-    'capture_repr': ('_repr_html_', '__repr__'),
+    'capture_repr': ('_repr_html_', ),
     # Patter to search for example files
     "filename_pattern": r"\.py",
     # Sort gallery example by file name instead of number of lines (default)
@@ -41,7 +41,7 @@ sphinx_gallery_conf = {
     # Show memory
     'show_memory': True,
     # Custom first notebook cell
-    'first_notebook_cell': '%matplotlib notebook',
+    'first_notebook_cell': '%matplotlib widget',
     'image_scrapers': ('matplotlib', ),
 }
 
@@ -111,7 +111,6 @@ html_context = {
     "github_repo": "emg3d-gallery",
     "github_version": "main",
     "doc_path": "docs",
-    "default_mode": "auto",
 }
 
 html_use_modindex = True

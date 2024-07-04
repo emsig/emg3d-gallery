@@ -132,7 +132,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################
@@ -209,7 +208,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################
@@ -291,8 +289,6 @@ axs[3].plot(rec.center[2], rec.center[1], 'bv')
 axs[2].plot(src.center[0], src.center[2], 'r*')
 axs[3].plot(src.center[2], src.center[1], 'r*')
 
-plt.show()
-
 
 ###############################################################################
 # We can compare the five different methods, and see what 1D models they
@@ -329,7 +325,6 @@ for i, method in enumerate(methods):
 
 axs[0].set_xscale('log')
 axs[0].set_xlim([0.2, 60])
-plt.show()
 
 
 ###############################################################################
@@ -436,7 +431,6 @@ plot_ellipse(
     minor=lopts['ellipse']['minor'],
 )
 ax.legend(bbox_to_anchor=(1.05, 0.7))
-plt.show()
 
 ###############################################################################
 

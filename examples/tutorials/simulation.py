@@ -195,7 +195,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################
@@ -315,7 +314,6 @@ plt.yscale('log')
 plt.legend(ncol=2, framealpha=1)
 plt.xlabel('x-coordinate (m)')
 plt.ylabel('$|E_x|$ (V/m)')
-plt.show()
 
 
 ###############################################################################

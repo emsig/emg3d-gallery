@@ -224,7 +224,8 @@ em3_sf_rec = em3_sf.get_receiver(rectuple)
 em3_ps_rec = em3_ps.get_receiver(rectuple)
 
 ###############################################################################
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 5), sharex=True)
+fig, (ax1, ax2) = plt.subplots(
+        1, 2, figsize=(9, 5), sharex=True, constrained_layout=True)
 
 ax1.set_title('|Real part|')
 ax1.plot(off/1e3, abs(em3_pf_rec.real), 'k',
@@ -252,9 +253,6 @@ ax2.set_yscale('log')
 ax2.yaxis.tick_right()
 ax2.yaxis.set_label_position("right")
 plt.legend()
-
-fig.tight_layout()
-fig.show()
 
 ###############################################################################
 

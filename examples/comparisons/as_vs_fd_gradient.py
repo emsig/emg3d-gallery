@@ -88,7 +88,6 @@ axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
 axs[3].plot(src_coords[2], src_coords[1], 'r*')
-plt.show()
 
 
 ###############################################################################
@@ -302,7 +301,8 @@ pcolor_opts = {'cmap': 'RdBu_r',
                'norm': SymLogNorm(linthresh=vmin, base=10,
                                   vmin=-vmax, vmax=vmax)}
 
-fig, axs = plt.subplots(figsize=(9, 6), nrows=1, ncols=2)
+fig, axs = plt.subplots(
+        figsize=(9, 6), nrows=1, ncols=2, constrained_layout=True)
 
 # Adjoint-State Gradient
 f0 = comp_grid.plot_slice(as_grad, normal='Y', ind=iy, ax=axs[0],
@@ -318,9 +318,7 @@ axs[1].set_title("Finite-Difference Gradient")
 set_axis(axs, 1)
 plot_diff(axs[1], 1)
 
-plt.tight_layout()
 fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05)
-plt.show()
 
 ###############################################################################
 #

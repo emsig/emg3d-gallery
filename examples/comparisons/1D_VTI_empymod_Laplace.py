@@ -133,7 +133,7 @@ e3d = efield.get_receiver((rx, ry, rz, azimuth, elevation))
 a_kwargs = {'cmap': "viridis", 'vmin': -12, 'vmax': -6,
             'shading': 'nearest'}
 
-e_kwargs = {'cmap': plt.cm.get_cmap("RdBu_r", 8),
+e_kwargs = {'cmap': plt.get_cmap("RdBu_r", 8),
             'vmin': -2, 'vmax': 2, 'shading': 'nearest'}
 
 fig, axs = plt.subplots(1, 3, figsize=(11, 3), sharex=True, sharey=True,
@@ -166,8 +166,6 @@ ax1.set_ylim(min(x3), max(x3))
 # Axis label
 ax1.set_ylabel("Crossline Offset (km)")
 ax2.set_xlabel("Inline Offset (km)")
-
-fig.show()
 
 print(f"- Source: {source}")
 print(f"- Frequency: {sval} Hz")

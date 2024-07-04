@@ -147,7 +147,9 @@ def nrmsd(a, b):
     return 200 * abs(a - b) / (abs(a) + abs(b))
 
 
-fig, axs = plt.subplots(2, 2, figsize=(9, 5), sharex=True, sharey='row')
+fig, axs = plt.subplots(
+        2, 2, figsize=(9, 5), sharex=True, sharey='row',
+        constrained_layout=True)
 ((ax1, ax3), (ax2, ax4)) = axs
 
 # Real part
@@ -179,9 +181,6 @@ ax4.plot(rec_x/1e3, nrmsd(spg_tg.imag, e3d_tg.imag), 'C0.')
 ax4.plot(rec_x/1e3, nrmsd(spg_bg.imag, e3d_bg.imag), 'C1.')
 ax4.set_xlabel('Offset (km)')
 ax4.set_yscale('log')
-
-fig.tight_layout()
-fig.show()
 
 
 ###############################################################################

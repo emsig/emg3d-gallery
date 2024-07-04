@@ -130,7 +130,7 @@ e3d = efield.get_receiver((rx, ry, rz, azimuth, elevation))
 # Start figure.
 a_kwargs = {'cmap': "viridis", 'vmin': -12, 'vmax': -6, 'shading': 'nearest'}
 
-e_kwargs = {'cmap': plt.cm.get_cmap("RdBu_r", 8),
+e_kwargs = {'cmap': plt.get_cmap("RdBu_r", 8),
             'vmin': -2, 'vmax': 2, 'shading': 'nearest'}
 
 fig, axs = plt.subplots(2, 3, figsize=(10, 5.5), sharex=True, sharey=True,
@@ -179,8 +179,6 @@ fig.suptitle(r'Diffusive Fullspace, $E$-field', y=1, fontsize=20)
 print(f"- Source: {source}")
 print(f"- Frequency: {frequency} Hz")
 print(f"- Electric receivers: z={rz} m; θ={azimuth}°, φ={elevation}°")
-
-fig.show()
 
 ###############################################################################
 emg3d.Report()

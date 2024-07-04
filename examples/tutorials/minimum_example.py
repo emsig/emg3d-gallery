@@ -171,7 +171,6 @@ ax.set_xlabel('x (m)')
 ax.set_ylabel('Electric field (V/m)')
 ax.legend()
 ax.set_yscale('log')
-fig.show()
 
 
 ###############################################################################
