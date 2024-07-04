@@ -207,7 +207,7 @@ plt.axhline(1, color='.4')
 
 plt.yscale('log')
 plt.ylim([0.008, 12])
-plt.xlabel('Offset (km)');
+plt.xlabel('Offset (km)')
 
 
 ###############################################################################

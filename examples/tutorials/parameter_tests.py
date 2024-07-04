@@ -37,7 +37,7 @@ def plotit(infos, labels):
     plt.legend()
     plt.xlabel('Time (s)')
     plt.ylabel('Rel. Error $(-)$')
-    plt.yscale('log');
+    plt.yscale('log')
 
 
 ###############################################################################

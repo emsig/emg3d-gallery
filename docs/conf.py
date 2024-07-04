@@ -31,7 +31,7 @@ sphinx_gallery_conf = {
         'gallery/comparisons',
         'gallery/models',
     ],
-    'capture_repr': ('_repr_html_', '__repr__'),
+    'capture_repr': ('_repr_html_', ),
     # Patter to search for example files
     "filename_pattern": r"\.py",
     # Sort gallery example by file name instead of number of lines (default)

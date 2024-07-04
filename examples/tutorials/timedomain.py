@@ -183,8 +183,8 @@ for freq in Fourier.freq_compute[::-1]:
           f"h: {value['dminmax'][0]:5.0f} / {value['dminmax'][1]:7.0f}")
     runtime += value['info']['time']
 
-print(f"\n                **** TOTAL RUNTIME :: {runtime//60:.0f} min "
-      f"{runtime%60:.1f} s ****\n")
+print(f"\n                **** TOTAL RUNTIME :: {runtime // 60:.0f} min "
+      f"{runtime % 60:.1f} s ****\n")
 
 
 ###############################################################################
@@ -287,7 +287,7 @@ plt.ylim([8e-3, 120])
 plt.yticks([0.01, 0.1, 1, 10, 100], ('0.01', '0.1', '1', '10', '100'))
 ax4.yaxis.tick_right()
 ax4.yaxis.set_label_position("right")
-plt.grid(axis='y', c='0.9');
+plt.grid(axis='y', c='0.9')
 
 
 ###############################################################################

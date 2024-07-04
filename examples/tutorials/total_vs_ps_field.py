@@ -252,7 +252,7 @@ ax2.set_ylabel('$E_x$ (V/m)')
 ax2.set_yscale('log')
 ax2.yaxis.tick_right()
 ax2.yaxis.set_label_position("right")
-plt.legend();
+plt.legend()
 
 ###############################################################################
 

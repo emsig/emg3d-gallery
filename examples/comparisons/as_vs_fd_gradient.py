@@ -87,7 +87,7 @@ axs[2].plot(rec_coords[0], rec_coords[2], 'bv')
 axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
-axs[3].plot(src_coords[2], src_coords[1], 'r*');
+axs[3].plot(src_coords[2], src_coords[1], 'r*')
 
 
 ###############################################################################
@@ -318,7 +318,7 @@ axs[1].set_title("Finite-Difference Gradient")
 set_axis(axs, 1)
 plot_diff(axs[1], 1)
 
-fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05);
+fig.colorbar(f0[0], ax=axs, orientation='horizontal', fraction=0.05)
 
 ###############################################################################
 #

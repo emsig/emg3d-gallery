@@ -180,7 +180,7 @@ ax3.legend()
 ax4.plot(rec_x/1e3, nrmsd(spg_tg.imag, e3d_tg.imag), 'C0.')
 ax4.plot(rec_x/1e3, nrmsd(spg_bg.imag, e3d_bg.imag), 'C1.')
 ax4.set_xlabel('Offset (km)')
-ax4.set_yscale('log');
+ax4.set_yscale('log')
 
 
 ###############################################################################

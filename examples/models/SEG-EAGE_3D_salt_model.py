@@ -174,9 +174,8 @@ data = efield.get_receiver((rx, ry, rz, 0, 0))
 vmin, vmax = -16, -10.5
 
 # Create a figure
-fig, axs = plt.subplots(figsize=(8, 5), nrows=1, ncols=2)
-axs = axs.ravel()
-plt.subplots_adjust(hspace=0.3, wspace=0.3)
+fig, (ax1, ax2) = plt.subplots(
+        1, 2, figsize=(8, 5), sharex=True, constrained_layout=True)
 
 titles = [r'|Real|', r'|Imaginary|']
 
@@ -189,27 +188,21 @@ def log10abs(inp):
 
 dat = [log10abs(data.real), log10abs(data.imag)]
 
-for i in range(2):
-    plt.sca(axs[i])
-    axs[i].set_title(titles[i])
-    axs[i].set_xlim(min(x)/1000, max(x)/1000)
-    axs[i].set_ylim(min(x)/1000, max(x)/1000)
-    axs[i].axis('equal')
-    cs = axs[i].pcolormesh(x/1000, x/1000, dat[i], vmin=vmin, vmax=vmax,
-                           linewidth=0, rasterized=True, shading='nearest')
-    plt.xlabel('Inline Offset (km)')
-    plt.ylabel('Crossline Offset (km)')
-
-# Colorbar
-# fig.colorbar(cf0, ax=axs[0], label=r'$\log_{10}$ Amplitude (V/m)')
+for i, ax in enumerate([ax1, ax2]):
+    ax.set_title(titles[i])
+    cs = ax.pcolormesh(x/1000, x/1000, dat[i], vmin=vmin, vmax=vmax,
+                       linewidth=0, rasterized=True, shading='nearest')
+    ax.set_xlim([min(x)/1000, max(x)/1000])
+    ax.axis('equal')
+    ax.set_xlabel('Inline Offset (km)')
+    ax.set_ylabel('Crossline Offset (km)')
 
 # Plot colorbar
-cax, kw = plt.matplotlib.colorbar.make_axes(
-        axs, location='bottom', fraction=.05, pad=0.2, aspect=30)
-cb = plt.colorbar(cs, cax=cax, label=r"$\log_{10}$ Amplitude (V/m)", **kw)
+cb = plt.colorbar(cs, ax=[ax1, ax2], orientation='horizontal', aspect=30)
+cb.set_label("log10 Amplitude (V/m)")
 
 # Title
-fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", y=1, fontsize=16);
+fig.suptitle(f"SEG/EAGE Salt Model, depth = {rz/1e3} km.", fontsize=16)
 
 
 ###############################################################################

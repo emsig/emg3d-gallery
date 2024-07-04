@@ -194,7 +194,7 @@ axs[2].plot(rec_coords[0], rec_coords[2], 'bv')
 axs[3].plot(rec_coords[2], rec_coords[1], 'bv')
 axs[1].plot(src_coords[0], src_coords[1], 'r*')
 axs[2].plot(src_coords[0], src_coords[2], 'r*')
-axs[3].plot(src_coords[2], src_coords[1], 'r*');
+axs[3].plot(src_coords[2], src_coords[1], 'r*')
 
 
 ###############################################################################
@@ -313,7 +313,7 @@ for i, src in enumerate(survey.sources.keys()):
 plt.yscale('log')
 plt.legend(ncol=2, framealpha=1)
 plt.xlabel('x-coordinate (m)')
-plt.ylabel('$|E_x|$ (V/m)');
+plt.ylabel('$|E_x|$ (V/m)')
 
 
 ###############################################################################
