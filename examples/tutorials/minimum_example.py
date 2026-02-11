@@ -1,8 +1,8 @@
 """
-01. Minimum working example
+01. Minimal working example
 ===========================
 
-This is a simple minimum working example to use the multigrid solver `emg3d`,
+This is a simple minimal working example to use the multigrid solver `emg3d`,
 along the lines of the one provided in the manual as `"Basic Example"
 <https://emg3d.emsig.xyz/en/stable/manual/usage.html>`_. To see some
 more realistic computations have a look at the other examples in this gallery.
@@ -188,17 +188,31 @@ grid.plot_3d_slicer(
 
 
 ###############################################################################
-# 1.7 Plotting the field
-# ----------------------
+# 1.7 Plotting the field lines
+# ----------------------------
 #
 # Using ``discretize`` for meshing has the advantage that we can use all the
 # implemented tools, such as plotting the field lines:
+fig, (ax1, ax2) = plt.subplots(
+    1, 2, figsize=(10, 6), sharex=True, sharey=True, constrained_layout=True,
+    subplot_kw={'box_aspect': 1},
+)
 
 _ = grid.plot_slice(
-    grid.aveE2CCV * efield.field.real,  # Cell-avg values of real component
+    # Cell-avg values of real component
+    grid.average_edge_to_cell_vector * efield.field.real,
     normal='Y', v_type='CCv', view='vec',
-    pcolor_opts={'norm': LogNorm()},
+    pcolor_opts={'norm': LogNorm()}, ax=ax1,
 )
+ax1.set_title("Electric Field Lines")
+
+_ = grid.plot_slice(
+    # Cell-avg values of real component
+    grid.average_face_to_cell_vector * hfield.field.real,
+    normal='Y', v_type='CCv', view='vec',
+    pcolor_opts={'norm': LogNorm()}, ax=ax2,
+)
+ax2.set_title("Magnetic Field Lines")
 
 
 ###############################################################################

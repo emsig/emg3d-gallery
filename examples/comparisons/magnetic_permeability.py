@@ -4,8 +4,9 @@ r"""
 
 The solver ``emg3d`` uses the diffusive approximation of Maxwell's equations;
 the relative electric permittivity is therefore fixed at
-:math:`\varepsilon_\rm{r} = 1`. The magnetic permeability :math:`\mu_\rm{r}`,
-however, is implemented in ``emg3d``, albeit only isotropically.
+:math:`\varepsilon_{\rm{r}} = 1`. The magnetic permeability
+:math:`\mu_{\rm{r}}`, however, is implemented in ``emg3d``, albeit only
+isotropically.
 
 In this example we run the same model as in the example mentioned above: A
 rotated finite length bipole in a homogeneous VTI fullspace, but here with
