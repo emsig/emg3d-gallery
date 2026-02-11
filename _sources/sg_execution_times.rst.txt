@@ -1,0 +1,100 @@
+
+:orphan:
+
+.. _sphx_glr_sg_execution_times:
+
+
+Computation times
+=================
+**10:10.662** total execution time for 22 files **from all galleries**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_gallery_comparisons_as_vs_fd_gradient.py` (``../examples/comparisons/as_vs_fd_gradient.py``)
+     - 01:38.202
+     - 228.7
+   * - :ref:`sphx_glr_gallery_tutorials_gradient.py` (``../examples/tutorials/gradient.py``)
+     - 01:14.876
+     - 835.6
+   * - :ref:`sphx_glr_gallery_tutorials_timedomain.py` (``../examples/tutorials/timedomain.py``)
+     - 00:49.751
+     - 253.0
+   * - :ref:`sphx_glr_gallery_models_SEG-EAGE_3D_salt_model.py` (``../examples/models/SEG-EAGE_3D_salt_model.py``)
+     - 00:48.795
+     - 3605.8
+   * - :ref:`sphx_glr_gallery_tutorials_parameter_tests.py` (``../examples/tutorials/parameter_tests.py``)
+     - 00:45.962
+     - 228.8
+   * - :ref:`sphx_glr_gallery_tutorials_simulation.py` (``../examples/tutorials/simulation.py``)
+     - 00:44.630
+     - 430.7
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod.py` (``../examples/comparisons/1D_VTI_empymod.py``)
+     - 00:43.171
+     - 687.8
+   * - :ref:`sphx_glr_gallery_tutorials_check_calc_domain.py` (``../examples/tutorials/check_calc_domain.py``)
+     - 00:34.081
+     - 552.0
+   * - :ref:`sphx_glr_gallery_tutorials_total_vs_ps_field.py` (``../examples/tutorials/total_vs_ps_field.py``)
+     - 00:25.012
+     - 441.2
+   * - :ref:`sphx_glr_gallery_comparisons_2D_triaxial_MARE2DEM.py` (``../examples/comparisons/2D_triaxial_MARE2DEM.py``)
+     - 00:20.518
+     - 373.6
+   * - :ref:`sphx_glr_gallery_tutorials_cli.py` (``../examples/tutorials/cli.py``)
+     - 00:20.186
+     - 228.6
+   * - :ref:`sphx_glr_gallery_tutorials_layered.py` (``../examples/tutorials/layered.py``)
+     - 00:16.092
+     - 291.1
+   * - :ref:`sphx_glr_gallery_comparisons_1D_VTI_empymod_Laplace.py` (``../examples/comparisons/1D_VTI_empymod_Laplace.py``)
+     - 00:15.265
+     - 256.9
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_duality.py` (``../examples/comparisons/magnetic_source_duality.py``)
+     - 00:13.827
+     - 414.4
+   * - :ref:`sphx_glr_gallery_models_GemPy-I.py` (``../examples/models/GemPy-I.py``)
+     - 00:12.508
+     - 334.6
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_permeability.py` (``../examples/comparisons/magnetic_permeability.py``)
+     - 00:12.462
+     - 366.6
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_field.py` (``../examples/comparisons/magnetic_field.py``)
+     - 00:09.547
+     - 331.3
+   * - :ref:`sphx_glr_gallery_comparisons_3D_triaxial_SimPEG.py` (``../examples/comparisons/3D_triaxial_SimPEG.py``)
+     - 00:09.160
+     - 247.8
+   * - :ref:`sphx_glr_gallery_comparisons_magnetic_source_el_loop.py` (``../examples/comparisons/magnetic_source_el_loop.py``)
+     - 00:07.400
+     - 311.1
+   * - :ref:`sphx_glr_gallery_tutorials_mapping.py` (``../examples/tutorials/mapping.py``)
+     - 00:04.914
+     - 271.2
+   * - :ref:`sphx_glr_gallery_tutorials_minimum_example.py` (``../examples/tutorials/minimum_example.py``)
+     - 00:03.076
+     - 324.3
+   * - :ref:`sphx_glr_gallery_models_GemPy-II.py` (``../examples/models/GemPy-II.py``)
+     - 00:01.227
+     - 228.6

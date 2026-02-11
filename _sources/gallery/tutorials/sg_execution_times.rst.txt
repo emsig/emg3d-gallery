@@ -1,0 +1,64 @@
+
+:orphan:
+
+.. _sphx_glr_gallery_tutorials_sg_execution_times:
+
+
+Computation times
+=================
+**05:18.581** total execution time for 10 files **from gallery/tutorials**:
+
+.. container::
+
+  .. raw:: html
+
+    <style scoped>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" class="init">
+    $(document).ready( function () {
+        $('table.sg-datatable').DataTable({order: [[1, 'desc']]});
+    } );
+    </script>
+
+  .. list-table::
+   :header-rows: 1
+   :class: table table-striped sg-datatable
+
+   * - Example
+     - Time
+     - Mem (MB)
+   * - :ref:`sphx_glr_gallery_tutorials_gradient.py` (``gradient.py``)
+     - 01:14.876
+     - 835.6
+   * - :ref:`sphx_glr_gallery_tutorials_timedomain.py` (``timedomain.py``)
+     - 00:49.751
+     - 253.0
+   * - :ref:`sphx_glr_gallery_tutorials_parameter_tests.py` (``parameter_tests.py``)
+     - 00:45.962
+     - 228.8
+   * - :ref:`sphx_glr_gallery_tutorials_simulation.py` (``simulation.py``)
+     - 00:44.630
+     - 430.7
+   * - :ref:`sphx_glr_gallery_tutorials_check_calc_domain.py` (``check_calc_domain.py``)
+     - 00:34.081
+     - 552.0
+   * - :ref:`sphx_glr_gallery_tutorials_total_vs_ps_field.py` (``total_vs_ps_field.py``)
+     - 00:25.012
+     - 441.2
+   * - :ref:`sphx_glr_gallery_tutorials_cli.py` (``cli.py``)
+     - 00:20.186
+     - 228.6
+   * - :ref:`sphx_glr_gallery_tutorials_layered.py` (``layered.py``)
+     - 00:16.092
+     - 291.1
+   * - :ref:`sphx_glr_gallery_tutorials_mapping.py` (``mapping.py``)
+     - 00:04.914
+     - 271.2
+   * - :ref:`sphx_glr_gallery_tutorials_minimum_example.py` (``minimum_example.py``)
+     - 00:03.076
+     - 324.3
