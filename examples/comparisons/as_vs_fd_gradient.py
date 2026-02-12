@@ -16,9 +16,11 @@ for more details regarding the adjoint-state gradient.)
 import emg3d
 import itertools
 import numpy as np
+import multiprocessing as mp
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from matplotlib.colors import LogNorm, SymLogNorm
+from concurrent.futures import ProcessPoolExecutor
 # sphinx_gallery_thumbnail_number = 2
 
 
@@ -228,11 +230,10 @@ ixiz = list(itertools.product(
 )
 
 # Wrap it asynchronously
-out = emg3d._multiprocessing.process_map(
-        comp_fd_grad,
-        ixiz,
-        max_workers=4,  # Adjust max worker here!
-)
+with ProcessPoolExecutor(
+    mp_context=mp.get_context("fork"), max_workers=4  # Adjust max worker here!
+) as ex:
+    out = list(ex.map(comp_fd_grad, *ixiz))
 
 # Collect result
 for i, (ix, iz) in enumerate(ixiz):
